@@ -1,0 +1,165 @@
+@layer components {
+
+    /* ==================== STATUS BADGES (For tables) ==================== */
+
+    .status-badge-ongoing {
+        @apply text-sm font-semibold px-2 py-1 truncate rounded-element bg-accent-a-container text-accent-a text-center;
+    }
+
+    .status-badge-ready {
+        @apply text-sm font-semibold px-2 py-1 truncate rounded-element bg-accent-b-container text-accent-b text-center;
+    }
+
+    .status-badge-finished {
+        @apply text-sm font-semibold px-2 py-1 truncate rounded-element bg-neutral text-secondary-text text-center;
+    }
+
+    /* ==================== REGULAR BADGES ==================== */
+
+    /* Grey */
+    .badge-grey {
+        @apply text-sm font-medium rounded-element px-2 py-1 bg-neutral-dark gap-2 flex flex-row items-center justify-center truncate;
+    }
+
+    /* Blue */
+    .badge-blue {
+        @apply text-sm font-medium rounded-element px-2 py-1 bg-accent-a-container text-accent-a gap-2 flex flex-row items-center justify-center truncate;
+    }
+
+    .badge-blue i {
+        @apply text-accent-a;
+    }
+
+    .badge-blue-no-icon {
+        @apply rounded-element px-2 py-1 bg-accent-a-container text-accent-a;
+    }
+
+    /* Yellow */
+    .badge-yellow {
+        @apply text-sm font-medium rounded-element px-2 py-1 bg-accent-d-container text-accent-d gap-2 flex flex-row items-center justify-center truncate;
+    }
+
+    .badge-yellow i {
+        @apply text-accent-d;
+    }
+
+    .badge-yellow-no-icon {
+        @apply rounded-element px-2 py-1 bg-accent-d-container text-accent-d;
+    }
+
+    /* Purple */
+    .badge-purple {
+        @apply text-sm font-medium rounded-element px-2 py-1 bg-accent-c-container text-accent-c gap-2 flex flex-row items-center justify-center truncate;
+    }
+
+    .badge-purple i {
+        @apply text-accent-c;
+    }
+
+    /* Green */
+    .badge-green {
+        @apply text-sm font-medium rounded-element px-2 py-1 bg-accent-b-container text-accent-b gap-2 flex flex-row items-center justify-center truncate;
+    }
+
+    .badge-green i {
+        @apply text-accent-b;
+    }
+
+    /* Orange */
+    .badge-orange {
+        @apply text-sm font-medium rounded-element px-2 py-1 bg-primary-container text-primary gap-2 flex flex-row items-center justify-center truncate;
+    }
+
+    .badge-orange i {
+        @apply text-primary;
+    }
+
+    /* Red */
+    .badge-red {
+        @apply text-sm font-medium rounded-element px-2 py-1 bg-error-container text-error gap-2 flex flex-row items-center justify-center truncate;
+    }
+
+    /* ==================== USER ROLES ==================== */
+
+    .role-badge-admin {
+        @apply text-sm font-medium px-2 py-1 rounded-element bg-accent-b-container text-accent-b truncate flex items-center gap-2;
+    }
+
+    .role-badge-admin i {
+        @apply text-accent-b;
+    }
+
+    .role-badge-editor {
+        @apply text-sm font-medium px-2 py-1 rounded-element bg-accent-a-container text-accent-a truncate flex items-center gap-2;
+    }
+
+    .role-badge-editor i {
+        @apply text-accent-a;
+    }
+
+    .role-badge-viewer {
+        @apply text-sm font-medium px-2 py-1 rounded-element bg-neutral-dark truncate flex items-center gap-2;
+    }
+
+    .role-badge-contributor {
+        @apply text-sm font-medium px-2 py-1 rounded-element bg-neutral-dark truncate flex items-center gap-2;
+    }
+
+    .role-badge {
+        @apply text-sm font-medium px-2 py-1 rounded-element bg-neutral text-secondary-text truncate flex items-center gap-2;
+    }
+
+    .role-badge-pending {
+        @apply text-sm font-medium px-2 py-1 rounded-element bg-accent-a-container text-accent-a truncate flex items-center gap-2;
+    }
+
+    /* ==================== STATUS BADGES (Pour Status) ==================== */
+
+    .status-active {
+        @apply px-2 py-1 rounded-element bg-primary-container text-primary text-sm font-medium;
+    }
+
+    .status-complete {
+        @apply px-2 py-1 rounded-element bg-accent-b-container text-accent-b text-sm font-medium;
+    }
+
+    .status-pending {
+        @apply px-2 py-1 rounded-element bg-accent-a-container text-accent-a text-sm font-medium;
+    }
+
+    /* ==================== MEMBER AVATAR ==================== */
+
+    .member-avatar {
+        @apply w-10 h-10 rounded-full bg-primary-container text-primary;
+        @apply flex items-center justify-center font-medium text-base flex-shrink-0;
+    }
+
+    /* ==================== AVATAR CIRCLES ==================== */
+
+    .avatar-circle {
+        @apply w-10 h-10 rounded-full flex items-center justify-center;
+        @apply font-medium text-sm cursor-pointer uppercase;
+        @apply hover:scale-110 transition-transform duration-200;
+    }
+
+    .avatar-circle-sm {
+        @apply w-9 h-9 rounded-full flex items-center justify-center;
+        @apply font-medium text-xs cursor-pointer uppercase;
+        @apply hover:scale-105 transition-transform duration-200;
+    }
+
+    .avatar-circle-lg {
+        @apply w-16 h-16 rounded-full flex items-center justify-center;
+        @apply font-semibold text-xl cursor-pointer uppercase;
+    }
+
+    /* ==================== DEVICE BADGES ==================== */
+
+    .active-badge {
+        @apply text-sm px-2 py-1 rounded-element bg-accent-b-container text-accent-b truncate;
+    }
+
+    .deactivated-badge {
+        @apply text-sm px-2 py-1 rounded-element bg-neutral-dark opacity-50 truncate;
+    }
+}

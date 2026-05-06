@@ -1,0 +1,12 @@
+﻿<turbo-stream action="update" target="modal-header">
+    <template>{% block header %}{% endblock %}</template>
+</turbo-stream>
+<turbo-stream action="update" target="modal-body">
+    <template>{% block body %}{% endblock %}</template>
+</turbo-stream>
+<turbo-stream action="update" target="modal-footer">
+    <template>
+        <div id="modal-flashes"></div>
+        {% block footer %}{% endblock %}
+    </template>
+</turbo-stream>

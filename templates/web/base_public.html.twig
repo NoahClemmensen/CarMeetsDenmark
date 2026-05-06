@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CMD{% endblock %}</title>
+    <link rel="icon" href="{{ asset('logo.png') }}">
+    <link rel="stylesheet" href="{{ asset('styles/web.css') }}">
+{#    <link rel="stylesheet" href="https://cdn.maptiler.com/maptiler-sdk-js/v1.2.0/maptiler-sdk.css">#}
+    {% block stylesheets %}{% endblock %}
+    {% block head %}{% endblock %}
+</head>
+<body class="h-full bg-surface-container text-on-surface font-inter">
+<div class="main-wrapper p-0 lg:p-8">
+    <main class="content-card rounded-none lg:rounded-container">
+        {% block body %}{% endblock %}
+    </main>
+</div>
+
+<div id="toast-container" data-turbo-permanent></div>
+<twig:Modal:Shell />
+
+{#<script src="https://cdn.maptiler.com/maptiler-sdk-js/v1.2.0/maptiler-sdk.umd.min.js"></script>#}
+{#<script>window.mapTilerKey = "{{ maptiler_api_key }}";</script>#}
+
+{% block javascripts %}
+    {{ importmap('web') }}
+{% endblock %}
+</body>
+</html>

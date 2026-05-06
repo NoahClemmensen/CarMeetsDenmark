@@ -1,0 +1,34 @@
+﻿{#
+Multi-box verification code input component.
+
+Required:
+  - name:   form field name for the hidden input (e.g. 'code' or
+            'confirm_password_set_form[pin]')
+
+Optional:
+  - length:   number of character boxes (default 4)
+  - value:    initial value (default '')
+  - autofocus: focus the first box on render (default false)
+#}
+{% set name = name ?? 'code' %}
+{% set length = length ?? 4 %}
+{% set value = value ?? '' %}
+{% set autofocus = autofocus ?? false %}
+
+<div class="flex items-center gap-2" data-controller="code-input">
+    <input type="hidden" name="{{ name }}" value="{{ value }}" data-code-input-target="hidden">
+    {% for i in 0..(length - 1) %}
+        <input type="password"
+               class="form-input text-center text-2xl font-semibold uppercase"
+               style="width: 3.5rem;"
+               maxlength="1"
+               inputmode="text"
+               autocomplete="one-time-code"
+               autocapitalize="characters"
+               spellcheck="false"
+               data-1p-ignore
+               {% if autofocus and i == 0 %}autofocus{% endif %}
+               data-code-input-target="box"
+               data-action="input->code-input#onInput keydown->code-input#onKey focus->code-input#onFocus paste->code-input#onPaste">
+    {% endfor %}
+</div>

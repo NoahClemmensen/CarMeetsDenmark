@@ -1,0 +1,124 @@
+/* IMPORTS */
+@import './web/_utilities.css';
+@import './web/_alert.css';
+@import './web/_badge.css';
+@import './web/_button.css';
+@import './web/_card.css';
+@import './web/_form.css';
+@import './web/_modal.css';
+@import './web/_toast.css';
+@import './web/_nav.css';
+@import './web/_table.css';
+@import './web/_toolbar.css';
+@import './web/_widget.css';
+@import './web/_wrapper.css';
+@import './web/_pour.css';
+@import './web/_error.css';
+@import './web/_color-indicator.css';
+@import './web/_segmented-control.css';
+
+/* FONTS */
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 100 900;
+    src: url('../fonts/inter-latin-ext-wght-normal.woff2') format('woff2-variations');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+        U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+        U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 100 900;
+    src: url('../fonts/inter-latin-wght-normal.woff2') format('woff2-variations');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+        U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191,
+        U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+    font-family: 'Inter';
+    font-style: italic;
+    font-display: swap;
+    font-weight: 100 900;
+    src: url('../fonts/inter-latin-ext-wght-italic.woff2') format('woff2-variations');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+        U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+        U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+    font-family: 'Inter';
+    font-style: italic;
+    font-display: swap;
+    font-weight: 100 900;
+    src: url('../fonts/inter-latin-wght-italic.woff2') format('woff2-variations');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+        U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191,
+        U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* TAILWIND */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CUSTOM STYLES */
+@layer base {
+    * {
+        @apply border-neutral-dark;
+    }
+
+    *:focus:not(input[type='checkbox']), *:focus-visible:not(input[type='checkbox']) {
+        @apply outline-none border-none !border-transparent;
+    }
+
+    input[type='checkbox']:hover,
+    input[type='checkbox']:focus {
+        box-shadow: none;
+        outline: none;
+        color: #ff5113;
+        @apply border-primary;
+    }
+
+    html {
+        @apply scroll-smooth h-full;
+    }
+
+    h1 {
+        @apply text-2xl lg:text-3xl font-medium my-2;
+    }
+
+    h2 {
+        @apply text-xl lg:text-2xl font-normal my-4;
+    }
+
+    h3 {
+        @apply text-lg lg:text-xl font-normal my-2;
+    }
+
+    h4 {
+        @apply text-base lg:text-lg font-normal mt-8 mb-2;
+    }
+
+    body {
+        @apply bg-neutral-light text-primary-text font-inter h-full;
+    }
+
+    p {
+        @apply text-sm my-2;
+    }
+
+    hr {
+        @apply opacity-30 border border-solid;
+    }
+
+    label {
+        @apply text-sm font-medium;
+    }
+
+    a {
+        @apply underline;
+    }
+}

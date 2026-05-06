@@ -1,0 +1,102 @@
+@layer components {
+    .toolbar {
+        @apply flex flex-col gap-4 mb-6;
+    }
+
+    .toolbar-row {
+        @apply flex flex-wrap items-center gap-3;
+    }
+
+    .toolbar-filters {
+        @apply flex flex-wrap items-center gap-3;
+    }
+
+    .filter-group {
+        @apply flex flex-col gap-1;
+    }
+
+    .filter-label {
+        @apply text-xs font-medium text-secondary-text;
+    }
+
+    .filter-select {
+        @apply border border-neutral-dark rounded-container px-3 py-2 bg-neutral-light text-sm min-w-[140px] focus:outline-none focus:ring-2 focus:ring-primary;
+    }
+
+    .filter-input {
+        @apply border border-neutral-dark rounded-container px-3 py-2 bg-neutral-light text-sm min-w-[200px] focus:outline-none focus:ring-2 focus:ring-primary;
+    }
+
+    .filter-btn-clear {
+        @apply border border-neutral-dark rounded-container px-3 py-2 bg-neutral-light text-sm text-secondary-text hover:bg-neutral hover:text-primary-text transition-colors duration-200 cursor-pointer whitespace-nowrap;
+    }
+
+    .filter-spinner {
+        @apply flex items-center justify-center h-[38px];
+    }
+
+    /* Search within toolbar */
+    .toolbar-search {
+        @apply relative flex-1 min-w-[200px] max-w-md;
+    }
+
+    .toolbar-search-input {
+        @apply border border-neutral-dark rounded-container bg-neutral-light pl-10 pr-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary text-sm;
+    }
+
+    .toolbar-search-icon {
+        @apply absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-secondary-text;
+    }
+
+    .toolbar-search-spinner {
+        @apply absolute inset-y-0 right-0 pr-3 flex items-center;
+    }
+
+    /* Sort/filter dropdown buttons */
+    .toolbar-button {
+        @apply border border-neutral-dark rounded-container px-4 py-2 bg-neutral-light hover:text-primary flex flex-row items-center gap-2 text-sm transition-colors duration-200;
+    }
+
+    .toolbar-button[aria-pressed="true"] {
+        @apply border-primary bg-neutral-dark;
+    }
+
+    /* Active filters bar */
+    .active-filters {
+        @apply flex flex-wrap items-center gap-2;
+    }
+
+    .active-filter {
+        @apply bg-neutral-dark px-3 py-1 rounded-button text-sm flex items-center gap-2 hover:bg-neutral transition-colors duration-200;
+    }
+
+    .active-filter-remove {
+        @apply text-secondary-text hover:text-error cursor-pointer;
+    }
+
+    /* Results info and pagination bar */
+    .results-bar {
+        @apply flex flex-wrap items-center justify-between gap-4 mb-4;
+    }
+
+    .results-info {
+        @apply text-sm text-secondary-text;
+    }
+
+    /* Pagination */
+    .pagination {
+        @apply flex items-center gap-1;
+    }
+
+    .pagination-btn {
+        @apply px-3 py-1.5 rounded-element text-sm font-medium text-secondary-text border border-neutral-dark bg-neutral-light transition-colors duration-200 hover:bg-neutral disabled:opacity-40 disabled:cursor-not-allowed min-w-[36px] min-h-[34px] text-center flex items-center justify-center;
+    }
+
+    .pagination-btn-active {
+        @apply px-3 py-1.5 rounded-element text-sm font-medium bg-primary text-on-primary border border-primary min-w-[36px] min-h-[34px] text-center flex items-center justify-center;
+    }
+
+    .pagination-ellipsis {
+        @apply px-2 py-1.5 text-sm text-secondary-text;
+    }
+}

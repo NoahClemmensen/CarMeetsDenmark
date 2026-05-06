@@ -1,0 +1,19 @@
+﻿<turbo-stream action="prepend" target="toast-container">
+    <template>
+        <div
+            data-controller="toast"
+            data-toast-fade-out-after-ms-value="{{ fadeOutAfterMs|default(5000) }}"
+            data-toast-dismissable-value="{{ dismissable|default(true) ? 'true' : 'false' }}"
+            data-state="entering"
+            class="toast toast--{{ type }}"
+            role="alert"
+        >
+            <div class="toast__content">
+                <span class="toast__message">{{ message }}</span>
+            </div>
+            {% if dismissable|default(true) %}
+                <button type="button" class="toast__close" data-action="click->toast#dismiss" aria-label="Dismiss">&times;</button>
+            {% endif %}
+        </div>
+    </template>
+</turbo-stream>

@@ -1,0 +1,108 @@
+@layer components {
+    .card {
+        @apply w-full bg-neutral-light rounded-container transition-all duration-200 ease-in-out;
+    }
+
+    .card-blue {
+        @apply w-full bg-accent-a rounded-container transition-all duration-200 ease-in-out;
+    }
+
+    .card-orange {
+        @apply w-full p-4 text-primary bg-primary-container rounded-container transition-all duration-200 ease-in-out;
+    }
+
+    .card-green {
+        @apply w-full p-4 text-accent-b bg-accent-b-container rounded-container transition-all duration-200 ease-in-out;
+    }
+
+    .card-content {
+        @apply px-6 py-4;
+    }
+
+    .card-content-info {
+        @apply flex flex-col justify-between items-start w-full my-4;
+    }
+
+    .card-content-section {
+        @apply flex flex-row justify-between items-center w-full mb-4;
+    }
+
+    .card-content-headline {
+        @apply text-lg font-semibold pb-2;
+    }
+
+    .card-content-info-row {
+        @apply flex flex-row justify-start gap-4 items-center;
+    }
+
+    .card-content-grid {
+        @apply grid grid-cols-2 gap-4;
+    }
+
+    .grid-title {
+        @apply font-medium;
+    }
+
+    .card-footer {
+        @apply flex flex-row justify-end px-6 pt-4 pb-6 bg-neutral-light gap-4 rounded-b-container;
+    }
+
+    .card-footer-buttons {
+        @apply flex flex-row justify-end pt-4 gap-4;
+    }
+
+    .card-header {
+        @apply text-xl px-6 pt-6 flex flex-row justify-between items-center w-full;
+    }
+
+    .card-header h2 {
+        @apply font-semibold text-xl m-0;
+    }
+
+    .card-header-title {
+        @apply flex flex-row justify-between gap-2 items-center;
+    }
+
+    .card-header-buttons {
+        @apply flex flex-row gap-2;
+    }
+
+    /* KPI/Stats card variant */
+    .kpi-card {
+        @apply bg-neutral-light rounded-container p-5 transition-all duration-200 ease-in-out;
+    }
+
+    .kpi-card-label {
+        @apply text-xs font-medium text-secondary-text uppercase tracking-wide mb-2;
+    }
+
+    .kpi-card-value {
+        @apply text-2xl font-semibold text-primary-text;
+    }
+
+    .kpi-card-secondary {
+        @apply text-sm text-secondary-text mt-1;
+    }
+
+    /* Info card variant */
+    .info-card {
+        @apply bg-neutral-light rounded-container p-5;
+    }
+
+    .info-card-title {
+        @apply text-sm font-semibold text-primary-text uppercase tracking-wide mb-4 pb-2 border-b border-neutral-dark;
+    }
+
+
+    .info-row {
+        @apply flex justify-between items-center py-2 border-b border-neutral-dark last:border-b-0;
+    }
+
+    .info-label {
+        @apply text-sm text-secondary-text;
+    }
+
+    .info-value {
+        @apply text-sm font-medium text-primary-text;
+    }
+}

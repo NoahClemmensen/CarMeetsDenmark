@@ -1,0 +1,88 @@
+/**
+ * Utility Classes
+ * Matching Platform design system
+ */
+
+@layer components {
+    /* ==================== Elevation Levels ==================== */
+
+    .elevation-0 {
+        box-shadow: none;
+    }
+
+    .elevation-1 {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .elevation-2 {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .elevation-3 {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .elevation-4 {
+        box-shadow: 0 20px 32px rgba(0, 0, 0, 0.16);
+    }
+
+    /* ==================== Transition Utilities ==================== */
+
+    .transition-base {
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .transition-smooth {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .transition-fast {
+        transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ==================== Hover Effects ==================== */
+
+    .hover-lift {
+        @apply transition-smooth;
+    }
+
+    .hover-lift:hover {
+        transform: translateY(-2px);
+    }
+
+    .hover-scale {
+        @apply transition-smooth;
+    }
+
+    .hover-scale:hover {
+        transform: scale(1.02);
+    }
+
+    /* ==================== Interactive States ==================== */
+
+    .active-scale {
+        @apply transition-smooth;
+    }
+
+    .active-scale:active {
+        transform: scale(0.98);
+    }
+
+    /* ==================== Colored Shadows ==================== */
+
+    .elevation-primary {
+        box-shadow: 0 4px 12px rgba(255, 81, 19, 0.2);
+    }
+
+    .elevation-success {
+        box-shadow: 0 4px 12px rgba(27, 194, 152, 0.2);
+    }
+
+    .elevation-info {
+        box-shadow: 0 4px 12px rgba(55, 151, 220, 0.2);
+    }
+
+    .elevation-error {
+        box-shadow: 0 4px 12px rgba(190, 46, 43, 0.2);
+    }
+}

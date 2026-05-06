@@ -1,0 +1,73 @@
+@layer components {
+    /* Base indicator (small - 36px) */
+    .color-indicator {
+        @apply w-9 h-9 rounded-element flex items-center justify-center shrink-0;
+    }
+
+    /* Large indicator (40px) */
+    .color-indicator-lg {
+        @apply w-10 h-10 rounded-element flex items-center justify-center shrink-0;
+    }
+
+    /* Icon inside indicator */
+    .color-indicator i,
+    .color-indicator-lg i {
+        @apply text-lg;
+    }
+
+    /* GREEN (active, live, success) - uses accent-b-container */
+    .color-indicator-green {
+        @apply bg-accent-b-container;
+    }
+    .color-indicator-green i, .color-indicator-green svg {
+        @apply text-accent-b;
+    }
+
+    /* BLUE (trialing, info, scheduled) - uses accent-a-container */
+    .color-indicator-blue {
+        @apply bg-accent-a-container;
+    }
+    .color-indicator-blue i, .color-indicator-blue svg {
+        @apply text-accent-a;
+    }
+
+    /* RED (canceled, error, past_due) - uses error-container */
+    .color-indicator-red {
+        @apply bg-error-container;
+    }
+    .color-indicator-red i, .color-indicator-red svg {
+        @apply text-error;
+    }
+
+    /* YELLOW (incomplete, warning) - uses accent-d-container */
+    .color-indicator-yellow {
+        @apply bg-accent-d-container;
+    }
+    .color-indicator-yellow i, .color-indicator-yellow svg {
+        @apply text-accent-d;
+    }
+
+    /* GREY (deactivated, neutral) - uses neutral-dark */
+    .color-indicator-grey {
+        @apply bg-neutral-dark;
+    }
+    .color-indicator-grey i, .color-indicator-grey svg {
+        @apply text-secondary-text;
+    }
+
+    /* PURPLE (special cases) - uses accent-c-container */
+    .color-indicator-purple {
+        @apply bg-accent-c-container;
+    }
+    .color-indicator-purple i, .color-indicator-purple svg {
+        @apply text-accent-c;
+    }
+
+    /* ORANGE (primary, pending) - uses primary-container */
+    .color-indicator-orange {
+        @apply bg-primary-container;
+    }
+    .color-indicator-orange i, .color-indicator-orange svg {
+        @apply text-primary;
+    }
+}
