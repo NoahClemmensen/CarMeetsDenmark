@@ -1,0 +1,135 @@
+/* Large */
+.btn {
+    padding: 8px 16px;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* Small */
+.btn-sm {
+    padding: 4px 8px 4px 6px;
+    gap: 4px;
+}
+
+/* Disable Hover State */
+.btn {
+    --bs-btn-hover-color: var(--bs-btn-color);
+    --bs-btn-hover-bg: var(--bs-btn-bg);
+    --bs-btn-hover-border-color: var(--bs-btn-border-color);
+}
+
+.btn-filled {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: var(--primary);
+    --bs-btn-border-color: var(--primary);
+    /* --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #ff662f;
+    --bs-btn-hover-border-color: transparent; */
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #ff6d39;
+    --bs-btn-active-border-color: transparent;
+    --bs-btn-disabled-color: var(--disabled-color);
+    --bs-btn-disabled-bg: #edebeb;
+    --bs-btn-disabled-border-color: transparent;
+}
+
+.btn:disabled svg {
+    color: var(--disabled-color);
+}
+
+.btn-outline {
+    --bs-btn-color: var(--on-surface);
+    --bs-btn-bg: var(--surface-container-lowest);
+    --bs-btn-border-color: var(--outline-high);
+    /* --bs-btn-hover-color: var(--on-surface);
+    --bs-btn-hover-bg: rgba(26, 8, 2, 0.08);
+    --bs-btn-hover-border-color: var(--outline-high); */
+    --bs-btn-active-color: var(--on-surface);
+    --bs-btn-active-bg: rgba(26, 8, 2, 0.12);
+    --bs-btn-active-border-color: var(--outline-high);
+    --bs-btn-disabled-color: var(--disabled-color);
+    --bs-btn-disabled-bg: #edebeb;
+    --bs-btn-disabled-border-color: rgba(26, 8, 2, 0.12);
+}
+
+.btn-tonal {
+    --bs-btn-color: var(--on-surface);
+    --bs-btn-bg: #d9d6d5;
+    --bs-btn-border-color: #d9d6db;
+    /* --bs-btn-hover-color: var(--on-surface);
+    --bs-btn-hover-bg: #cac6c4;
+    --bs-btn-hover-border-color: #cac6c4; */
+    --bs-btn-active-color: var(--on-surface);
+    --bs-btn-active-bg: #c2bdbc;
+    --bs-btn-active-border-color: #c2bdbc;
+    --bs-btn-disabled-color: #a3a1a1;
+    --bs-btn-disabled-bg: #edebeb;
+    --bs-btn-disabled-border-color: #edebeb;
+}
+
+.btn-text {
+    --bs-btn-color: var(--on-surface);
+    --bs-btn-bg: transparent;
+    --bs-btn-border-color: transparent;
+    /* --bs-btn-hover-color: var(--on-surface);
+    --bs-btn-hover-bg: rgba(26, 26, 26, 0.08);
+    --bs-btn-hover-border-color: transparent; */
+    --bs-btn-active-color: var(--on-surface);
+    --bs-btn-active-bg: rgba(26, 26, 26, 0.12);
+    --bs-btn-active-border-color: transparent;
+    --bs-btn-disabled-color: #a3a1a1;
+    --bs-btn-disabled-bg: #edebeb;
+    --bs-btn-disabled-border-color: #edebeb;
+}
+
+.btn-delete {
+    --bs-btn-color: var(--on-primary-container);
+    --bs-btn-bg: var(--primary-container);
+    --bs-btn-border-color: var(--primary-container);
+    --bs-btn-active-color: var(--on-primary-container);
+    --bs-btn-active-bg: var(--primary-container);
+    --bs-btn-active-border-color: var(--primary-container);
+    --bs-btn-disabled-color: #a3a1a1;
+    --bs-btn-disabled-bg: #edebeb;
+    --bs-btn-disabled-border-color: #edebeb;
+}
+
+.btn-delete svg {
+    color: var(--primary);
+}
+
+.btn-info {
+    --bs-btn-color: var(--on-accent-a-container);
+    --bs-btn-bg: var(--accent-a-container);
+    --bs-btn-border-color: var(--accent-a-container);
+    --bs-btn-active-color: var(--on-accent-a-container);
+    --bs-btn-active-bg: var(--accent-a-fixed-dim);
+    --bs-btn-active-border-color: var(--accent-a-fixed-dim);
+    --bs-btn-disabled-color: #a3a1a1;
+    --bs-btn-disabled-bg: #edebeb;
+    --bs-btn-disabled-border-color: #edebeb;
+}
+
+.btn-info svg {
+    color: var(--accent-a);
+}
+
+.btn-green {
+    --bs-btn-color: var(--on-accent-b-container);
+    --bs-btn-bg: var(--accent-b-container);
+    --bs-btn-border-color: var(--accent-b-container);
+    --bs-btn-active-color: var(--on-accent-b-container);
+    --bs-btn-active-bg: var(--accent-b-fixed-dim);
+    --bs-btn-active-border-color: var(--accent-b-fixed-dim);
+    --bs-btn-disabled-color: #a3a1a1;
+    --bs-btn-disabled-bg: #edebeb;
+    --bs-btn-disabled-border-color: #edebeb;
+}
+
+.btn-green svg {
+    color: var(--accent-b);
+}

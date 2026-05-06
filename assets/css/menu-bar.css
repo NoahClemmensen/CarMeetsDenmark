@@ -1,0 +1,16 @@
+.menu-bar {
+    background-color: var(--inverse-surface);
+    padding: 12px 16px 24px 16px;
+    margin: 0;
+}
+
+.menu-bar-item {
+    color: var(--on-inverse-surface);
+    opacity: 0.6;
+    width: 100%;
+}
+
+.menu-bar-item.active {
+    color: var(--on-inverse-surface);
+    opacity: 1;
+}

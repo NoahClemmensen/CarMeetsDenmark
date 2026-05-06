@@ -1,0 +1,53 @@
+/* Gaps */
+.gap-2 {
+    gap: 2px !important;
+}
+
+.gap-4 {
+    gap: 4px !important;
+}
+
+.gap-6 {
+    gap: 6px !important;
+}
+
+.gap-8 {
+    gap: 8px !important;
+}
+
+.gap-12 {
+    gap: 12px !important;
+}
+
+.gap-16 {
+    gap: 16px !important;
+}
+
+.gap-24 {
+    gap: 24px !important;
+}
+
+.gap-32 {
+    gap: 32px !important;
+}
+
+/* Override Bootstrap's default modal animation for upslide modals */
+.modal.fade.modal-slide-up .modal-dialog {
+    transform: translateY(100%); /* Start off-screen */
+    transition: transform 0.3s ease-in-out; /* Smooth slide-up */
+}
+
+/* When modal is shown, slide it up */
+.modal.show.modal-slide-up .modal-dialog {
+    transform: translateY(0); /* Moves into view */
+}
+
+/* Ensure confirm modal is on top */
+.confirm-modal-container {
+    z-index: 1065 !important; /* Higher than Bootstrap's default modal */
+}
+
+/* Ensure confirm modal backdrop is also on top */
+.confirm-modal-backdrop {
+    z-index: 1060 !important; /* Higher than other backdrops */
+}

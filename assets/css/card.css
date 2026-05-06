@@ -1,0 +1,71 @@
+.card {
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--surface-container-lowest);
+    padding: 0;
+}
+
+.card-header {
+    padding: 16px;
+    background-color: transparent;
+    border-bottom: 1px solid var(--outline-low);
+}
+
+.card-header:first-child {
+    border-radius: 12px 12px 0 0;
+}
+
+.card-header.card-collapse {
+    border-bottom: none;
+}
+
+.card-body {
+    padding: 16px;
+    background-color: transparent;
+}
+
+.card-body:last-child {
+    border-radius: 0 0 12px 12px;
+}
+
+.card-body.card-collapse {
+    padding: 0 16px;
+}
+
+.card-body.card-collapse > * {
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+.card-footer {
+    padding: 16px;
+    background-color: transparent;
+    border-top: 1px solid var(--outline-low);
+}
+
+.card-footer:last-child {
+    border-radius: 0 0 12px 12px;
+}
+
+.card.elevated {
+    box-shadow: var(--elevation-1);
+}
+
+.card.outlined {
+    border: 1px solid var(--outline-low);
+}
+
+.card.filled {
+    background: var(--surface-container);
+}
+
+.card-container {
+    padding: 12px;
+    border-radius: 8px;
+    background: var(--surface-container-low);
+}
+
+.card.card-selected {
+    border: 2px solid var(--primary);
+}
