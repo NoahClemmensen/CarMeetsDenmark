@@ -6,6 +6,7 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,18 +22,32 @@ class RegistrationFormType extends AbstractType
             ->add('email')
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
+                'required' => true,
                 'constraints' => [
                     new IsTrue(
                         message: 'You should agree to our terms.',
                     ),
                 ],
             ])
-            ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
-                'label' => 'Password',
-                'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+            ->add('password', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'required' => true,
+                'first_options' => [
+                    'label' => 'Password',
+                    'attr' => [
+                        'placeholder' => 'Enter a password',
+                        'autocomplete' => 'new-password',
+                    ]
+                ],
+                'second_options' => [
+                    'label' => 'Confirm Password',
+                    'attr' => [
+                        'placeholder' => 'Confirm your password',
+                        'autocomplete' => 'new-password',
+                        'class' => 'form-group mb-0',
+                    ]
+                ],
+                'invalid_message' => 'The passwords do not match',
                 'constraints' => [
                     new NotBlank(
                         message: 'Please enter a password',
