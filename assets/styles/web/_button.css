@@ -156,7 +156,7 @@
 
     /* btn-cta → btn-primary */
     .btn-cta {
-        @apply text-sm font-medium px-4 py-2 bg-primary text-white rounded-button inline-flex justify-center items-center gap-2 transition-all duration-200;
+        @apply text-sm font-medium bg-sky-600 px-4 py-2 text-white rounded-button inline-flex justify-center items-center gap-2 transition-all duration-200;
     }
 
     .btn-cta:hover {

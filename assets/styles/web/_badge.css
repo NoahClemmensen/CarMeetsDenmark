@@ -162,4 +162,14 @@
     .deactivated-badge {
         @apply text-sm px-2 py-1 rounded-element bg-neutral-dark opacity-50 truncate;
     }
+
+    /* ==================== OPTIONAL BADGE ==================== */
+
+    .setup-optional-badge {
+        font-size: 0.7rem;
+        font-weight: 500;
+        letter-spacing: 0.03em;
+        padding: 1px 7px;
+        border-radius: 99px;
+    }
 }

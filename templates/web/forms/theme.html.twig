@@ -1,3 +1,5 @@
+{% import 'web/_icons.html.twig' as icons %}
+
 {# ── Row: wraps every visible field in .form-group ── #}
 {% block form_row %}
     {% set row_class = row_attr.class|default('form-group') %}
@@ -35,6 +37,18 @@
     {% set type = type|default('text') %}
     {% set attr = attr|merge({ class: (attr.class|default('') ~ ' form-input')|trim }) %}
     <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+{% endblock %}
+
+{% block icon_text_widget %}
+    {% set attr = attr|merge({ class: (attr.class|default('') ~ ' form-input pr-10')|trim }) %}
+    <div class="relative">
+        <input type="text" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+        {% if icon %}
+            <span class="absolute inset-y-0 right-0 flex items-center pr-3 text-secondary-text pointer-events-none">
+                {{ include('web/_icon.html.twig', {name: icon}, with_context: false) }}
+            </span>
+        {% endif %}
+    </div>
 {% endblock %}
 
 {% block tel_widget %}
@@ -135,6 +149,9 @@
             </button>
         {% endfor %}
         <select {{ block('widget_attributes') }} hidden>
+            {%- if not required -%}
+                <option value=""{{ value is empty ? ' selected="selected"' : '' }}></option>
+            {%- endif -%}
             {% for choice in choices %}
                 <option value="{{ choice.value }}"{{ choice.value == value ? ' selected="selected"' : '' }}>{{ choice.label }}</option>
             {% endfor %}
