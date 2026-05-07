@@ -15,6 +15,10 @@
         @apply border-neutral-dark border border-solid bg-neutral-light rounded-container px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary text-primary-text appearance-none cursor-pointer;
     }
 
+    .form-textarea {
+        @apply border-neutral-dark border border-solid bg-neutral-light rounded-container px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary text-primary-text resize-y min-h-24;
+    }
+
     .form-label {
         @apply block text-sm font-medium text-primary-text mb-1;
     }

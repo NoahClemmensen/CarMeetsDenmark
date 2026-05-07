@@ -1,13 +1,13 @@
 {% extends 'web/base_public.html.twig' %}
 
-{% block title %}Register - CMD{% endblock %}
+{% block title %}Register - CarMeets Denmark{% endblock %}
 
 {% block body %}
-    <div class="w-full max-w-md">
-        <div class="card p-8">
+    <div class="h-full w-full flex justify-center items-center">
+        <div class="card p-8 max-w-md">
             <div class="text-center mb-8">
-                <h1 class="text-2xl font-semibold text-on-surface mb-2">Welcome to CarMeetsDenmark</h1>
-                <p class="text-on-surface-var">Sign in or create an account to get started</p>
+                <h1 class="text-2xl font-semibold text-on-surface mb-2">Welcome to CarMeets Denmark</h1>
+                <p class="text-on-surface-var">Create an account to get started</p>
             </div>
 
             {% for message in app.flashes('verify_email_error') %}
@@ -32,7 +32,7 @@
             {{ form_end(registrationForm) }}
 
             <p class="text-sm text-on-surface-var text-center mt-6">
-                Already have an account? Sign in <a href="{{ path('app_login') }}" class="underline">here</a>.
+                Already have an account? Sign in <a href="{{ path('web_login') }}" class="underline">here</a>.
             </p>
         </div>
     </div>

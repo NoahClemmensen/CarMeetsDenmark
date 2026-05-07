@@ -73,6 +73,12 @@
     <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
 {% endblock %}
 
+{# ── Textarea widget: auto-add .form-textarea ── #}
+{% block textarea_widget %}
+    {% set attr = attr|merge({ class: (attr.class|default('') ~ ' form-textarea')|trim }) %}
+    <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+{% endblock %}
+
 {# ── Select widget: auto-add .form-select ── #}
 {% block choice_widget_collapsed %}
     {% set attr = attr|merge({ class: (attr.class|default('') ~ ' form-select')|trim }) %}

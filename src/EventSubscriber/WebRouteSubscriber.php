@@ -20,7 +20,6 @@ readonly class WebRouteSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
-        private MobileDetectorService $mobileDetector,
         private Security $security,
     ) {
     }
@@ -42,26 +41,19 @@ readonly class WebRouteSubscriber implements EventSubscriberInterface
         $path = $request->getPathInfo();
         $target = $request->getRequestUri();
 
-        // Only intercept /web routes
-        if ($path !== '/web' && !str_starts_with($path, '/web/')) {
-            return;
-        }
-
-        // Check if mobile device
-        if ($this->mobileDetector->isMobile($request)) {
-            // Redirect to download page (which will auto-redirect to app store)
-            $url = $this->urlGenerator->generate('app_home');
-            $event->setResponse(new RedirectResponse($url));
-
-            return;
+        $bypassPrefixes = ['/setup', '/login', '/logout', '/register', '/verify'];
+        foreach ($bypassPrefixes as $prefix) {
+            if ($path === $prefix || str_starts_with($path, $prefix . '/')) {
+                return;
+            }
         }
 
         // Redirect authenticated users without a name to setup
         $user = $this->security->getUser();
 
-        if ($user instanceof User && !$user->getName() && !str_starts_with($path, '/web/setup') && !str_starts_with($path, '/web/login') && !str_starts_with($path, '/web/logout')) {
+        if ($user instanceof User && !$user->getName()) {
             $request->getSession()->set('web_setup_target', $target);
-            $url = $this->urlGenerator->generate('web_home');
+            $url = $this->urlGenerator->generate('web_setup');
             $event->setResponse(new RedirectResponse($url));
         }
     }
