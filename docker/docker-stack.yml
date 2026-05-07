@@ -1,9 +1,10 @@
-# yaml-language-server: $schema=../vendor/symfony/dependency-injection/Loader/schema/services.schema.json
 version: "3.8"
 
 services:
     db:
         image: mysql:9.3
+        ports:
+            -   "3306:3306"
         environment:
             MYSQL_DATABASE: carmeetsdenmark
             MYSQL_ROOT_PASSWORD: root
@@ -25,7 +26,7 @@ services:
             - symfony_net
 
     php:
-        image: ghcr.io/your-github-username/symfony-app:latest
+        image: ghcr.io/noahclemmensen/carmeetsdenmark:latest
         ports:
             - "8000:8000"
         environment:
