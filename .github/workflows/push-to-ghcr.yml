@@ -45,7 +45,7 @@ jobs:
               uses: docker/build-push-action@v5
               with:
                   context: .
-                  file: .docker/Dockerfile
+                  file: docker/Dockerfile
                   push: true
                   tags: |
                       ghcr.io/${{ env.OWNER_LC }}/carmeetsdenmark:${{ github.event.release.tag_name || inputs.tag }}
