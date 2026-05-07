@@ -1,0 +1,70 @@
+# yaml-language-server: $schema=../vendor/symfony/dependency-injection/Loader/schema/services.schema.json
+version: "3.8"
+
+services:
+    db:
+        image: mysql:9.3
+        environment:
+            MYSQL_DATABASE: carmeetsdenmark
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_ROOT_HOST: '%'
+            MYSQL_USER: admin
+            MYSQL_PASSWORD: stikadmin1bajer
+        volumes:
+            - ./config:/etc/mysql/conf.d
+            - db_data:/var/lib/mysql
+        deploy:
+            replicas: 1
+            placement:
+                constraints:
+                    - node.role == manager
+            restart_policy:
+                condition: on-failure
+                delay: 5s
+        networks:
+            - symfony_net
+
+    php:
+        image: ghcr.io/your-github-username/symfony-app:latest
+        ports:
+            - "8000:8000"
+        environment:
+            DATABASE_URL: "mysql://admin:stikadmin1bajer@db:3306/carmeetsdenmark?serverVersion=9.3"
+            APP_ENV: prod
+            APP_SECRET: your-app-secret-here
+        deploy:
+            replicas: 2
+            update_config:
+                parallelism: 1
+                delay: 10s
+                failure_action: rollback
+            restart_policy:
+                condition: on-failure
+                delay: 5s
+        networks:
+            - symfony_net
+
+    watchtower:
+        image: containrrr/watchtower
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - /root/.docker/config.json:/config.json  # GHCR auth
+        environment:
+            WATCHTOWER_POLL_INTERVAL: 30
+            WATCHTOWER_CLEANUP: "true"
+        deploy:
+            replicas: 1
+            placement:
+                constraints:
+                    - node.role == manager
+            restart_policy:
+                condition: on-failure
+        networks:
+            - symfony_net
+
+volumes:
+    db_data:
+
+networks:
+    symfony_net:
+        driver: overlay

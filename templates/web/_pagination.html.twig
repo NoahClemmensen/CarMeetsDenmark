@@ -1,0 +1,65 @@
+﻿{# Pagination component - uses Stimulus pagination controller #}
+{% import 'web/_icons.html.twig' as icons %}
+<div class="pagination"
+     data-controller="pagination"
+     data-pagination-filter-form-outlet="#{{ filterFormId|default('filter-form') }}">
+    {# Previous button #}
+    {% if pagination.page > 1 %}
+        <button type="button" class="pagination-btn"
+                data-page="{{ pagination.page - 1 }}"
+                data-action="pagination#navigate"
+                aria-label="Previous page">
+            {{ icons.chevronLeft({class: 'w-4 h-4'}) }}
+        </button>
+    {% else %}
+        <span class="pagination-btn opacity-40 cursor-not-allowed" aria-label="Previous page">
+            {{ icons.chevronLeft({class: 'w-4 h-4'}) }}
+        </span>
+    {% endif %}
+
+    {# Page numbers #}
+    {% set startPage = max(1, pagination.page - 2) %}
+    {% set endPage = min(pagination.totalPages, pagination.page + 2) %}
+
+    {% if startPage > 1 %}
+        <button type="button" class="pagination-btn"
+                data-page="1"
+                data-action="pagination#navigate">1</button>
+        {% if startPage > 2 %}
+            <span class="pagination-ellipsis">…</span>
+        {% endif %}
+    {% endif %}
+
+    {% for p in startPage..endPage %}
+        {% if p == pagination.page %}
+            <span class="pagination-btn-active">{{ p }}</span>
+        {% else %}
+            <button type="button" class="pagination-btn"
+                    data-page="{{ p }}"
+                    data-action="pagination#navigate">{{ p }}</button>
+        {% endif %}
+    {% endfor %}
+
+    {% if endPage < pagination.totalPages %}
+        {% if endPage < pagination.totalPages - 1 %}
+            <span class="pagination-ellipsis">…</span>
+        {% endif %}
+        <button type="button" class="pagination-btn"
+                data-page="{{ pagination.totalPages }}"
+                data-action="pagination#navigate">{{ pagination.totalPages }}</button>
+    {% endif %}
+
+    {# Next button #}
+    {% if pagination.page < pagination.totalPages %}
+        <button type="button" class="pagination-btn"
+                data-page="{{ pagination.page + 1 }}"
+                data-action="pagination#navigate"
+                aria-label="Next page">
+            {{ icons.chevronRight({class: 'w-4 h-4'}) }}
+        </button>
+    {% else %}
+        <span class="pagination-btn opacity-40 cursor-not-allowed" aria-label="Next page">
+            {{ icons.chevronRight({class: 'w-4 h-4'}) }}
+        </span>
+    {% endif %}
+</div>

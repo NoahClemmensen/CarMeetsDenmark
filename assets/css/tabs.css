@@ -1,0 +1,32 @@
+.nav-pills {
+    border-radius: 12px;
+    background: var(--surface-container);
+    display: flex;
+    padding: 6px;
+    align-items: center;
+    gap: 6px;
+    flex: 1 0 0;
+}
+
+.nav-pills .nav-item {
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1 0 0;
+    padding: 6px 8px;
+}
+
+.nav-pills .nav-item.active {
+    background: var(--surface-container-low);
+    box-shadow: var(--elevation-1);
+}
+
+.nav-pills .nav-item :disabled {
+    opacity: 0.35;
+}
+
+.nav-pills .nav-item .nav-link {
+    color: var(--sys-on-surface);
+    padding: 0;
+}

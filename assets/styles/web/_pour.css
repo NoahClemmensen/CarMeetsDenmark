@@ -1,0 +1,257 @@
+@layer components {
+    /* Back link */
+    .back-link {
+        @apply inline-flex items-center gap-1 text-secondary-text no-underline text-sm mb-4 py-1;
+        @apply hover:text-primary;
+    }
+
+    .back-link svg {
+        @apply w-4 h-4;
+    }
+
+    /* Pour header */
+    .pour-header {
+        @apply flex flex-row items-start justify-between mb-8 gap-4 flex-wrap;
+    }
+
+    .pour-header-main {
+        @apply flex-1 min-w-52;
+    }
+
+    .pour-header-title-row {
+        @apply flex flex-wrap items-center gap-3 mb-2;
+    }
+
+    .pour-header-title {
+        @apply text-2xl sm:text-3xl font-semibold text-primary-text m-0;
+    }
+
+    .pour-header-meta {
+        @apply flex flex-wrap gap-2 mb-2;
+    }
+
+    .pour-meta-tag {
+        @apply inline-flex items-center gap-1.5 px-2.5 py-1 bg-neutral rounded-element text-sm text-primary-text;
+    }
+
+    .pour-meta-tag svg {
+        @apply text-secondary-text flex-shrink-0;
+    }
+
+    .pour-header-dates {
+        @apply flex flex-wrap gap-x-4 gap-y-2 text-sm text-secondary-text;
+    }
+
+    .pour-header-actions {
+        @apply flex items-start gap-3 flex-wrap;
+    }
+
+    /* Pour status badge */
+    .pour-status {
+        @apply inline-flex items-center justify-center px-3 py-1.5 rounded-button text-xs font-medium flex-shrink-0 h-fit;
+    }
+
+    .pour-status-active {
+        @apply bg-primary-container text-primary;
+    }
+
+    .pour-status-complete {
+        @apply bg-accent-b-container text-accent-b;
+    }
+
+    /* User avatars */
+    .user-avatars {
+        @apply flex flex-wrap gap-1.5;
+    }
+
+    .user-avatar {
+        @apply w-9 h-9 rounded-full border-none text-xs font-semibold;
+        @apply cursor-pointer flex items-center justify-center;
+        @apply transition-transform duration-150 hover:scale-110 hover:shadow-lg;
+    }
+
+    /* KPI Grid */
+    .kpi-grid {
+        @apply grid grid-cols-2 md:grid-cols-4 gap-4 mb-8;
+    }
+
+    .kpi-card {
+        @apply bg-neutral-light rounded-container p-4 flex flex-col gap-2;
+    }
+
+    .kpi-card-label {
+        @apply text-xs uppercase tracking-wide text-secondary-text font-medium;
+    }
+
+    .kpi-card-content {
+        @apply flex justify-between items-center gap-2;
+    }
+
+    .kpi-card-sensor {
+        @apply flex items-center gap-1.5 text-sm text-primary-text;
+    }
+
+    .kpi-card-dot {
+        @apply w-2 h-2 rounded-full flex-shrink-0;
+    }
+
+    .kpi-card-value {
+        @apply text-xl font-semibold text-primary-text flex items-center gap-1;
+    }
+
+    .kpi-card-unit {
+        @apply text-sm font-normal text-secondary-text;
+    }
+
+    .kpi-card-secondary {
+        @apply text-xs text-secondary-text;
+    }
+
+    .kpi-card-secondary span {
+        @apply text-primary;
+    }
+
+    .kpi-card-error {
+        @apply flex items-center gap-2 py-2;
+    }
+
+    /* Chart sections */
+    .chart-section {
+        @apply mb-8;
+    }
+
+    .chart-section h2 {
+        @apply text-base font-semibold text-primary-text mb-4;
+    }
+
+    .chart-container {
+        @apply bg-neutral-light rounded-container p-4;
+    }
+
+    /* Info grid */
+    .info-grid {
+        @apply grid grid-cols-1 md:grid-cols-2 gap-6 mt-8;
+    }
+
+    .info-card {
+        @apply bg-neutral-light rounded-container p-6;
+    }
+
+    .info-card h3 {
+        @apply text-sm font-semibold text-primary-text mb-4 uppercase tracking-wide;
+    }
+
+    .info-row {
+        @apply flex justify-between py-2 border-b border-neutral-dark last:border-b-0;
+    }
+
+    .info-label {
+        @apply text-sm text-secondary-text;
+    }
+
+    .info-value {
+        @apply text-sm font-medium text-primary-text;
+    }
+
+    /* Monitoring chips */
+    .monitoring-list {
+        @apply flex flex-wrap gap-2;
+    }
+
+    .monitoring-chip {
+        @apply inline-flex items-center gap-1.5 px-3 py-2 bg-neutral rounded-button text-sm;
+    }
+
+    .monitoring-chip-color {
+        @apply w-2 h-2 rounded-full;
+    }
+
+    /* Target strengths */
+    .targets-grid {
+        @apply grid grid-cols-2 sm:grid-cols-4 gap-3;
+    }
+
+    .target-item {
+        @apply text-center p-3 bg-neutral rounded-element;
+    }
+
+    .target-value {
+        @apply font-semibold text-base text-primary-text;
+    }
+
+    .target-status {
+        @apply text-xs mt-1;
+    }
+
+    .target-status-complete {
+        @apply text-accent-b;
+    }
+
+    .target-status-progress {
+        @apply text-secondary-text;
+    }
+
+    /* Activity section */
+    .activity-section {
+        @apply mt-8;
+    }
+
+    .activity-section h2 {
+        @apply text-base font-semibold text-primary-text mb-4;
+    }
+
+    .activity-list {
+        @apply bg-neutral-light rounded-container overflow-hidden;
+    }
+
+    .activity-item {
+        @apply flex gap-4 p-4 border-b border-neutral-dark last:border-b-0;
+    }
+
+    .activity-icon {
+        @apply w-9 h-9 rounded-full bg-primary-container text-primary;
+        @apply flex items-center justify-center flex-shrink-0;
+    }
+
+    .activity-content {
+        @apply flex-1 min-w-0;
+    }
+
+    .activity-main {
+        @apply text-sm mb-1;
+    }
+
+    .activity-user {
+        @apply font-medium text-primary-text;
+    }
+
+    .activity-action {
+        @apply text-secondary-text;
+    }
+
+    .activity-meta {
+        @apply text-xs text-secondary-text flex flex-wrap gap-1;
+    }
+
+    .activity-empty {
+        @apply bg-neutral-light rounded-container p-8 text-center;
+    }
+
+    .activity-empty p {
+        @apply m-0 text-secondary-text text-sm;
+    }
+
+    /* Location map banner */
+    .pour-map-banner {
+        @apply mb-6;
+    }
+
+    /* Chart loading state */
+    .chart-loading {
+        @apply flex items-center justify-center gap-3 py-12 text-secondary-text;
+    }
+
+    .chart-loading-spinner {
+        @apply w-5 h-5 border-2 border-neutral-dark border-t-primary rounded-full animate-spin;
+    }
+}

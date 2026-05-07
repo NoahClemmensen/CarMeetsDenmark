@@ -1,0 +1,148 @@
+@layer components {
+    /* KPI Widget cards */
+    .widget-card {
+        @apply p-6 rounded-container relative overflow-visible transition-all duration-300 ease-out bg-neutral-light;
+    }
+
+    .widget-content {
+        @apply flex flex-col justify-center items-start gap-2 h-full relative z-10;
+    }
+
+    .widget-header {
+        @apply flex flex-col items-start justify-center gap-2 w-full;
+    }
+
+    .widget-header i {
+        @apply text-lg transition-all duration-300;
+    }
+
+    .widget-icon {
+        @apply h-10 w-10 rounded-full flex items-center justify-center;
+    }
+
+    .widget-icon i {
+        @apply text-on-primary;
+    }
+
+    .widget-card:hover .widget-header i {
+        @apply opacity-80;
+    }
+
+    .widget-title {
+        @apply font-medium text-sm text-secondary-text transition-opacity duration-300;
+    }
+
+    .widget-card:hover .widget-title {
+        @apply text-primary-text;
+    }
+
+    .widget-values {
+        @apply flex flex-row items-baseline justify-start gap-2;
+    }
+
+    .widget-value {
+        @apply text-3xl font-bold leading-none transition-transform duration-300 text-primary-text;
+    }
+
+    .widget-card:hover .widget-value {
+        transform: scale(1.02);
+    }
+
+    .widget-total {
+        @apply text-2xl font-semibold text-secondary-text transition-opacity duration-300;
+    }
+
+    .widget-card:hover .widget-total {
+        @apply text-primary-text;
+    }
+
+    .widget-divider {
+        @apply text-2xl font-light text-secondary-text/50 transition-opacity duration-300;
+    }
+
+    .widget-card:hover .widget-divider {
+        @apply text-secondary-text;
+    }
+
+    .widget-subtitle {
+        @apply text-sm text-secondary-text;
+    }
+
+    /* Color variants for widgets */
+
+    /* Gradient widget - Primary orange gradient (for active/highlighted KPIs) */
+    .widget-gradient {
+        background: linear-gradient(135deg, theme('colors.primary') 0%, theme('colors.primary-gradient') 100%);
+    }
+
+    .widget-gradient .widget-title {
+        @apply text-white/80;
+    }
+
+    .widget-gradient .widget-value {
+        @apply text-white;
+    }
+
+    .widget-gradient .widget-total {
+        @apply text-white/70;
+    }
+
+    .widget-gradient .widget-divider {
+        @apply text-white/50;
+    }
+
+    .widget-gradient .widget-subtitle {
+        @apply text-white/70;
+    }
+
+    .widget-gradient:hover .widget-title,
+    .widget-gradient:hover .widget-total,
+    .widget-gradient:hover .widget-divider {
+        @apply text-white;
+    }
+
+    .widget-gradient .widget-icon {
+        @apply bg-white/20;
+    }
+
+    /* Container-based variants (lighter backgrounds) */
+    .widget-primary {
+        @apply bg-primary-container;
+    }
+
+    .widget-primary .widget-icon {
+        @apply bg-primary;
+    }
+
+    .widget-blue {
+        @apply bg-accent-a-container;
+    }
+
+    .widget-blue .widget-icon {
+        @apply bg-accent-a;
+    }
+
+    .widget-green {
+        @apply bg-accent-b-container;
+    }
+
+    .widget-green .widget-icon {
+        @apply bg-accent-b;
+    }
+
+    .widget-purple {
+        @apply bg-accent-c-container;
+    }
+
+    .widget-purple .widget-icon {
+        @apply bg-accent-c;
+    }
+
+    .widget-yellow {
+        @apply bg-accent-d-container;
+    }
+
+    .widget-yellow .widget-icon {
+        @apply bg-accent-d text-on-accent-d;
+    }
+}

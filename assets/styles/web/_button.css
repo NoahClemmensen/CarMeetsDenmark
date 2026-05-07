@@ -1,0 +1,284 @@
+@layer components {
+
+    /* ==================== BUTTON PRIMARY VARIATIONS ==================== */
+
+    .btn-primary {
+        @apply text-sm font-medium px-4 py-2 bg-primary text-white rounded-button inline-flex justify-center items-center gap-2 transition-all duration-200;
+    }
+
+    .btn-primary:hover {
+        @apply bg-primary-active;
+        box-shadow: 0 4px 12px rgba(255, 81, 19, 0.25);
+    }
+
+    .btn-primary:focus-visible {
+        @apply outline-none rounded-button;
+        box-shadow: 0 0 0 2px white, 0 0 0 4px theme('colors.primary');
+    }
+
+    .btn-primary:active {
+        transform: scale(0.98);
+    }
+
+    .btn-primary:disabled {
+        @apply opacity-50 cursor-not-allowed;
+    }
+
+    .btn-primary-sm {
+        @apply text-xs font-medium px-3 py-1 bg-primary text-white rounded-button inline-flex justify-center items-center gap-2 transition-all duration-200;
+    }
+
+    .btn-primary-sm:hover {
+        @apply bg-primary-active;
+        box-shadow: 0 4px 12px rgba(255, 81, 19, 0.25);
+    }
+
+    .btn-primary-sm:focus-visible {
+        @apply outline-none rounded-button;
+        box-shadow: 0 0 0 2px white, 0 0 0 4px theme('colors.primary');
+    }
+
+    .btn-primary-sm:active {
+        transform: scale(0.98);
+    }
+
+    .btn-primary-icon-only {
+        @apply text-center text-white bg-primary rounded-full w-9 h-9 flex items-center justify-center text-sm transition-all duration-200;
+    }
+
+    .btn-primary-icon-only:hover {
+        @apply bg-primary-active;
+        box-shadow: 0 4px 12px rgba(255, 81, 19, 0.25);
+    }
+
+    .btn-primary-icon-only:focus-visible {
+        @apply outline-none rounded-full;
+        box-shadow: 0 0 0 2px white, 0 0 0 4px theme('colors.primary');
+    }
+
+    /* ==================== BUTTON SECONDARY VARIATIONS ==================== */
+
+    .btn-secondary {
+        @apply bg-transparent text-sm text-primary font-medium px-4 py-2 rounded-button outline outline-1 outline-primary inline-flex justify-center items-center gap-2 transition-all duration-200;
+    }
+
+    .btn-secondary:hover {
+        @apply bg-primary-container;
+    }
+
+    .btn-secondary:focus-visible {
+        @apply outline-none outline-0 rounded-button;
+        box-shadow: 0 0 0 2px white, 0 0 0 4px theme('colors.primary');
+    }
+
+    .btn-secondary:active {
+        @apply bg-primary-container;
+        transform: scale(0.98);
+    }
+
+    .btn-secondary:disabled {
+        @apply opacity-50 cursor-not-allowed;
+    }
+
+    .btn-secondary-sm {
+        @apply bg-transparent text-primary text-xs font-medium px-3 py-1 rounded-button outline outline-1 outline-primary inline-flex justify-center items-center gap-2 transition-all duration-200;
+    }
+
+    .btn-secondary-sm:hover {
+        @apply bg-primary-container;
+    }
+
+    .btn-secondary-sm:focus-visible {
+        @apply outline-none outline-0 rounded-button;
+        box-shadow: 0 0 0 2px white, 0 0 0 4px theme('colors.primary');
+    }
+
+    .btn-secondary-sm:active {
+        @apply bg-primary-container;
+        transform: scale(0.98);
+    }
+
+    .btn-secondary-icon-only {
+        @apply bg-transparent text-primary text-center outline outline-1 outline-primary rounded-full w-9 h-9 flex items-center justify-center text-sm transition-all duration-200;
+    }
+
+    .btn-secondary-icon-only:hover {
+        @apply bg-primary-container;
+    }
+
+    .btn-secondary-icon-only:focus-visible {
+        @apply outline-none outline-0 rounded-full;
+        box-shadow: 0 0 0 2px white, 0 0 0 4px theme('colors.primary');
+    }
+
+    .btn-secondary-icon-only:active {
+        @apply bg-primary-container;
+        transform: scale(0.98);
+    }
+
+    /* ==================== DANGER BUTTON ==================== */
+
+    .btn-danger {
+        @apply text-sm font-medium px-4 py-2 bg-error-container text-error rounded-button inline-flex justify-center items-center gap-2 transition-all duration-200;
+    }
+
+    .btn-danger:hover {
+        @apply bg-error-container/90;
+        box-shadow: 0 4px 12px rgba(190, 46, 43, 0.2);
+    }
+
+    .btn-danger:focus-visible {
+        @apply outline-none rounded-button;
+        box-shadow: 0 0 0 2px white, 0 0 0 4px theme('colors.error');
+    }
+
+    .btn-danger:active {
+        transform: scale(0.98);
+    }
+
+    .btn-danger:disabled {
+        @apply opacity-50 cursor-not-allowed;
+    }
+
+    /* ==================== TEXT BUTTON ==================== */
+
+    .btn-text {
+        @apply font-medium text-sm text-primary bg-transparent inline-flex items-center gap-2 px-3 py-1 rounded-element transition-colors duration-200 hover:bg-primary-container;
+    }
+
+    .btn-text.disabled,
+    .btn-text[aria-disabled="true"] {
+        @apply opacity-50 cursor-not-allowed;
+        pointer-events: none;
+    }
+
+    /* ==================== BACKWARD COMPATIBILITY ALIASES ==================== */
+
+    /* btn-cta → btn-primary */
+    .btn-cta {
+        @apply text-sm font-medium px-4 py-2 bg-primary text-white rounded-button inline-flex justify-center items-center gap-2 transition-all duration-200;
+    }
+
+    .btn-cta:hover {
+        @apply bg-primary-active;
+        box-shadow: 0 4px 12px rgba(255, 81, 19, 0.25);
+    }
+
+    .btn-cta:focus-visible {
+        @apply outline-none rounded-button;
+        box-shadow: 0 0 0 2px white, 0 0 0 4px theme('colors.primary');
+    }
+
+    .btn-cta:active {
+        transform: scale(0.98);
+    }
+
+    .btn-cta:disabled {
+        @apply opacity-50 cursor-not-allowed;
+    }
+
+    /* btn-grey → btn-secondary style (neutral variant) */
+    .btn-grey {
+        @apply text-sm font-medium px-4 py-2 bg-neutral text-primary-text rounded-button inline-flex justify-center items-center gap-2 transition-all duration-200 hover:bg-neutral-dark;
+    }
+
+    .btn-grey:focus-visible {
+        @apply outline-none rounded-button ring-2 ring-primary;
+    }
+
+    .btn-grey:active {
+        transform: scale(0.98);
+    }
+
+    .btn-grey:disabled {
+        @apply opacity-50 cursor-not-allowed;
+    }
+
+    /* ==================== DROPDOWN BUTTON ==================== */
+
+    .btn-dropdown {
+        @apply relative inline-flex;
+    }
+
+    .btn-dropdown-chevron {
+        @apply w-3.5 h-3.5 flex-shrink-0;
+        transition: transform 200ms ease;
+    }
+
+    .btn-dropdown.open .btn-dropdown-chevron {
+        transform: rotate(180deg);
+    }
+
+    .btn-dropdown-menu {
+        @apply absolute right-0 top-full mt-1.5 min-w-48 bg-neutral-light rounded-container border border-neutral-dark p-1 z-50;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-6px);
+        transition: opacity 150ms ease, transform 150ms ease;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.06);
+    }
+
+    .btn-dropdown.open .btn-dropdown-menu {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+    }
+
+    .btn-dropdown-item {
+        @apply w-full text-left px-3 py-2 text-sm font-medium text-primary-text inline-flex items-center gap-2.5 rounded-element border-none cursor-pointer;
+        background: transparent;
+        transition: background-color 100ms ease;
+    }
+
+    .btn-dropdown-item:hover {
+        @apply bg-neutral;
+    }
+
+    .btn-dropdown-item:disabled {
+        @apply opacity-50 cursor-not-allowed;
+    }
+
+    .btn-dropdown-item svg {
+        @apply text-secondary-text flex-shrink-0 w-4 h-4;
+    }
+
+    .btn-dropdown-divider {
+        @apply border-t border-neutral-dark my-1;
+    }
+
+    .btn-dropdown-item--danger {
+        @apply text-error;
+    }
+
+    .btn-dropdown-item--danger svg {
+        @apply text-error;
+    }
+
+    /* ==================== Button Flash States ==================== */
+
+    .btn-success-flash {
+        animation: successFlash 1.5s ease-out;
+    }
+
+    .btn-error-flash {
+        animation: errorFlash 1.5s ease-out;
+    }
+
+    @keyframes successFlash {
+        0%, 100% {
+            box-shadow: none;
+        }
+        50% {
+            box-shadow: 0 0 0 4px theme('colors.accent-b / 30%');
+        }
+    }
+
+    @keyframes errorFlash {
+        0%, 100% {
+            box-shadow: none;
+        }
+        50% {
+            box-shadow: 0 0 0 4px theme('colors.error / 30%');
+        }
+    }
+}

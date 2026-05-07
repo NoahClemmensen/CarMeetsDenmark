@@ -1,0 +1,99 @@
+@layer components {
+    /* Base table wrapper */
+    .table-wrapper {
+        @apply bg-neutral-light rounded-container overflow-hidden;
+    }
+
+    .table-card {
+        @apply bg-neutral-light rounded-container overflow-x-auto;
+    }
+
+    /* Table base styles */
+    .data-table {
+        @apply w-full text-sm;
+    }
+
+    .data-table thead {
+        @apply text-accent-a bg-accent-a-container;
+    }
+
+    .data-table thead tr {
+        @apply text-left;
+    }
+
+    .data-table thead th {
+        @apply px-4 py-3 font-semibold tracking-wide select-none text-sm;
+    }
+
+    .data-table tbody {
+        @apply divide-y divide-neutral-dark;
+    }
+
+    .data-table tbody td {
+        @apply px-4 py-3 align-middle;
+    }
+
+    /* Alternating row colors */
+    .data-table tbody tr:nth-child(odd) {
+        @apply bg-neutral-light;
+    }
+
+    .data-table tbody tr:nth-child(even) {
+        @apply bg-neutral/50;
+    }
+
+    /* Hover effect */
+    .data-table tbody tr:hover {
+        @apply bg-neutral-dark/50;
+    }
+
+    /* If td contains a link, adjust padding */
+    .data-table tbody td:has(> a) {
+        @apply p-0;
+    }
+
+    .data-table tbody td > a {
+        @apply block px-4 py-3 align-middle no-underline text-primary-text hover:text-primary;
+    }
+
+    .table-empty {
+        @apply text-center text-secondary-text py-8;
+    }
+
+    /* List-style table (pour list, member list) */
+    .list-table {
+        @apply flex flex-col gap-2;
+    }
+
+    .list-item {
+        @apply bg-neutral-light rounded-container p-4 flex items-center justify-between gap-4 transition-all duration-200 hover:shadow-md;
+    }
+
+    .list-item-clickable {
+        @apply bg-neutral-light rounded-container p-4 flex items-center justify-between gap-4 transition-all duration-200 hover:shadow-md cursor-pointer no-underline;
+    }
+
+    .list-item-info {
+        @apply flex-1 min-w-0;
+    }
+
+    .list-item-title {
+        @apply font-medium text-primary-text truncate;
+    }
+
+    .list-item-meta {
+        @apply text-sm text-secondary-text flex flex-wrap items-center gap-2 mt-1;
+    }
+
+    .meta-with-icon {
+        @apply inline-flex items-center gap-1;
+    }
+
+    .meta-icon {
+        @apply w-3.5 h-3.5 opacity-60;
+    }
+
+    .list-item-actions {
+        @apply flex items-center gap-2 shrink-0;
+    }
+}

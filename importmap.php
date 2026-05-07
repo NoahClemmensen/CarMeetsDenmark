@@ -16,6 +16,10 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
+    'web' => [
+        'path' => './assets/web.js',
+        'entrypoint' => true,
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],
@@ -23,6 +27,12 @@ return [
         'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
     ],
     '@hotwired/turbo' => [
-        'version' => '8.0.23',
+        'version' => '7.3.0',
+    ],
+    'qr-code-styling' => [
+        'version' => '1.9.2',
+    ],
+    'highcharts' => [
+        'version' => '12.6.0',
     ],
 ];

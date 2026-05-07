@@ -1,0 +1,26 @@
+{% extends 'web/base.html.twig' %}
+
+{% block title %}Login - CarMeetsDenmark{% endblock %}
+
+{% block body %}
+    <div class="max-w-md w-full">
+        <div class="card p-8">
+            <h1 class="text-2xl font-bold mb-6">Setup</h1>
+            <p class="mb-4">Welcome to CarMeetsDenmark! Let's get you set up.</p>
+
+            {{ form_start(form) }}
+
+            {{ form_row(form.name) }}
+            {{ form_row(form.description) }}
+
+            {{ form_errors(form) }}
+
+            <button type="submit" class="btn-cta w-full justify-center">
+                Register
+            </button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}{% endblock %}

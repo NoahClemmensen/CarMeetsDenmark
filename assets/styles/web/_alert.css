@@ -1,0 +1,33 @@
+@layer components {
+    .alert {
+        @apply p-4 mb-4;
+    }
+
+    .alert-success {
+        @apply p-4 w-full mb-4 rounded-container text-accent-b font-medium bg-accent-b-container;
+    }
+
+    .alert-error {
+        @apply p-4 w-full mb-4 rounded-container text-error font-medium bg-error-container;
+    }
+
+    .alert-blue {
+        @apply p-4 w-full mb-4 rounded-container text-accent-a font-medium bg-accent-a-container;
+    }
+
+    .alert-grey {
+        @apply p-4 w-full mb-4 rounded-container font-medium bg-neutral;
+    }
+
+    .alert-yellow {
+        @apply p-4 w-full mb-4 rounded-container text-accent-d font-medium bg-accent-d-container;
+    }
+
+    .alert-warning {
+        @apply p-4 w-full mb-4 rounded-container text-error font-medium bg-error-container;
+    }
+
+    .error-text {
+        @apply text-error text-sm mt-1;
+    }
+}

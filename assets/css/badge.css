@@ -1,0 +1,84 @@
+.badge {
+    display: inline-flex;
+    padding: 0 8px 0 8px;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 8px;
+}
+
+.badge.interactive {
+    text-decoration-line: underline;
+}
+
+/* Individual Colors */
+.badge.primary {
+    background-color: var(--primary-container);
+    color: var(--on-primary-container);
+}
+
+.badge.primary svg {
+    color: var(--primary);
+}
+
+.badge.green {
+    background-color: var(--accent-b-container);
+    color: var(--on-accent-b-container);
+}
+
+.badge.green svg {
+    color: var(--accent-b);
+}
+
+.badge.blue {
+    background-color: var(--accent-a-container);
+    color: var(--on-accent-a-container);
+}
+
+.badge.blue svg {
+    color: var(--accent-a);
+}
+
+.badge.yellow {
+    background-color: var(--accent-d-container);
+    color: var(--on-accent-d-container);
+}
+
+.badge.yellow svg {
+    color: var(--accent-d);
+}
+
+.badge.purple {
+    background-color: var(--accent-c-container);
+    color: var(--on-accent-c-container);
+}
+
+.badge.purple svg {
+    color: var(--accent-c);
+}
+
+.badge.neutral {
+    background-color: var(--surface-container-high);
+    color: var(--on-surface);
+}
+
+.badge.neutral svg {
+    color: var(--on-surface-icons);
+}
+
+.badge.neutral-low {
+    background-color: var(--surface-container-high);
+    color: var(--on-surface-var);
+}
+
+.badge.neutral-low svg {
+    color: var(--on-surface-var);
+}
+
+.badge.error {
+    background-color: var(--error-fixed);
+    color: var(--on-error-fixed);
+}
+
+.badge.error svg {
+    color: var(--error);
+}

@@ -1,0 +1,63 @@
+@layer components {
+    /* ========================================
+       Error Page Styles
+       ======================================== */
+    .error-page {
+        @apply flex flex-col items-center justify-center text-center py-16 px-4;
+        min-height: 400px;
+    }
+
+    .error-icon-svg {
+        @apply w-24 h-24 mx-auto mb-10;
+    }
+
+    .error-icon-svg svg {
+        @apply w-full h-full;
+    }
+
+    .error-code {
+        @apply text-4xl font-bold text-primary-text mb-4;
+    }
+
+    .error-code-danger {
+        @apply text-error;
+    }
+
+    .error-title {
+        @apply text-xl font-semibold text-primary-text mb-6;
+    }
+
+    .error-message {
+        @apply text-secondary-text text-base max-w-md mx-auto mb-4 leading-relaxed;
+    }
+
+    .error-detail {
+        @apply text-sm text-secondary-text/60 mb-8;
+    }
+
+    .error-actions {
+        @apply flex flex-col sm:flex-row items-center justify-center gap-3 mt-8;
+    }
+
+    /* Outlined button style for error pages */
+    .error-actions .btn-secondary {
+        @apply border-primary text-primary;
+    }
+
+    .error-actions .btn-secondary:hover {
+        @apply bg-primary-container;
+    }
+
+    /* Status indicator for 500 errors */
+    .error-status {
+        @apply mt-12 p-4 bg-error-container text-on-warning rounded-element border-l-4 border-error max-w-sm;
+    }
+
+    .error-status-row {
+        @apply flex justify-between text-sm py-1;
+    }
+
+    .error-status-value {
+        @apply font-medium;
+    }
+}

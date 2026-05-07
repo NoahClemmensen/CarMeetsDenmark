@@ -1,0 +1,216 @@
+:root {
+    /* primary-- */
+    --p-5: #260c03;
+    --p-10: #401405;
+    --p-20: #591c07;
+    --p-30: #852a0a;
+    --p-40: #bf3d0e;
+    --p-50: #ff5113;
+    --p-60: #ff7442;
+    --p-70: #ff9771;
+    --p-80: #ffb9a1;
+    --p-90: #ffdcd0;
+    --p-95: #ffeee7;
+    --p-98: #fff6f3;
+    --p-100: #ffffff;
+
+    --primary: var(--p-50);
+    --on-primary: var(--p-100);
+
+    --primary-container: var(--p-90);
+    --on-primary-container: var(--p-20);
+
+    --primary-fixed: var(--p-90);
+    --primary-fixed-dim: var(--p-80);
+    --on-primary-fixed: var(--p-20);
+    --on-primary-fixed-dim: var(--p-30);
+
+    --disabled-color: rgb(25, 25, 25, 0.35);
+
+    /* Accent A */
+    --aa-5: #081721;
+    --aa-10: #0e2637;
+    --aa-20: #13354d;
+    --aa-30: #1d4f72;
+    --aa-40: #2971a5;
+    --aa-50: #3797dc;
+    --aa-60: #5face3;
+    --aa-70: #87c1ea;
+    --aa-80: #afd5f1;
+    --aa-90: #d7eaf8;
+    --aa-95: #ebf5fb;
+    --aa-98: #f5fafd;
+    --aa-100: #ffffff;
+
+    --accent-a: var(--aa-50);
+    --on-accent-a: var(--aa-100);
+
+    --accent-a-container: var(--aa-90);
+    --on-accent-a-container: var(--aa-20);
+
+    --accent-a-fixed: var(--aa-90);
+    --accent-a-fixed-dim: var(--aa-80);
+    --on-accent-a-fixed: var(--aa-20);
+    --on-accent-a-fixeed-dim: var(--aa-30);
+
+    /* Accent B */
+    --ab-5: #041d17;
+    --ab-10: #073126;
+    --ab-20: #094435;
+    --ab-30: #0e654f;
+    --ab-40: #149172;
+    --ab-50: #1bc298;
+    --ab-60: #49cead;
+    --ab-70: #76dac1;
+    --ab-80: #a4e7d6;
+    --ab-90: #d1f3ea;
+    --ab-95: #e8f9f5;
+    --ab-98: #f4fcfa;
+    --ab-100: #ffffff;
+
+    --accent-b: var(--ab-50);
+    --on-accent-b: var(--ab-100);
+
+    --accent-b-container: var(--ab-90);
+    --on-accent-b-container: var(--ab-20);
+
+    --accent-b-fixed: var(--ab-90);
+    --accent-b-fixed-dim: var(--ab-80);
+    --on-accent-b-fixed: var(--ab-20);
+    --on-accent-b-fixed-dim: var(--ab-30);
+
+    /* Accent C */
+    --ac-5: #171421;
+    --ac-10: #272137;
+    --ac-20: #362e4d;
+    --ac-30: #504472;
+    --ac-40: #7462a4;
+    --ac-50: #9a83db;
+    --ac-60: #ae9ce2;
+    --ac-70: #c2b5e9;
+    --ac-80: #d7cdf1;
+    --ac-90: #ebe6f8;
+    --ac-95: #f5f3fb;
+    --ac-98: #faf9fd;
+    --ac-100: #ffffff;
+
+    --accent-c: var(--ac-50);
+    --on-accent-c: var(--ac-100);
+
+    --accent-c-container: var(--ac-90);
+    --on-accent-c-container: var(--ac-20);
+
+    --accent-c-fixed: var(--ac-90);
+    --accent-c-fixed-dim: var(--ac-80);
+    --on-accent-c-fixed: var(--ac-20);
+    --on-accent-c-fixed-dim: var(--ac-30);
+
+    /* Accent D */
+    --ad-5: #261f01;
+    --ad-10: #3f3302;
+    --ad-20: #594703;
+    --ad-30: #846a05;
+    --ad-40: #be9907;
+    --ad-50: #fdcc09;
+    --ad-60: #fdd63a;
+    --ad-70: #fee06b;
+    --ad-80: #feeb9d;
+    --ad-90: #fff5ce;
+    --ad-95: #fffae6;
+    --ad-98: #fffcf3;
+    --ad-100: #ffffff;
+
+    --accent-d: var(--ad-50);
+    --on-accent-d: var(--ad-100);
+
+    --accent-d-container: var(--ad-90);
+    --on-accent-d-container: var(--ad-20);
+
+    --accent-d-fixed: var(--ad-90);
+    --accent-d-fixed-dim: var(--ad-80);
+    --on-accent-d-fixed: var(--ad-20);
+    --on-accent-d-fixed-dim: var(--ad-30);
+
+    /* error */
+    --e-5: #260909;
+    --e-10: #3f0f0e;
+    --e-20: #591514;
+    --e-30: #84201e;
+    --e-40: #be2e2b;
+    --e-50: #fd3d39;
+    --e-60: #fd6461;
+    --e-70: #fe8b88;
+    --e-80: #feb1b0;
+    --e-90: #ffd8d7;
+    --e-95: #ffeceb;
+    --e-98: #fff5f5;
+    --e-100: #ffffff;
+
+    --error: var(--e-40);
+    --on-error: var(--e-100);
+
+    --error-container: var(--e-90);
+    --on-error-container: var(--e-20);
+
+    --error-fixed: var(--e-90);
+    --error-fixed-dim: var(--e-80);
+    --on-error-fixed: var(--e-20);
+    --on-error-fixed-dim: var(--e-30);
+
+    /* neutral */
+    --n-5: #191919;
+    --n-10: #303030;
+    --n-20: #474747;
+    --n-30: #5e5e5e;
+    --n-40: #757575;
+    --n-50: #8c8c8c;
+    --n-60: #a3a3a3;
+    --n-70: #bababa;
+    --n-80: #d1d1d1;
+    --n-90: #e8e8e8;
+    --n-95: #f3f3f3;
+    --n-98: #fafafa;
+    --n-100: #ffffff;
+
+    --surface-dim: var(--n-90);
+    --surface: var(--n-95);
+    --surface-container-lowest: var(--n-100);
+    --surface-container-low: var(--n-98);
+    --surface-container: var(--n-95);
+    --surface-container-high: var(--n-90);
+    --surface-container-highest: var(--n-80);
+
+    --on-surface: var(--n-5);
+    --on-surface-lower: var(--n-10);
+    --on-surface-icons: var(--n-20);
+    --on-surface-var: var(--n-50);
+
+    --outline-low: var(--n-80);
+    --outline: var(--n-70);
+    --outline-high: var(--n-50);
+    --outline-highest: var(--n-10);
+
+    --inverse-surface: var(--n-5);
+    --on-inverse-surface: var(--n-100);
+    --scrim: var(--n-5);
+    --shadow: var(--n-5);
+
+    /* State layers */
+    --on-primary-triple: 255, 255, 255;
+    --on-primary-08: rgba(var(--on-primary-triple), 0.08);
+    --on-primary-12: rgba(var(--on-primary-triple), 0.12);
+    --on-primary-16: rgba(var(--on-primary-triple), 0.16);
+
+    --on-surface-triple: 25, 25, 25;
+    --on-surface-02: rgba(var(--on-surface-triple), 0.02);
+    --on-surface-04: rgba(var(--on-surface-triple), 0.04);
+    --on-surface-06: rgba(var(--on-surface-triple), 0.06);
+    --on-surface-08: rgba(var(--on-surface-triple), 0.08);
+    --on-surface-12: rgba(var(--on-surface-triple), 0.12);
+    --on-surface-16: rgba(var(--on-surface-triple), 0.16);
+
+    --on-error-triple: 89, 21, 20;
+    --on-error-08: rgba(var(--on-error-triple), 0.08);
+    --on-error-12: rgba(var(--on-error-triple), 0.12);
+    --on-error-16: rgba(var(--on-error-triple), 0.16);
+}

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Car Meets Denmark{% endblock %}</title>
+    <link rel="icon" href="{{ asset('logo.png') }}">
+
+    {# Tailwind CSS for web platform #}
+    <link rel="stylesheet" href="{{ asset('styles/web.css') }}">
+
+    {# MapTiler SDK for map pages #}
+{#    <link rel="stylesheet" href="https://cdn.maptiler.com/maptiler-sdk-js/v1.2.0/maptiler-sdk.css">#}
+
+    {% block stylesheets %}{% endblock %}
+    {% block head %}{% endblock %}
+</head>
+<body class="h-full bg-neutral-light text-primary-text font-inter" data-controller="turbo-error-handler">
+{% import 'web/_icons.html.twig' as icons %}
+{% if app.user %}
+    <div class="app-layout">
+        {# Sidebar #}
+        <aside class="sidebar-card">
+            <div class="sidebar-header">
+                <a href="{{ path('web_home') }}" class="sidebar-logo">
+                    <img src="{{ asset('maturix-nova-logo.svg') }}" alt="Carmeets Denmark">
+                </a>
+            </div>
+
+            <nav class="sidebar-nav">
+                {# Main navigation #}
+                <div class="sidebar-section">
+                    {% set isActive = app.request.attributes.get('_route') == 'web_home' %}
+                    <a href="{{ path('web_home') }}"
+                       class="sidebar-link {{ isActive ? 'active' : '' }}"
+                       {% if isActive and brandActiveStyle %}style="{{ brandActiveStyle }}"{% endif %}>
+                        {{ icons.dashboard() }}
+                        <span>Events</span>
+                    </a>
+                    {% set isActive = app.request.attributes.get('_route') == 'web_logout' %}
+                    <a href="{{ path('web_home') }}"
+                       class="sidebar-link {{ isActive ? 'active' : '' }}"
+                       {% if isActive and brandActiveStyle %}style="{{ brandActiveStyle }}"{% endif %}>
+                        {{ icons.location() }}
+                        <span>Something</span>
+                    </a>
+                </div>
+
+                {% if is_support_mode() %}
+                    <div class="sidebar-section">
+                        <div class="sidebar-section-label">Support</div>
+                        {% set isActive = app.request.attributes.get('_route') == 'web_home' %}
+                        <a href="{{ path('web_home') }}"
+                           class="sidebar-link {{ isActive ? 'active' : '' }}"
+                           {% if isActive and brandActiveStyle %}style="{{ brandActiveStyle }}"{% endif %}>
+                            {{ icons.dashboard() }}
+                            <span>Pours</span>
+                        </a>
+                    </div>
+                {% endif %}
+
+                {# Spacer #}
+                <div class="sidebar-spacer"></div>
+
+                {# Bottom section #}
+                <div class="sidebar-section">
+                    <a href="{{ path('web_settings') }}" class="sidebar-link" data-turbo="false">
+                        {{ icons.settings() }}
+                        <span>Settings</span>
+                    </a>
+                    <a href="{{ path('web_logout') }}" class="sidebar-link" data-turbo="false">
+                        {{ icons.logout() }}
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        {# Main content #}
+        <main class="content-card">
+            {% for message in app.flashes('success') %}
+                <div class="alert-success" role="alert">{{ message }}</div>
+            {% endfor %}
+            {% for message in app.flashes('error') %}
+                <div class="alert-error" role="alert">{{ message }}</div>
+            {% endfor %}
+
+            {% block body %}{% endblock %}
+        </main>
+    </div>
+
+    {# Mobile sidebar overlay #}
+    <div class="mobile-overlay" id="mobile-overlay" onclick="toggleMobileMenu()"></div>
+
+    <script>
+        function toggleMobileMenu() {
+            var sidebar = document.querySelector('.sidebar-card');
+            var overlay = document.getElementById('mobile-overlay');
+            if (sidebar && overlay) {
+                sidebar.classList.toggle('mobile-open');
+                overlay.classList.toggle('active');
+                document.body.classList.toggle('mobile-menu-open');
+            }
+        }
+
+        if (!window._sidebarListenersAttached) {
+            window._sidebarListenersAttached = true;
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    var sidebar = document.querySelector('.sidebar-card');
+                    if (sidebar && sidebar.classList.contains('mobile-open')) {
+                        toggleMobileMenu();
+                    }
+                }
+            });
+        }
+    </script>
+
+    {# Toast container - persists through Turbo navigations #}
+    <div id="toast-container" data-turbo-permanent></div>
+
+    {# Modal shell - one per app, content swapped via Turbo Streams #}
+    <twig:Modal:Shell/>
+{% else %}
+    {# Non-authenticated layout (login pages) #}
+    <main class="min-h-full flex items-center justify-center py-12 px-4 bg-neutral">
+        {{ block('body') }}
+    </main>
+{% endif %}
+
+{% block javascripts %}
+    {{ importmap('web') }}
+{% endblock %}
+</body>
+</html>

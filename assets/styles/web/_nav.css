@@ -1,0 +1,290 @@
+@layer components {
+    /* ========================================
+       App Layout - Sidebar + Main Structure
+       ======================================== */
+    .app-layout {
+        @apply flex h-full min-h-screen;
+        gap: 16px;
+        padding: 16px;
+    }
+
+    /* ========================================
+       Sidebar Card
+       ======================================== */
+    .sidebar-card {
+        @apply flex flex-col bg-neutral rounded-container;
+        width: 256px;
+        min-width: 256px;
+        max-height: calc(100vh - 32px);
+        position: sticky;
+        top: 16px;
+    }
+
+    .sidebar-header {
+        @apply px-5 py-4 border-b border-neutral-dark;
+    }
+
+    .sidebar-logo {
+        @apply flex items-center gap-2.5 text-primary-text font-semibold text-lg no-underline;
+    }
+
+    .sidebar-logo img {
+        @apply h-8 w-auto;
+    }
+
+    .sidebar-nav {
+        @apply flex flex-col flex-1 py-3 overflow-y-auto;
+    }
+
+    .sidebar-section {
+        @apply px-3 mb-2;
+    }
+
+    .sidebar-section-label {
+        @apply text-xs font-medium text-secondary-text uppercase tracking-wider px-3 py-2;
+    }
+
+    .sidebar-spacer {
+        @apply flex-1;
+    }
+
+    .sidebar-link {
+        @apply flex items-center gap-3 px-3 py-2.5 rounded-container text-sm font-medium text-secondary-text transition-all duration-200 no-underline;
+    }
+
+    .sidebar-link:hover {
+        @apply bg-neutral text-primary-text;
+    }
+
+    .sidebar-link.active {
+        @apply bg-primary-container text-primary;
+    }
+
+    .sidebar-link svg {
+        @apply w-5 h-5 flex-shrink-0;
+    }
+
+    /* ========================================
+       Team Switcher (in sidebar)
+       ======================================== */
+    .team-switcher {
+        @apply relative;
+    }
+
+    .team-switcher-btn {
+        @apply flex items-center gap-2 w-full px-3 py-2.5 bg-neutral border border-neutral-dark rounded-container text-sm font-medium text-primary-text cursor-pointer transition-colors duration-200;
+    }
+
+    .team-switcher-btn:hover {
+        @apply bg-neutral-dark;
+    }
+
+    .team-switcher-icon {
+        @apply w-8 h-8 rounded-element bg-primary-container flex items-center justify-center flex-shrink-0;
+    }
+
+    .team-switcher-icon svg {
+        @apply w-4 h-4 text-primary;
+    }
+
+    .team-switcher-name {
+        @apply flex-1 text-left truncate;
+    }
+
+    .team-switcher-chevron {
+        @apply w-4 h-4 text-secondary-text flex-shrink-0 transition-transform duration-200;
+    }
+
+    .team-switcher.open .team-switcher-chevron {
+        transform: rotate(180deg);
+    }
+
+    .team-switcher-dropdown {
+        @apply absolute left-0 right-0 top-full mt-1 bg-neutral-light border border-neutral-dark rounded-container shadow-lg overflow-hidden z-50;
+        display: none;
+    }
+
+    .team-switcher.open .team-switcher-dropdown {
+        display: block;
+    }
+
+    .team-switcher-option {
+        @apply flex items-center gap-2.5 w-full px-4 py-2.5 text-left text-sm text-primary-text transition-colors duration-200 cursor-pointer border-none bg-transparent;
+    }
+
+    .team-switcher-option:hover {
+        @apply bg-neutral;
+    }
+
+    .team-switcher-option.active {
+        @apply bg-primary-container text-primary;
+    }
+
+    .team-switcher-option svg {
+        @apply w-4 h-4 opacity-60;
+    }
+
+    .team-switcher-option.active svg {
+        @apply opacity-100;
+    }
+
+    .team-switcher-divider {
+        @apply h-px bg-neutral-dark my-1;
+    }
+
+    /* Support Mode */
+    .support-mode-badge {
+        @apply flex items-center gap-1.5 px-2 py-1 rounded-element text-sm font-medium bg-warning-container text-on-warning;
+    }
+
+    .support-mode-badge svg {
+        @apply flex-shrink-0;
+    }
+
+    .team-switcher-option-support {
+        @apply text-warning;
+    }
+
+    .team-switcher-option-support.active {
+        @apply bg-warning-container;
+    }
+
+    /* ========================================
+       Main Wrapper (Topbar + Content)
+       ======================================== */
+    .main-wrapper {
+        @apply flex flex-col flex-1 min-w-0;
+        gap: 16px;
+    }
+
+    /* ========================================
+       Top Bar Card
+       ======================================== */
+    .topbar-card {
+        @apply bg-neutral rounded-container;
+    }
+
+    .topbar-content {
+        @apply flex items-center justify-between px-6 py-3;
+    }
+
+    .topbar-left {
+        @apply flex items-center gap-4;
+    }
+
+    .topbar-team {
+        @apply flex flex-row items-center gap-2 text-primary-text font-semibold text-lg;
+    }
+
+    .topbar-team svg {
+        @apply w-5 h-5 text-secondary-text flex-shrink-0;
+    }
+
+    .topbar-right {
+        @apply flex items-center gap-4 ml-auto;
+    }
+
+    .mobile-menu-btn {
+        @apply hidden items-center justify-center w-10 h-10 rounded-container text-secondary-text transition-colors duration-200 cursor-pointer border-none bg-transparent;
+    }
+
+    .mobile-menu-btn:hover {
+        @apply bg-neutral text-primary-text;
+    }
+
+    .mobile-menu-btn svg {
+        @apply w-5 h-5;
+    }
+
+    /* User info in topbar */
+    .user-info {
+        @apply flex items-center gap-3;
+    }
+
+    .user-avatar {
+        @apply w-10 h-10 rounded-button bg-primary flex items-center justify-center text-on-primary font-semibold text-sm flex-shrink-0;
+    }
+
+    .user-details {
+        @apply hidden sm:block;
+    }
+
+    .user-name {
+        @apply text-sm font-medium text-primary-text;
+    }
+
+    .user-email {
+        @apply text-xs text-secondary-text;
+    }
+
+    /* ========================================
+       Content Card
+       ======================================== */
+    .content-card {
+        @apply flex-1 bg-neutral rounded-container p-6 overflow-auto;
+    }
+
+    /* ========================================
+       Mobile Overlay
+       ======================================== */
+    .mobile-overlay {
+        @apply fixed inset-0 bg-black/50 z-40 opacity-0 pointer-events-none transition-opacity duration-300;
+    }
+
+    .mobile-overlay.active {
+        @apply opacity-100 pointer-events-auto;
+    }
+
+    /* ========================================
+       Mobile Responsive
+       ======================================== */
+    @media (max-width: 1024px) {
+        .app-layout {
+            padding: 12px;
+            gap: 12px;
+        }
+
+        .sidebar-card {
+            @apply fixed left-0 top-0 h-full z-50 rounded-none border-r border-l-0 border-y-0;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            max-height: 100vh;
+        }
+
+        .sidebar-card.mobile-open {
+            transform: translateX(0);
+        }
+
+        .mobile-menu-btn {
+            @apply flex;
+        }
+
+        .main-wrapper {
+            gap: 12px;
+        }
+
+        .content-card {
+            @apply p-4;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .app-layout {
+            padding: 8px;
+            gap: 8px;
+        }
+
+        .topbar-content {
+            @apply px-4 py-2;
+        }
+
+        .content-card {
+            @apply p-3;
+        }
+    }
+
+    /* Prevent body scroll when mobile menu is open */
+    body.mobile-menu-open {
+        @apply overflow-hidden;
+    }
+}

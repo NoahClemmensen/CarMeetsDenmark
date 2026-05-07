@@ -1,0 +1,20 @@
+﻿services:
+    db:
+        image: mysql:9.3
+        container_name: db
+        restart: always
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: schema_name
+            MYSQL_ROOT_PASSWORD: root_password
+            MYSQL_ROOT_HOST: '%'
+            MYSQL_USER: admin
+            MYSQL_PASSWORD: admin_password
+        volumes:
+            - ./config:/etc/mysql/conf.d
+
+# Make a .cnf file at /config with:
+# [mysqld]
+# default-time-zone = "+01:00"
+# bind-address = 0.0.0.0

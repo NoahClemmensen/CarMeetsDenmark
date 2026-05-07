@@ -1,0 +1,94 @@
+.input-row {
+    border-radius: 8px;
+    border: 1px solid var(--outline-high);
+    padding: 0 12px 0 12px;
+    --text-field-background-color: #fff;
+    background-color: #fff;
+}
+
+input,
+select,
+input:focus,
+select:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+/* Chnage autofill color to a container specific color */
+/* This color is adjusted based on the status of the input */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0px 1000px var(--text-field-background-color) inset;
+}
+
+.input-row:has(input:active),
+.input-row:has(select:active) {
+    background: var(--on-surface-04) !important;
+    --text-field-background-color: #f2f2f2;
+}
+
+.input-row:has(input:active) > *,
+.input-row:has(select:active) > * {
+    background-color: transparent !important;
+}
+
+.input-row:has(input:focus),
+.input-row:has(select:focus) {
+    border: 1px solid var(--outline-highest) !important;
+    outline: none;
+    box-shadow: none;
+}
+
+.input-row:has(input:disabled),
+.input-row:has(select:disabled) {
+    background: var(--on-surface-08) !important;
+    border: none;
+}
+
+.input-row:has(input:disabled) > *,
+.input-row:has(select:disabled) > * {
+    background: transparent !important;
+    border: none;
+}
+
+input:disabled,
+select:disabled {
+    color: var(--on-surface-var);
+    -webkit-text-fill-color: var(--on-surface-var);
+    opacity: 1;
+}
+
+.input-row.error {
+    border: 1px solid var(--error, #be2e2b) !important;
+    background-color: var(--error-container, #ffd8d7);
+    --text-field-background-color: var(--error-container);
+}
+
+.input-row.error > * {
+    background-color: var(--error-container, #ffd8d7) !important;
+}
+
+.input-row.error:has(input:focus),
+.input-row.error:has(select:focus) {
+    border: 1px solid var(--error, #be2e2b) !important;
+}
+
+.input-row.branded {
+    border: 1px solid var(--brand-color) !important;
+}
+
+.input-row.branded:has(input:focus),
+.input-row.branded:has(select:focus) {
+    border: 1px solid var(--brand-color) !important;
+}
+
+.input-prefix,
+.input-suffix {
+    background: #fff;
+    display: flex;
+    align-items: center;
+    color: var(--on-surface-lower);
+}

@@ -1,0 +1,115 @@
+@layer components {
+    .wrapper {
+        @apply m-0 p-0 w-full;
+    }
+
+    .inner-wrapper {
+        @apply px-4 sm:px-6 lg:px-8 py-8;
+    }
+
+    .page-container {
+        @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8;
+    }
+
+    .page-header {
+        @apply mb-8;
+    }
+
+    .page-title {
+        @apply text-2xl font-semibold text-primary-text;
+    }
+
+    .page-subtitle {
+        @apply text-sm text-secondary-text mt-1;
+    }
+
+    .concrete-overline {
+        @apply flex items-center gap-1.5 text-sm text-secondary-text mb-1;
+    }
+
+    .concrete-overline-icon {
+        @apply w-3.5 h-3.5 flex-shrink-0;
+    }
+
+    .page-actions {
+        @apply flex items-center gap-3;
+    }
+
+    /* Section containers */
+    .section {
+        @apply mb-8;
+    }
+
+    .section-title {
+        @apply text-lg font-semibold text-primary-text mb-4;
+    }
+
+    .section-subtitle {
+        @apply text-sm text-secondary-text mb-4;
+    }
+
+    /* Grid layouts */
+    .grid-auto {
+        @apply grid gap-4;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+
+    .grid-kpi {
+        @apply grid gap-4;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    /* Centered content (for auth pages) */
+    .centered-container {
+        @apply min-h-screen flex items-center justify-center p-4;
+    }
+
+    .centered-card {
+        @apply w-full max-w-md;
+    }
+
+    /* Hide scrollbar utility */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    /* Loading state */
+    .loading {
+        @apply opacity-60 pointer-events-none transition-opacity duration-200;
+    }
+
+    /* Empty state */
+    .empty-state {
+        @apply text-center py-12;
+    }
+
+    .empty-state-icon {
+        @apply text-4xl text-secondary-text/40 mb-4;
+    }
+
+    .empty-state-title {
+        @apply text-lg font-medium text-primary-text mb-2;
+    }
+
+    .empty-state-description {
+        @apply text-sm text-secondary-text mb-4;
+    }
+
+    /* Danger zone */
+    .danger-section {
+        @apply border-t border-error/20 pt-8 mt-8;
+    }
+
+    .danger-section-title {
+        @apply text-lg font-semibold text-error mb-2;
+    }
+
+    .danger-section-description {
+        @apply text-sm text-secondary-text mb-4;
+    }
+}

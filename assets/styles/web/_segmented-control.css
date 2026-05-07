@@ -1,0 +1,38 @@
+@layer components {
+
+    .segmented-group {
+        @apply mb-5;
+
+    }
+
+    .segmented-label {
+        @apply text-xs font-medium text-secondary-text uppercase tracking-wider mb-2;
+
+    }
+
+    .segmented-track {
+        @apply flex rounded-lg p-0.5 gap-0.5;
+
+        background: theme('colors.neutral');
+    }
+
+    .segmented-option {
+        @apply flex-1 text-center py-2 px-3 rounded-md text-sm font-medium cursor-pointer select-none transition-all duration-200;
+
+        color: theme('colors.secondary-text');
+        background: transparent;
+    }
+
+    .segmented-option:hover:not(.segmented-option--active) {
+        color: theme('colors.primary-text');
+        background: theme('colors.neutral-dark / 40%');
+    }
+
+    .segmented-option--active {
+        @apply font-semibold;
+
+        background: theme('colors.primary');
+        color: #fff;
+        box-shadow: 0 1px 3px rgba(255, 81, 19, 0.3);
+    }
+}

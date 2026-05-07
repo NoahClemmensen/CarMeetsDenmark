@@ -1,0 +1,34 @@
+services:
+    db:
+        image: mysql:9.3
+        container_name: db
+        restart: always
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: carmeetsdenmark
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_ROOT_HOST: '%'
+            MYSQL_USER: admin
+            MYSQL_PASSWORD: stikadmin1bajer
+        volumes:
+            - ./config:/etc/mysql/conf.d
+            - db_data:/var/lib/mysql
+
+    php:
+        build:
+            context: ..
+            dockerfile: Dockerfile
+        container_name: php
+        restart: always
+        ports:
+            - "8000:8000"
+        environment:
+            DATABASE_URL: "mysql://admin:stikadmin1bajer@db:3306/carmeetsdenmark?serverVersion=9.3"
+            APP_ENV: dev
+            APP_SECRET: your-app-secret-here
+        depends_on:
+            - db
+
+volumes:
+    db_data:
