@@ -78,7 +78,7 @@
     input[type='checkbox']:focus {
         box-shadow: none;
         outline: none;
-        color: #ff5113;
+        color: var(--primary);
         @apply border-primary;
     }
 

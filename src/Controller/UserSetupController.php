@@ -12,6 +12,7 @@ use App\Http\TurboStreamHelper;
 use App\Security\WebTargetPath;
 use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -28,6 +29,7 @@ class UserSetupController extends AbstractController
         #[CurrentUser] User $user,
         UserService         $userService,
         TurboStreamHelper   $turboStreamHelper,
+        Security            $security,
     ): Response
     {
         $session = $request->getSession();
@@ -47,6 +49,10 @@ class UserSetupController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $userService->updateFromUserSetup($user, $dto);
+
+            // Symfony 6.3+ logs out users when roles change between requests.
+            // Re-authenticate immediately so the new token reflects the updated roles.
+            $security->login($user, 'form_login', 'main');
 
             $stored = $session->remove('web_setup_target');
             $target = WebTargetPath::validate(is_string($stored) ? $stored : null)

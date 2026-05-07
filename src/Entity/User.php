@@ -31,11 +31,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['owner'])]
     private ?string $timezone = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['public'])]
     private ?string $language = null;
 
@@ -50,6 +50,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
+
+    #[ORM\Column(length: 500, nullable: true)]
+    private ?string $instagramUrl = null;
+
+    #[ORM\Column(length: 500, nullable: true)]
+    private ?string $youtubeUrl = null;
+
+    #[ORM\Column(length: 500, nullable: true)]
+    private ?string $facebookUrl = null;
+
+    #[ORM\Column(length: 500, nullable: true)]
+    private ?string $websiteUrl = null;
 
     #[ORM\Column]
     private ?bool $isDeleted = false;
@@ -189,6 +201,54 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsDeleted(bool $isDeleted): static
     {
         $this->isDeleted = $isDeleted;
+
+        return $this;
+    }
+
+    public function getInstagramUrl(): ?string
+    {
+        return $this->instagramUrl;
+    }
+
+    public function setInstagramUrl(?string $instagramUrl): static
+    {
+        $this->instagramUrl = $instagramUrl;
+
+        return $this;
+    }
+
+    public function getYoutubeUrl(): ?string
+    {
+        return $this->youtubeUrl;
+    }
+
+    public function setYoutubeUrl(?string $youtubeUrl): static
+    {
+        $this->youtubeUrl = $youtubeUrl;
+
+        return $this;
+    }
+
+    public function getFacebookUrl(): ?string
+    {
+        return $this->facebookUrl;
+    }
+
+    public function setFacebookUrl(?string $facebookUrl): static
+    {
+        $this->facebookUrl = $facebookUrl;
+
+        return $this;
+    }
+
+    public function getWebsiteUrl(): ?string
+    {
+        return $this->websiteUrl;
+    }
+
+    public function setWebsiteUrl(?string $websiteUrl): static
+    {
+        $this->websiteUrl = $websiteUrl;
 
         return $this;
     }

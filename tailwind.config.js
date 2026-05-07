@@ -12,11 +12,16 @@ module.exports = {
         extend: {
             // Custom colors - matching Platform design system
             colors: {
-                'primary': '#ff5113',
-                'primary-gradient': '#FFA788',
-                'primary-active': '#E64C15', // used for active + hover in side nav
-                'primary-container': '#ffdcd0',
+                'primary': '#0284c7',
+                'primary-gradient': '#6daac9',
+                'primary-active': '#02a0f1', // used for active + hover in side nav
+                'primary-container': '#c6eafc',
                 'on-primary': '#ffffff', // white text on primary (orange) backgrounds
+                // 'primary': '#ff5113',
+                // 'primary-gradient': '#FFA788',
+                // 'primary-active': '#E64C15', // used for active + hover in side nav
+                // 'primary-container': '#ffdcd0',
+                // 'on-primary': '#ffffff', // white text on primary (orange) backgrounds
 
                 /* Accent A - BLUE */
                 'accent-a': '#3797dc',

@@ -32,15 +32,13 @@
                 <div class="sidebar-section">
                     {% set isActive = app.request.attributes.get('_route') == 'web_home' %}
                     <a href="{{ path('web_home') }}"
-                       class="sidebar-link {{ isActive ? 'active' : '' }}"
-                       {% if isActive and brandActiveStyle %}style="{{ brandActiveStyle }}"{% endif %}>
+                       class="sidebar-link {{ isActive ? 'active' : '' }}">
                         {{ icons.dashboard() }}
                         <span>Events</span>
                     </a>
                     {% set isActive = app.request.attributes.get('_route') == 'web_logout' %}
                     <a href="{{ path('web_home') }}"
-                       class="sidebar-link {{ isActive ? 'active' : '' }}"
-                       {% if isActive and brandActiveStyle %}style="{{ brandActiveStyle }}"{% endif %}>
+                       class="sidebar-link {{ isActive ? 'active' : '' }}">
                         {{ icons.location() }}
                         <span>Something</span>
                     </a>
@@ -51,8 +49,7 @@
                         <div class="sidebar-section-label">Support</div>
                         {% set isActive = app.request.attributes.get('_route') == 'web_home' %}
                         <a href="{{ path('web_home') }}"
-                           class="sidebar-link {{ isActive ? 'active' : '' }}"
-                           {% if isActive and brandActiveStyle %}style="{{ brandActiveStyle }}"{% endif %}>
+                           class="sidebar-link {{ isActive ? 'active' : '' }}">
                             {{ icons.dashboard() }}
                             <span>Pours</span>
                         </a>
@@ -77,16 +74,50 @@
         </aside>
 
         {# Main content #}
-        <main class="content-card">
-            {% for message in app.flashes('success') %}
-                <div class="alert-success" role="alert">{{ message }}</div>
-            {% endfor %}
-            {% for message in app.flashes('error') %}
-                <div class="alert-error" role="alert">{{ message }}</div>
-            {% endfor %}
+        <div class="main-wrapper">
+            <header class="topbar-card">
+                <div class="topbar-content">
+                    <div class="topbar-left">
+                        {# Mobile menu button #}
+                        <button type="button" class="mobile-menu-btn" onclick="toggleMobileMenu()"
+                                aria-label="Open menu">
+                            {{ icons.menu() }}
+                        </button>
+                        {# Support mode indicator #}
+                        {% if is_support_mode() %}
+                            <div class="support-mode-badge" role="status"
+                                 aria-label="Support mode active - viewing all pours">
+                                {{ icons.shield({size: 14}) }}
+                                <span>
+                                    Support Mode
+                                </span>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="topbar-right">
+                        <div class="user-info">
+                            <a href="{{ path('web_settings') }}" class="user-avatar">
+                                {{ app.user.name|slice(0,1)|upper }}{{ app.user.name|split(' ')|last|slice(0,1)|upper }}
+                            </a>
+                            <div class="user-details">
+                                <div class="user-name">{{ app.user.name }}</div>
+                                <div class="user-email">{{ app.user.email }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <main class="content-card">
+                {% for message in app.flashes('success') %}
+                    <div class="alert-success" role="alert">{{ message }}</div>
+                {% endfor %}
+                {% for message in app.flashes('error') %}
+                    <div class="alert-error" role="alert">{{ message }}</div>
+                {% endfor %}
 
-            {% block body %}{% endblock %}
-        </main>
+                {% block body %}{% endblock %}
+            </main>
+        </div>
     </div>
 
     {# Mobile sidebar overlay #}
