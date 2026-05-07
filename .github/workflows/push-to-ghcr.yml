@@ -48,5 +48,5 @@ jobs:
                   file: .docker/Dockerfile
                   push: true
                   tags: |
-                      ghcr.io/${{ env.OWNER_LC }}/CarMeetsDenmark:${{ github.event.release.tag_name }}
+                      ghcr.io/${{ env.OWNER_LC }}/CarMeetsDenmark:${{ github.event.release.tag_name || inputs.tag }}
                       ghcr.io/${{ env.OWNER_LC }}/CarMeetsDenmark:latest
