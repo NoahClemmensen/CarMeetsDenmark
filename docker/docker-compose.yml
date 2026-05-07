@@ -12,13 +12,13 @@ services:
             MYSQL_USER: admin
             MYSQL_PASSWORD: stikadmin1bajer
         volumes:
-            - ./config:/etc/mysql/conf.d
+            - ../config:/etc/mysql/conf.d
             - db_data:/var/lib/mysql
 
     php:
         build:
             context: ..
-            dockerfile: Dockerfile
+            dockerfile: docker/Dockerfile
         container_name: php
         restart: always
         ports:
@@ -26,7 +26,7 @@ services:
         environment:
             DATABASE_URL: "mysql://admin:stikadmin1bajer@db:3306/carmeetsdenmark?serverVersion=9.3"
             APP_ENV: dev
-            APP_SECRET: your-app-secret-here
+            APP_SECRET: dinmorergrim
         depends_on:
             - db
 

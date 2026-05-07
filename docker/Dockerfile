@@ -42,7 +42,7 @@ RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | b
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
-COPY .. .
+COPY . .
 
 RUN composer install
 RUN php bin/console tailwind:build
@@ -51,7 +51,7 @@ RUN php bin/console asset-map:compile
 RUN chown -R www-data:www-data /var/www
 
 # Copy entrypoint
-COPY setup.sh /setup.sh
+COPY docker/setup.sh /setup.sh
 RUN chmod +x /setup.sh
 
 EXPOSE 8000
