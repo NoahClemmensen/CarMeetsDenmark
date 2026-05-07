@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Enum\ProfileType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -32,11 +31,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['owner'])]
     private ?string $timezone = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['public'])]
     private ?string $language = null;
 
@@ -51,9 +50,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
-
-    #[ORM\Column(enumType: ProfileType::class, nullable: true)]
-    private ?ProfileType $profileType = null;
 
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $instagramUrl = null;
@@ -205,18 +201,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsDeleted(bool $isDeleted): static
     {
         $this->isDeleted = $isDeleted;
-
-        return $this;
-    }
-
-    public function getProfileType(): ?ProfileType
-    {
-        return $this->profileType;
-    }
-
-    public function setProfileType(?ProfileType $profileType): static
-    {
-        $this->profileType = $profileType;
 
         return $this;
     }

@@ -19,8 +19,8 @@ final class WebTargetPath
      * Paths that should never be used as redirect targets.
      */
     private const EXCLUDED_PATH_PREFIXES = [
-        '/web/login',
-        '/web/logout',
+        '/login',
+        '/logout',
     ];
 
     /**
@@ -28,7 +28,7 @@ final class WebTargetPath
      * Returns the validated path or null if invalid.
      *
      * Security checks:
-     * - Must start with /web/ prefix
+     * - Must be a non-empty relative path (not just '/')
      * - Must not exceed maximum URL length
      * - Must not contain path traversal sequences (..)
      * - Must not contain protocol patterns that could lead to open redirects
@@ -57,8 +57,8 @@ final class WebTargetPath
 
         $urlPath = $parsedUrl['path'] ?? '';
 
-        // Must start with /web/
-        if (!str_starts_with($urlPath, '/web/')) {
+        // Must be a non-empty absolute path
+        if ($urlPath === '' || $urlPath === '/') {
             return null;
         }
 
@@ -77,9 +77,9 @@ final class WebTargetPath
             return null;
         }
 
-        // Don't allow login-related paths
+        // Don't allow login/logout paths as redirect targets
         foreach (self::EXCLUDED_PATH_PREFIXES as $excluded) {
-            if (str_starts_with($urlPath, $excluded)) {
+            if ($urlPath === $excluded || str_starts_with($urlPath, $excluded . '/')) {
                 return null;
             }
         }

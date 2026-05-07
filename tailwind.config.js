@@ -15,7 +15,7 @@ module.exports = {
                 'primary': '#0284c7',
                 'primary-gradient': '#6daac9',
                 'primary-active': '#02a0f1', // used for active + hover in side nav
-                'primary-container': '#a6bdc9',
+                'primary-container': '#c6eafc',
                 'on-primary': '#ffffff', // white text on primary (orange) backgrounds
                 // 'primary': '#ff5113',
                 // 'primary-gradient': '#FFA788',

@@ -2,7 +2,7 @@
 
 namespace App\Dto;
 
-use App\Enum\ProfileType;
+use App\Enum\UserRole;
 use DateTimeZone;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,15 +13,15 @@ class UserSetupDTO
 
     public string $description = '';
 
-    public ?ProfileType $profileType = null;
+    public ?UserRole $role = null;
 
-    public string $instagramUrl = '';
+    public ?string $instagramUrl = '';
 
-    public string $youtubeUrl = '';
+    public ?string $youtubeUrl = '';
 
-    public string $facebookUrl = '';
+    public ?string $facebookUrl = '';
 
-    public string $websiteUrl = '';
+    public ?string $websiteUrl = '';
 
     #[Assert\Timezone(zone: DateTimeZone::ALL_WITH_BC, message: 'Invalid timezone.')]
     public ?string $timezone = null;

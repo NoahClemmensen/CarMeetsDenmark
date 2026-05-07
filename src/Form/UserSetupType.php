@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Dto\UserSetupDTO;
-use App\Enum\ProfileType;
+use App\Enum\UserRole;
 use App\Form\Type\IconTextType;
 use App\Form\Type\SegmentedChoiceType;
 use Symfony\Component\Form\AbstractType;
@@ -57,12 +57,12 @@ class UserSetupType extends AbstractType
                 'attr' => ['placeholder' => 'yourwebsite.com'],
                 'icon' => 'link',
             ])
-            ->add('profileType', SegmentedChoiceType::class, [
-                'class' => ProfileType::class,
+            ->add('role', SegmentedChoiceType::class, [
+                'class' => UserRole::class,
                 'label' => false,
                 'required' => false,
                 'placeholder' => false,
-                'choice_label' => fn(ProfileType $type) => $type->value,
+                'choice_label' => fn(UserRole $role) => $role->label(),
             ])
             ->add('timezone', HiddenType::class, [
                 'attr' => ['data-user-setup-target' => 'timezoneInput'],

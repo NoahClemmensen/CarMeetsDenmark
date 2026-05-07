@@ -22,6 +22,7 @@ security:
                 login_path: web_login
                 check_path: web_login
                 enable_csrf: true
+                default_target_path: web_home
             logout:
                 path: web_logout
                 # where to redirect after logout
