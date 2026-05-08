@@ -11,6 +11,14 @@ class UserService
 {
     public function __construct(private readonly EntityManagerInterface $em) {}
 
+    /**
+     * Apply a setup-form DTO to a User and persist.
+     *
+     * The role-merging step is the subtle part: we strip the implicit
+     * `ROLE_USER` and any existing profile role from {@see UserRole}, then
+     * append the newly-chosen profile role. Anything else on the user
+     * (e.g. `ROLE_SUPPORT`, `ROLE_ADMIN`) is preserved.
+     */
     public function updateFromUserSetup(User $user, UserSetupDTO $dto): void
     {
         $user->setName($dto->name);

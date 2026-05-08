@@ -1,4 +1,5 @@
 /* IMPORTS */
+@import '../css/colors.css';
 @import './web/_utilities.css';
 @import './web/_alert.css';
 @import './web/_badge.css';

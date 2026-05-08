@@ -3,7 +3,6 @@
 namespace App\EventSubscriber;
 
 use App\Entity\User;
-use App\Service\MobileDetectorService;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -12,9 +11,19 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
- * Handles /web/* route interception:
- * - Redirects mobile users to the app download page
- * - Redirects authenticated users without a name to /web/setup
+ * Forces authenticated users without a profile (no `name` set) to complete
+ * setup before they can reach any other web page.
+ *
+ * The original request URI is stashed in the session as `web_setup_target`
+ * so {@see \App\Controller\UserSetupController} can return the user there
+ * after submission.
+ *
+ * Bypass list: paths under /setup, /login, /logout, /register, /verify are
+ * never redirected — otherwise the gate would loop on itself or block the
+ * verify-email and login flows.
+ *
+ * Priority 6 on KernelEvents::REQUEST runs after the firewall (priority 8)
+ * so `Security::getUser()` is populated.
  */
 readonly class WebRouteSubscriber implements EventSubscriberInterface
 {

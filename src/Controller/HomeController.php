@@ -17,4 +17,10 @@ class HomeController extends AbstractController
     {
         return $this->render("web/home/home.html.twig");
     }
+
+    #[Route("/testModal", name: "web_home_test_modal")]
+    public function testModal(): Response
+    {
+        return $this->render("web/home/_test_modal.html.twig");
+    }
 }

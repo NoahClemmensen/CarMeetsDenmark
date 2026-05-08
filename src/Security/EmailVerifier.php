@@ -10,6 +10,19 @@ use Symfony\Component\Mailer\MailerInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
+/**
+ * Wraps SymfonyCasts' VerifyEmailHelper to issue and validate signed
+ * email-verification links.
+ *
+ * On registration {@see sendEmailConfirmation()} generates a signed URL
+ * pointing at the `app_verify_email` route and emails it. On click,
+ * {@see handleEmailConfirmation()} validates the signature + expiry
+ * against the user's id and email, then flips `isVerified=true`.
+ *
+ * Verification is currently a *side flow*: nothing in the app gates on
+ * `isVerified` today, so the link can be clicked at any time without
+ * blocking onboarding. See docs/auth-onboarding-flowcharting-guide.md.
+ */
 class EmailVerifier
 {
     public function __construct(
