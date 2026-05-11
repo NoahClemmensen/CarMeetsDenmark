@@ -47,6 +47,7 @@ jobs:
                   context: .
                   file: docker/Dockerfile
                   push: true
+                  platforms: linux/amd64,linux/arm64
                   tags: |
                       ghcr.io/${{ env.OWNER_LC }}/carmeetsdenmark:${{ github.event.release.tag_name || inputs.tag }}
                       ghcr.io/${{ env.OWNER_LC }}/carmeetsdenmark:latest
