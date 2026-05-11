@@ -30,8 +30,7 @@ class UserSetupController extends AbstractController
         UserService         $userService,
         TurboStreamHelper   $turboStreamHelper,
         Security            $security,
-    ): Response
-    {
+    ): Response {
         $session = $request->getSession();
 
         if ($user->getName()) {
@@ -62,7 +61,8 @@ class UserSetupController extends AbstractController
                 ->addRedirect(
                     $target,
                     'Successfully completed your profile',
-                    ToastTypes::success->name)
+                    ToastTypes::success->name
+                )
                 ->makeResponse();
         }
 

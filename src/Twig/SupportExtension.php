@@ -10,7 +10,7 @@ use Twig\TwigFunction;
 class SupportExtension extends AbstractExtension
 {
     public function __construct(
-//        private readonly Security $security,
+        //        private readonly Security $security,
     ) {
     }
 
@@ -23,7 +23,7 @@ class SupportExtension extends AbstractExtension
 
     public function isSupportMode(): bool
     {
-//        return $this->security->isGranted(SupportBypassVoter::SUPPORT_ACTIVE);
+        //        return $this->security->isGranted(SupportBypassVoter::SUPPORT_ACTIVE);
         return false;
     }
 }

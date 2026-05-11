@@ -62,7 +62,7 @@ class UserSetupType extends AbstractType
                 'label' => false,
                 'required' => false,
                 'placeholder' => false,
-                'choice_label' => fn(UserRole $role) => $role->label(),
+                'choice_label' => fn (UserRole $role) => $role->label(),
             ])
             ->add('timezone', HiddenType::class, [
                 'attr' => ['data-user-setup-target' => 'timezoneInput'],
