@@ -93,6 +93,12 @@
     <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
 {% endblock %}
 
+{# ── File widget: auto-add .form-file (styles native ::file-selector-button) ── #}
+{% block file_widget %}
+    {% set attr = attr|merge({ class: (attr.class|default('') ~ ' form-file')|trim }) %}
+    <input type="file" {{ block('widget_attributes') }}/>
+{% endblock %}
+
 {# ── Select widget: auto-add .form-select ── #}
 {% block choice_widget_collapsed %}
     {% set attr = attr|merge({ class: (attr.class|default('') ~ ' form-select')|trim }) %}

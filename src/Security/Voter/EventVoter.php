@@ -7,29 +7,27 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
-/**
- * Votes on the elevated roles `ROLE_SUPPORT` and `ROLE_ADMIN`.
- *
- * Exists so the rest of the codebase can use the class constants
- * (`SupportVoter::ROLE_SUPPORT`) instead of spelling the magic strings.
- * The decision is straightforward: grant the attribute if it appears
- * verbatim in `User::getRoles()`. There is no role hierarchy
- */
-class SupportVoter extends Voter
+class EventVoter extends Voter
 {
-    public const string ROLE_SUPPORT = 'ROLE_SUPPORT';
-    public const string ROLE_ADMIN = 'ROLE_ADMIN';
+    public const string VIEW = 'VIEW';
+    public const string SAVE = 'SAVE';
 
     private const array SUPPORTED_ATTRIBUTES = [
-        self::ROLE_SUPPORT,
-        self::ROLE_ADMIN,
+        self::VIEW,
+        self::SAVE,
     ];
 
+    /**
+     * @inheritDoc
+     */
     protected function supports(string $attribute, mixed $subject): bool
     {
         return in_array($attribute, self::SUPPORTED_ATTRIBUTES, true);
     }
 
+    /**
+     * @inheritDoc
+     */
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool
     {
         $user = $token->getUser();
@@ -37,6 +35,8 @@ class SupportVoter extends Voter
             return false;
         }
 
-        return in_array($attribute, $user->getRoles(), true);
+        // No special permissions for events just yet
+        // PoC banned people from certain events can be done here.
+        return true;
     }
 }

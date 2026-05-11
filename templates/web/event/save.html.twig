@@ -1,0 +1,79 @@
+{% extends 'web/base.html.twig' %}
+{% import 'web/event/_macros.html.twig' as eventMacros %}
+{% import 'web/_icons.html.twig' as icons %}
+
+{% block title %}{{ event ? 'Edit event' : 'New event' }} – CMD{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block body %}
+    <div class="w-full max-w-lg">
+        {{ form_start(form) }}
+
+        <h1 class="text-2xl font-bold text-primary-text mb-4">
+            {{ event ? 'Edit event' : 'New event' }}
+        </h1>
+
+        {% set hasSavedBanner = event and event.imageFilename %}
+        <div class="event-banner-editor mb-4"
+             data-controller="event-banner-editor"
+             data-has-saved-banner="{{ hasSavedBanner ? 'true' : 'false' }}">
+            <img data-event-banner-editor-target="image"
+                 src="{{ eventMacros.banner_url(event) }}"
+                 alt="{{ event ? event.name : 'Banner preview' }}"
+                 class="event-banner-editor__image">
+
+            <div class="event-banner-editor__overlay">
+                <label for="{{ form.imageFile.vars.id }}" class="event-banner-editor__btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round" class="w-3.5 h-3.5">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="17 8 12 3 7 8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                    <span>Change</span>
+                </label>
+
+                <button type="button"
+                        data-action="click->event-banner-editor#remove"
+                        data-event-banner-editor-target="removeBtn"
+                        class="event-banner-editor__btn{% if not hasSavedBanner %} hidden{% endif %}">
+                    {{ icons.trashcan({size: 14}) }}
+                    <span>Remove</span>
+                </button>
+            </div>
+
+            <div class="event-banner-editor__inputs">
+                {{ form_widget(form.imageFile, {
+                    attr: {
+                        'data-event-banner-editor-target': 'fileInput',
+                        'data-action': 'change->event-banner-editor#previewFile',
+                        'accept': 'image/jpeg,image/png,image/gif,image/webp',
+                    }
+                }) }}
+                {{ form_widget(form.removeImage, {
+                    attr: {
+                        'data-event-banner-editor-target': 'removeCheckbox',
+                    }
+                }) }}
+            </div>
+        </div>
+
+        {{ form_errors(form.imageFile) }}
+
+        <div class="card p-6 mb-3">
+            {{ form_row(form.name) }}
+            {{ form_row(form.description) }}
+        </div>
+
+        {{ form_errors(form) }}
+
+        <button type="submit" class="btn-cta w-full justify-center">
+            {{ event ? 'Save changes' : 'Create event' }}
+        </button>
+
+        {{ form_widget(form._token) }}
+        {{ form_end(form, {render_rest: false}) }}
+    </div>
+{% endblock %}

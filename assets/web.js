@@ -19,6 +19,7 @@ import QrModalController from "./controllers/qr_modal_controller.js";
 import SegmentedControlController from "./controllers/segmented_control_controller.js";
 import SubmitOnceController from "./controllers/submit_once_controller.js";
 import UserSetupController from "./controllers/user_setup_controller.js";
+import EventBannerEditorController from "./controllers/event_banner_editor_controller.js";
 import './turbo-actions/redirect.js'; // Custom Turbo Stream actions — self-registering
 import './turbo-actions/copy_to_clipboard.js';
 
@@ -36,6 +37,7 @@ application.register('qr-modal', QrModalController);
 application.register('segmented-control', SegmentedControlController);
 application.register('submit-once', SubmitOnceController);
 application.register('user-setup', UserSetupController);
+application.register('event-banner-editor', EventBannerEditorController);
 
 // Turbo is enabled automatically on import
 Turbo.setProgressBarDelay(100);

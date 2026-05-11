@@ -19,6 +19,53 @@
         @apply border-neutral-dark border border-solid bg-neutral-light rounded-container px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary text-primary-text resize-y min-h-24;
     }
 
+    .form-file {
+        @apply block w-full text-sm text-secondary-text
+            bg-neutral-light border border-solid border-neutral-dark rounded-container
+            cursor-pointer overflow-hidden
+            focus:outline-none focus:ring-2 focus:ring-primary;
+    }
+
+    .form-file::file-selector-button {
+        @apply text-sm font-medium px-4 py-2 mr-3 bg-primary text-white border-0
+            cursor-pointer transition-colors duration-200;
+    }
+
+    .form-file::file-selector-button:hover {
+        @apply bg-primary-active;
+    }
+
+    /* Banner editor: <img> with overlay change/remove buttons. */
+    .event-banner-editor {
+        @apply relative w-full overflow-hidden rounded-container bg-neutral;
+    }
+
+    .event-banner-editor__image {
+        @apply block w-full max-h-64 object-cover transition-opacity duration-200;
+    }
+
+    .event-banner-editor--remove .event-banner-editor__image {
+        @apply opacity-30;
+    }
+
+    .event-banner-editor__overlay {
+        @apply absolute top-2 right-2 flex gap-2;
+    }
+
+    .event-banner-editor__btn {
+        @apply inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5
+            bg-black/60 text-white rounded-button cursor-pointer
+            border-0 transition-colors duration-200;
+    }
+
+    .event-banner-editor__btn:hover {
+        @apply bg-black/80;
+    }
+
+    .event-banner-editor__inputs {
+        @apply hidden;
+    }
+
     .form-label {
         @apply block text-sm font-medium text-primary-text mb-1;
     }

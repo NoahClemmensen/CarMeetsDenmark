@@ -24,7 +24,7 @@
 .env.dev
 /migrations/
 /docs/
+/public/uploads/
 
 .php-cs-fixer.cache
 .phplint-cache
-

@@ -11,7 +11,7 @@ class UserSetupDTO
     #[Assert\NotBlank(message: 'Name is required.')]
     public string $name = '';
 
-    public string $description = '';
+    public ?string $description = '';
 
     public ?UserRole $role = null;
 

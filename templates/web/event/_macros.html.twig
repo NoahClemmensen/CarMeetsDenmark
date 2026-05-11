@@ -1,0 +1,8 @@
+{# Resolves the banner image URL for an event.
+   Falls back to the stock image when no banner is set.
+   Future: prefer host's banner before falling back to stock. #}
+{% macro banner_url(event) %}
+    {{- event and event.imageFilename
+        ? asset('uploads/event-banners/' ~ event.imageFilename)
+        : asset('stock-carmeet.jpg') -}}
+{% endmacro %}

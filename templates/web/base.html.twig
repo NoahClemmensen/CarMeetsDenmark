@@ -34,13 +34,13 @@
                     <a href="{{ path('web_home') }}"
                        class="sidebar-link {{ isActive ? 'active' : '' }}">
                         {{ icons.dashboard() }}
-                        <span>Events</span>
+                        <span>Home</span>
                     </a>
-                    {% set isActive = app.request.attributes.get('_route') == 'web_logout' %}
-                    <a href="{{ path('web_home') }}"
+                    {% set isActive = app.request.attributes.get('_route') == 'app_event_index' %}
+                    <a href="{{ path('app_event_index') }}"
                        class="sidebar-link {{ isActive ? 'active' : '' }}">
                         {{ icons.location() }}
-                        <span>Something</span>
+                        <span>Events</span>
                     </a>
                 </div>
 
