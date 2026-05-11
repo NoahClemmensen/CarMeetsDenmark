@@ -24,3 +24,4 @@
 .env.dev
 /migrations/
 /docs/
+/public/uploads/
