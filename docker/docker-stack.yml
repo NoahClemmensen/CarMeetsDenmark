@@ -1,5 +1,9 @@
 version: "3.8"
 
+networks:
+    symfony_net:
+        driver: overlay
+
 services:
     db:
         image: mysql:9.3
@@ -45,27 +49,6 @@ services:
         networks:
             - symfony_net
 
-    watchtower:
-        image: containrrr/watchtower
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-            - /root/.docker/config.json:/config.json  # GHCR auth
-        environment:
-            WATCHTOWER_POLL_INTERVAL: 30
-            WATCHTOWER_CLEANUP: "true"
-        deploy:
-            replicas: 1
-            placement:
-                constraints:
-                    - node.role == manager
-            restart_policy:
-                condition: on-failure
-        networks:
-            - symfony_net
-
 volumes:
     db_data:
 
-networks:
-    symfony_net:
-        driver: overlay

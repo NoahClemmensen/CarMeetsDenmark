@@ -5,12 +5,13 @@ set -e
 echo "Waiting for database..."
 sleep 10
 
-echo "debug"
-ls
+echo "Give permissions..."
+chmod -R 777 ./
+
 
 echo "Running migrations..."
-php bin/console make:migrations
-php bin/console doctrine:migrations:migrate --no-interaction
+php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+php bin/console doctrine:schema:update --force
 
 echo "Starting Symfony..."
-symfony serve --no-tls --port=8000 --allow-all-ip
+exec symfony serve --no-tls --port=8000 --allow-all-ip
