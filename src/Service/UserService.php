@@ -9,7 +9,9 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class UserService
 {
-    public function __construct(private readonly EntityManagerInterface $em) {}
+    public function __construct(private readonly EntityManagerInterface $em)
+    {
+    }
 
     /**
      * Apply a setup-form DTO to a User and persist.
@@ -25,7 +27,7 @@ class UserService
         $user->setDescription($dto->description ?: null);
 
         $profileRoleValues = array_column(UserRole::cases(), 'value');
-        $roles = array_values(array_filter($user->getRoles(), fn($r) => $r !== 'ROLE_USER' && !in_array($r, $profileRoleValues)));
+        $roles = array_values(array_filter($user->getRoles(), fn ($r) => $r !== 'ROLE_USER' && !in_array($r, $profileRoleValues)));
         if ($dto->role !== null) {
             $roles[] = $dto->role->value;
         }
