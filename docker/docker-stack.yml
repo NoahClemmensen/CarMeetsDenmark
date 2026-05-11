@@ -45,6 +45,9 @@ services:
             restart_policy:
                 condition: on-failure
                 delay: 5s
+        networks:
+            - symfony_net
+
     mailpit:
         image: axllent/mailpit
         ports:
