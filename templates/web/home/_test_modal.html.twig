@@ -1,0 +1,22 @@
+{% extends 'components/Modal/ContentShell.html.twig' %}
+
+{% block header %}
+    <twig:Modal:Header title="QR Code" />
+{% endblock %}
+
+{% block body %}
+    <div class="flex flex-col items-center justify-center py-8 gap-2"
+         data-controller="qr-modal"
+         data-qr-modal-uuid-value="somedatalololo">
+        <div data-qr-modal-target="container"></div>
+        <p>
+            Use this QR code to access this page on your mobile device or share it with others.
+        </p>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <div class="modal-footer">
+        <button type="button" class="btn-grey" data-action="click->modal#hide">Close</button>
+    </div>
+{% endblock %}

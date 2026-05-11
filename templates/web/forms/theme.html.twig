@@ -130,6 +130,18 @@
     {{ form_errors(form.phone) }}
 {% endblock %}
 
+{# ── Checkbox: inline label next to the box ── #}
+{% block checkbox_row %}
+    {% set row_class = row_attr.class|default('form-group') %}
+    <div class="{{ row_class }}"{% for key, val in row_attr|filter((v, k) => k != 'class') %} {{ key }}="{{ val }}"{% endfor %}>
+        <label class="flex items-center gap-2 cursor-pointer"{% if id %} for="{{ id }}"{% endif %}>
+            {{ form_widget(form) }}
+            <span class="text-sm text-primary-text">{{ label|default(name|humanize) }}</span>
+        </label>
+        {{ form_errors(form) }}
+    </div>
+{% endblock %}
+
 {% block phone_number_row %}
     <div class="form-group">
         {{ form_label(form) }}

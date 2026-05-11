@@ -19,6 +19,18 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+/**
+ * One-shot profile-completion form, shown the first time a user logs in.
+ *
+ * Reached because {@see \App\EventSubscriber\WebRouteSubscriber} redirects
+ * any authenticated user without a `name` to `/setup`. After successful
+ * submission, the user is sent back to the URI they originally requested
+ * (stashed in session as `web_setup_target`), or to /web/home if no safe
+ * target is on file.
+ *
+ * If the user already has a name, GET /setup short-circuits and redirects
+ * away — there's no "edit profile" UX here; that lives in /settings.
+ */
 #[IsGranted("IS_AUTHENTICATED_FULLY")]
 #[Route('/setup')]
 class UserSetupController extends AbstractController

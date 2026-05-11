@@ -71,7 +71,7 @@
     /* ==================== Colored Shadows ==================== */
 
     .elevation-primary {
-        box-shadow: 0 4px 12px rgba(255, 81, 19, 0.2);
+        box-shadow: 0 4px 12px color-mix(in srgb, var(--p-50) 20%, transparent);
     }
 
     .elevation-success {

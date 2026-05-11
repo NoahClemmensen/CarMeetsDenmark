@@ -8,7 +8,7 @@
 
     .btn-primary:hover {
         @apply bg-primary-active;
-        box-shadow: 0 4px 12px rgba(255, 81, 19, 0.25);
+        box-shadow: 0 4px 12px color-mix(in srgb, var(--p-50) 25%, transparent);
     }
 
     .btn-primary:focus-visible {
@@ -30,7 +30,7 @@
 
     .btn-primary-sm:hover {
         @apply bg-primary-active;
-        box-shadow: 0 4px 12px rgba(255, 81, 19, 0.25);
+        box-shadow: 0 4px 12px color-mix(in srgb, var(--p-50) 25%, transparent);
     }
 
     .btn-primary-sm:focus-visible {
@@ -48,7 +48,7 @@
 
     .btn-primary-icon-only:hover {
         @apply bg-primary-active;
-        box-shadow: 0 4px 12px rgba(255, 81, 19, 0.25);
+        box-shadow: 0 4px 12px color-mix(in srgb, var(--p-50) 25%, transparent);
     }
 
     .btn-primary-icon-only:focus-visible {
@@ -161,7 +161,7 @@
 
     .btn-cta:hover {
         @apply bg-primary-active;
-        box-shadow: 0 4px 12px rgba(255, 81, 19, 0.25);
+        box-shadow: 0 4px 12px color-mix(in srgb, var(--p-10) 25%, transparent);
     }
 
     .btn-cta:focus-visible {

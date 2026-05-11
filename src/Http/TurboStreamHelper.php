@@ -7,6 +7,28 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Service\ResetInterface;
 use Twig\Environment;
 
+/**
+ * Fluent builder for `text/vnd.turbo-stream.html` responses.
+ *
+ * Inject as a constructor argument; build up a stream with the chained
+ * helpers, then call {@see makeResponse()}. Implements ResetInterface so
+ * Symfony clears accumulated streams between requests in long-running
+ * workers.
+ *
+ * Each helper pairs with a client-side consumer:
+ *  - {@see addToast()}      → templates/web/_turbo/toast_stream.html.twig
+ *                             + assets/controllers/toast_controller.js
+ *  - {@see addFlash()}      → templates/web/_turbo/flash_stream.html.twig
+ *  - {@see addRedirect()}   → assets/turbo-actions/redirect.js
+ *                             (carries an optional toast across the navigation
+ *                             via sessionStorage)
+ *  - {@see copyToClipboard()} → assets/turbo-actions/copy_to_clipboard.js
+ *  - {@see replace()} / {@see remove()} → standard Turbo Stream actions
+ *
+ * Adding a new helper: also register a matching `Turbo.StreamActions[...]`
+ * in assets/turbo-actions/, import it from assets/web.js, and document
+ * both sides in docs/turbo-streams-contract.md.
+ */
 class TurboStreamHelper implements ResetInterface
 {
     private array $streams = [];
