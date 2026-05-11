@@ -1,4 +1,4 @@
-FROM php:8.4-fpm
+FROM php:8.4
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -32,27 +32,30 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
     intl \
     opcache
 
-# Install Composer
+# Install Composer (only once)
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Install Symfony CLI
 RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | bash && \
     apt-get install -y symfony-cli
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
 WORKDIR /var/www
 COPY . .
 
 RUN composer install
+
 RUN php bin/console tailwind:build
 RUN php bin/console asset-map:compile
 
-RUN chown -R www-data:www-data /var/www
+# Pre-warm the cache as www-data so no runtime writes are needed
+RUN APP_ENV=prod php bin/console cache:warmup
 
-# Copy entrypoint
+# Copy entrypoint before chown so everything gets correct ownership in one pass
 COPY docker/setup.sh /setup.sh
 RUN chmod +x /setup.sh
+
+# Set correct ownership for the entire app including pre-warmed cache
+RUN chown -R www-data:www-data /var/www /setup.sh
 
 EXPOSE 8000
 ENTRYPOINT ["/setup.sh"]
