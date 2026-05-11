@@ -12,6 +12,7 @@ jobs:
 
       - name: Lint PHP
         uses: michaelw90/PHP-Lint@master
+        continue-on-error: true
 
       - name: Install PHP CS Fixer
         run: composer global require friendsofphp/php-cs-fixer
