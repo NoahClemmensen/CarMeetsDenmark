@@ -9,7 +9,9 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class FileUploader
 {
-    public function __construct(private readonly SluggerInterface $slugger) {}
+    public function __construct(private readonly SluggerInterface $slugger)
+    {
+    }
 
     public function upload(UploadedFile $file, string $directory, ?string $previousFilename = null): string
     {

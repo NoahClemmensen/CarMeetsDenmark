@@ -18,7 +18,8 @@ class EventService
         private readonly FileUploader $fileUploader,
         #[Autowire('%event_banners_directory%')]
         private readonly string $bannerDirectory,
-    ) {}
+    ) {
+    }
 
     public function saveFromDto(
         ?Event $event,

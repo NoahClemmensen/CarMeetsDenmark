@@ -56,8 +56,7 @@ class EventController extends AbstractController
         TurboStreamHelper $turbo,
         EventService $eventService,
         ?string $uuid = null,
-    ): Response
-    {
+    ): Response {
         $event = null;
         if ($uuid !== null) {
             $event = $this->eventRepository->findOneBy(['uuid' => $uuid, 'isDeleted' => false]);
