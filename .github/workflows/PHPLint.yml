@@ -1,8 +1,25 @@
 name: PHPLint
-on: pull_request 
+on: pull_request
 jobs:
   phplint:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-        - uses: actions/checkout@v1
-        - uses: michaelw90/PHP-Lint@master
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Lint PHP
+        uses: michaelw90/PHP-Lint@master
+
+      - name: Install PHP CS Fixer
+        run: composer global require friendsofphp/php-cs-fixer
+
+      - name: Fix code style
+        run: php-cs-fixer fix . --rules=@PSR12
+
+      - name: Commit fixes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "style: auto-fix PHP code style"
