@@ -3,6 +3,7 @@
 namespace App\Twig;
 
 //use App\Security\Voter\SupportBypassVoter;
+use App\Security\Voter\SupportVoter;
 use Symfony\Bundle\SecurityBundle\Security;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -10,7 +11,7 @@ use Twig\TwigFunction;
 class SupportExtension extends AbstractExtension
 {
     public function __construct(
-        //        private readonly Security $security,
+        private readonly Security $security,
     ) {
     }
 
@@ -23,7 +24,6 @@ class SupportExtension extends AbstractExtension
 
     public function isSupportMode(): bool
     {
-        //        return $this->security->isGranted(SupportBypassVoter::SUPPORT_ACTIVE);
-        return false;
+        return $this->security->isGranted(SupportVoter::ROLE_SUPPORT);
     }
 }

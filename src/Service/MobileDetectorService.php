@@ -4,6 +4,13 @@ namespace App\Service;
 
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Best-effort User-Agent sniff to detect mobile clients.
+ *
+ * Intended for *coarse* routing decisions like "redirect mobile users
+ * to the app download page", NOT for layout — use CSS media queries
+ * for that.
+ */
 readonly class MobileDetectorService
 {
     public const array MOBILE_KEYWORDS = [

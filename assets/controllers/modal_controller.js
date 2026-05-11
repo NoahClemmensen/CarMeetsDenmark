@@ -74,10 +74,8 @@ export default class extends Controller {
     showSkeleton() {
         if (this.hasHeaderTarget) {
             this.headerTarget.innerHTML =
-                '<div class="modal-header">' +
                 '<div class="h-6 w-44 bg-neutral-dark rounded animate-pulse"></div>' +
-                '<div class="h-6 w-6 bg-neutral-dark rounded animate-pulse"></div>' +
-                '</div>';
+                '<div class="h-6 w-6 bg-neutral-dark rounded animate-pulse"></div>';
         }
         if (this.hasBodyTarget) {
             this.bodyTarget.innerHTML =

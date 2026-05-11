@@ -23,3 +23,8 @@
 /.idea/
 .env.dev
 /migrations/
+/docs/
+
+.php-cs-fixer.cache
+.phplint-cache
+
