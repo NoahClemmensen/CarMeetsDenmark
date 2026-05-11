@@ -10,8 +10,7 @@ chmod -R 777 ./
 
 
 echo "Running migrations..."
-php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
-php bin/console doctrine:schema:update --force
+php bin/console doctrine:schema:update --force --no-interaction
 
 echo "Starting Symfony..."
 exec symfony serve --no-tls --port=8000 --allow-all-ip

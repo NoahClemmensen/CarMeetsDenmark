@@ -16,7 +16,6 @@ services:
             MYSQL_USER: admin
             MYSQL_PASSWORD: stikadmin1bajer
         volumes:
-            - ./config:/etc/mysql/conf.d
             - db_data:/var/lib/mysql
         deploy:
             replicas: 1
