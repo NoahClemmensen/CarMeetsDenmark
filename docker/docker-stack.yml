@@ -36,6 +36,7 @@ services:
             DATABASE_URL: "mysql://admin:stikadmin1bajer@db:3306/carmeetsdenmark?serverVersion=9.3"
             APP_ENV: prod
             APP_SECRET: your-app-secret-here
+            MAILER_DSN: "smtp://mailpit:1025"
         deploy:
             replicas: 2
             update_config:
