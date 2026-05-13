@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use App\Enum\EventRepeatFrequency;
 use App\Repository\EventRepository;
+use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -24,9 +26,40 @@ class Event
     #[Groups(['public'])]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['public'])]
     private ?string $description = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['public'])]
+    private ?DateTimeInterface $startDate = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Groups(['public'])]
+    private ?DateTimeInterface $endDate = null;
+
+    #[ORM\Column(length: 255)]
+    #[Groups(['public'])]
+    private ?string $location = null;
+
+    #[ORM\Column]
+    #[Groups(['public'])]
+    private ?int $createdAt;
+
+    #[ORM\Column(length: 255)]
+    private ?string $timezone = null;
+
+    #[ORM\Column(length: 20, nullable: true, enumType: EventRepeatFrequency::class)]
+    #[Groups(['public'])]
+    private ?EventRepeatFrequency $repeatFrequency = null;
+
+    #[ORM\Column(nullable: true)]
+    #[Groups(['public'])]
+    private ?int $repeatAmount = null;
+
+    #[ORM\Column(options: ['default' => 0])]
+    #[Groups(['public'])]
+    private int $interest = 0;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imageFilename = null;
@@ -34,6 +67,9 @@ class Event
     #[ORM\ManyToOne(inversedBy: 'events')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?User $host;
+
+    #[ORM\Column(type: 'boolean')]
+    private  bool $private = false;
 
     #[ORM\Column(type: 'boolean')]
     private bool $isDeleted = false;
@@ -44,6 +80,7 @@ class Event
     public function __construct(User $user)
     {
         $this->uuid = Uuid::v4()->toRfc4122();
+        $this->createdAt = time();
         $this->host = $user;
     }
 
@@ -74,9 +111,105 @@ class Event
         return $this->description;
     }
 
-    public function setDescription(string $description): static
+    public function setDescription(?string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getStartDate(): ?DateTimeInterface
+    {
+        return $this->startDate;
+    }
+
+    public function setStartDate(DateTimeInterface $startDate): static
+    {
+        $this->startDate = $startDate;
+
+        return $this;
+    }
+
+    public function getEndDate(): ?DateTimeInterface
+    {
+        return $this->endDate;
+    }
+
+    public function setEndDate(?DateTimeInterface $endDate): static
+    {
+        $this->endDate = $endDate;
+
+        return $this;
+    }
+
+    public function getLocation(): ?string
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?string $location): static
+    {
+        $this->location = $location;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?int
+    {
+        return $this->createdAt;
+    }
+
+    public function getTimezone(): ?string
+    {
+        return $this->timezone;
+    }
+
+    public function setTimezone(?string $timezone): static
+    {
+        $this->timezone = $timezone;
+
+        return $this;
+    }
+
+    public function getRepeatFrequency(): ?EventRepeatFrequency
+    {
+        return $this->repeatFrequency;
+    }
+
+    public function setRepeatFrequency(?EventRepeatFrequency $repeatFrequency): static
+    {
+        $this->repeatFrequency = $repeatFrequency;
+
+        return $this;
+    }
+
+    public function getRepeatAmount(): ?int
+    {
+        return $this->repeatAmount;
+    }
+
+    public function setRepeatAmount(?int $repeatAmount): static
+    {
+        $this->repeatAmount = $repeatAmount;
+
+        return $this;
+    }
+
+    public function getInterest(): int
+    {
+        return $this->interest;
+    }
+
+    public function setInterest(int $interest): static
+    {
+        $this->interest = $interest;
+
+        return $this;
+    }
+
+    public function incrementInterest(): static
+    {
+        ++$this->interest;
 
         return $this;
     }
@@ -101,6 +234,18 @@ class Event
     public function setHost(?User $host): static
     {
         $this->host = $host;
+
+        return $this;
+    }
+
+    public function isPrivate(): bool
+    {
+        return $this->private;
+    }
+
+    public function setPrivate(bool $private): static
+    {
+        $this->private = $private;
 
         return $this;
     }

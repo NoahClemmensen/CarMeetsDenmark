@@ -31,7 +31,14 @@ class EventService
         $event ??= new Event($author);
 
         $event->setName($dto->name);
-        $event->setDescription((string) $dto->description);
+        $event->setDescription($dto->description);
+        $event->setStartDate($dto->startDate);
+        $event->setEndDate($dto->endDate);
+        $event->setLocation($dto->location);
+        $event->setPrivate($dto->private);
+        $event->setTimezone($dto->timezone ?? $author->getTimezone());
+        $event->setRepeatFrequency($dto->repeatFrequency);
+        $event->setRepeatAmount($dto->repeatAmount);
 
         // Removal runs before upload so checking "remove" + picking a new file still works.
         if ($removeBanner && $event->getImageFilename() !== null) {
@@ -52,5 +59,19 @@ class EventService
         $this->em->flush();
 
         return $event;
+    }
+
+    public function softDelete(Event $event): void
+    {
+        $event->setIsDeleted(true);
+        $this->em->flush();
+    }
+
+    public function incrementInterest(Event $event): int
+    {
+        $event->incrementInterest();
+        $this->em->flush();
+
+        return $event->getInterest();
     }
 }

@@ -3,11 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -19,6 +21,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    #[ORM\Column(type: Types::GUID)]
+    #[Groups(['public', 'sync'])]
+    private ?string $uuid = null;
 
     #[ORM\Column]
     #[Groups(['public'])]
@@ -66,21 +72,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $isDeleted = false;
 
+    public function __construct()
+    {
+        $this->createdAt = time();
+        $this->uuid = Uuid::v4()->toRfc4122();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    public function getUuid(): ?string
+    {
+        return $this->uuid;
+    }
+
     public function getCreatedAt(): ?int
     {
         return $this->createdAt;
-    }
-
-    public function setCreatedAt(int $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
     }
 
     public function getName(): ?string
@@ -251,5 +261,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->websiteUrl = $websiteUrl;
 
         return $this;
+    }
+
+    public function isAdmin()
+    {
+        return in_array('ROLE_ADMIN', $this->getRoles(), true);
+    }
+
+    public function isSupport()
+    {
+        return in_array('ROLE_SUPPORT', $this->getRoles(), true);
     }
 }

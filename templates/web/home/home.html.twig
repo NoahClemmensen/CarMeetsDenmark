@@ -1,4 +1,4 @@
-﻿{% extends 'web/base.html.twig' %}
+{% extends 'web/base.html.twig' %}
 
 {% block title %}Home - CMD{% endblock %}
 
@@ -8,13 +8,6 @@
     <div class="w-full max-w-md">
         <div class="card p-8">
             <p>Home</p>
-            <button class="btn-cta"
-                    type="button"
-                    data-controller="modal-trigger"
-                    data-action="click->modal-trigger#open"
-                    data-modal-trigger-url-value="{{ path('web_home_test_modal') }}">
-                Modal test
-            </button>
         </div>
     </div>
 {% endblock %}

@@ -68,8 +68,41 @@
 
 {% block date_widget %}
     {% if widget == 'single_text' %}
-        {% set attr = attr|merge({ class: (attr.class|default('') ~ ' form-input')|trim }) %}
+        {% set classes = 'form-input' ~ (value is empty ? ' is-empty' : '') %}
+        {% set attr = attr|merge({
+            class: (attr.class|default('') ~ ' ' ~ classes)|trim,
+            'data-controller': (attr['data-controller']|default('') ~ ' date-input')|trim,
+            'data-action': (attr['data-action']|default('') ~ ' input->date-input#sync change->date-input#sync')|trim,
+        }) %}
         <input type="{{ type|default('date') }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    {% else %}
+        {{ block('form_widget') }}
+    {% endif %}
+{% endblock %}
+
+{% block datetime_widget %}
+    {% if widget == 'single_text' %}
+        {% set classes = 'form-input' ~ (value is empty ? ' is-empty' : '') %}
+        {% set attr = attr|merge({
+            class: (attr.class|default('') ~ ' ' ~ classes)|trim,
+            'data-controller': (attr['data-controller']|default('') ~ ' date-input')|trim,
+            'data-action': (attr['data-action']|default('') ~ ' input->date-input#sync change->date-input#sync')|trim,
+        }) %}
+        <input type="datetime-local" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    {% else %}
+        {{ block('form_widget') }}
+    {% endif %}
+{% endblock %}
+
+{% block time_widget %}
+    {% if widget == 'single_text' %}
+        {% set classes = 'form-input' ~ (value is empty ? ' is-empty' : '') %}
+        {% set attr = attr|merge({
+            class: (attr.class|default('') ~ ' ' ~ classes)|trim,
+            'data-controller': (attr['data-controller']|default('') ~ ' date-input')|trim,
+            'data-action': (attr['data-action']|default('') ~ ' input->date-input#sync change->date-input#sync')|trim,
+        }) %}
+        <input type="time" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
     {% else %}
         {{ block('form_widget') }}
     {% endif %}

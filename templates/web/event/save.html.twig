@@ -7,6 +7,16 @@
 {% block header %}{% endblock %}
 
 {% block body %}
+<style>
+    .setup-section-label {
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+    .accordion-trigger:hover { background-color: rgba(0,0,0,0.02); }
+</style>
+
     <div class="w-full max-w-lg">
         {{ form_start(form) }}
 
@@ -64,7 +74,90 @@
 
         <div class="card p-6 mb-3">
             {{ form_row(form.name) }}
-            {{ form_row(form.description) }}
+
+            <div class="mt-4">
+                <label for="{{ form.description.vars.id }}" class="form-label flex items-center gap-2 mb-1">
+                    Description
+                    <span class="setup-optional-badge bg-neutral text-secondary-text">optional</span>
+                </label>
+                {{ form_widget(form.description) }}
+                {{ form_errors(form.description) }}
+            </div>
+        </div>
+
+        <div class="card p-6 mb-3">
+            {{ form_row(form.startDate) }}
+            <div class="mt-4">
+                {{ form_row(form.location) }}
+            </div>
+            <div class="mt-4">
+                {{ form_row(form.private) }}
+            </div>
+        </div>
+
+        <div class="card overflow-hidden mb-5">
+
+            {# Repeats #}
+            <div data-controller="accordion">
+                <button type="button"
+                        data-action="click->accordion#toggle"
+                        aria-expanded="false"
+                        class="accordion-trigger w-full flex items-center justify-between px-6 py-4 text-left">
+                    <p class="setup-section-label text-secondary-text">Repeats</p>
+                    <span data-accordion-target="icon" class="shrink-0">{{ icons.chevronDown({class: 'text-secondary-text', size: 16}) }}</span>
+                </button>
+                <div data-accordion-target="panel">
+                    <div class="px-6 pt-2 pb-5">
+                        <div class="flex items-end gap-3">
+                            <div class="w-24">
+                                {{ form_row(form.repeatAmount) }}
+                            </div>
+                            <div class="flex-1">
+                                {{ form_row(form.repeatFrequency) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-neutral-dark opacity-40 mx-6"></div>
+
+            {# Ends #}
+            <div data-controller="accordion">
+                <button type="button"
+                        data-action="click->accordion#toggle"
+                        aria-expanded="false"
+                        class="accordion-trigger w-full flex items-center justify-between px-6 py-4 text-left">
+                    <p class="setup-section-label text-secondary-text">Ends</p>
+                    <span data-accordion-target="icon" class="shrink-0">{{ icons.chevronDown({class: 'text-secondary-text', size: 16}) }}</span>
+                </button>
+                <div data-accordion-target="panel">
+                    <div class="px-6 pt-2 pb-5">
+                        {{ form_widget(form.endDate) }}
+                        {{ form_errors(form.endDate) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-neutral-dark opacity-40 mx-6"></div>
+
+            {# Timezone #}
+            <div data-controller="accordion">
+                <button type="button"
+                        data-action="click->accordion#toggle"
+                        aria-expanded="false"
+                        class="accordion-trigger w-full flex items-center justify-between px-6 py-4 text-left">
+                    <p class="setup-section-label text-secondary-text">Timezone</p>
+                    <span data-accordion-target="icon" class="shrink-0">{{ icons.chevronDown({class: 'text-secondary-text', size: 16}) }}</span>
+                </button>
+                <div data-accordion-target="panel">
+                    <div class="px-6 pt-2 pb-5">
+                        {{ form_widget(form.timezone) }}
+                        {{ form_errors(form.timezone) }}
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         {{ form_errors(form) }}
@@ -75,5 +168,15 @@
 
         {{ form_widget(form._token) }}
         {{ form_end(form, {render_rest: false}) }}
+
+        {% if event and is_granted('DELETE', event) %}
+            <button type="button"
+                    class="btn-text text-error hover:bg-error-container w-full justify-center mt-4"
+                    data-controller="modal-trigger"
+                    data-action="click->modal-trigger#open"
+                    data-modal-trigger-url-value="{{ path('app_event_delete_confirm', {uuid: event.uuid}) }}">
+                Delete event
+            </button>
+        {% endif %}
     </div>
 {% endblock %}
