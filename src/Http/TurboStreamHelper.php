@@ -81,6 +81,15 @@ class TurboStreamHelper implements ResetInterface
         ));
     }
 
+    public function prepend(string $targetId, string $template, array $context = []): self
+    {
+        return $this->addStream(sprintf(
+            '<turbo-stream action="prepend" target="%s"><template>%s</template></turbo-stream>',
+            htmlspecialchars($targetId, ENT_QUOTES),
+            $this->twig->render($template, $context)
+        ));
+    }
+
     /**
      * Emit a `copy-to-clipboard` turbo-stream instructing the client to write
      * $value into the system clipboard. Pure side effect — no DOM update.
@@ -93,6 +102,14 @@ class TurboStreamHelper implements ResetInterface
         return $this->addStream(sprintf(
             '<turbo-stream action="copy-to-clipboard" value="%s"></turbo-stream>',
             htmlspecialchars($value, ENT_QUOTES)
+        ));
+    }
+
+    public function hideModal(string $modalId = 'app-modal'): self
+    {
+        return $this->addStream(sprintf(
+            '<turbo-stream action="modal-hide" modal-id="%s"><template></template></turbo-stream>',
+            htmlspecialchars($modalId, ENT_QUOTES)
         ));
     }
 

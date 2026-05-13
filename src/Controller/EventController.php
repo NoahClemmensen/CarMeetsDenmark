@@ -11,11 +11,13 @@ use App\Enum\ParticipationStatus;
 use App\Enum\ToastTypes;
 use App\Form\EventType;
 use App\Http\TurboStreamHelper;
+use App\Repository\EventReactionRepository;
 use App\Repository\EventRepository;
 use App\Repository\ParticipationRepository;
 use App\Security\Voter\EventVoter;
 use App\Service\EventService;
 use App\Service\ParticipationService;
+use App\Service\ReactionService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,6 +52,9 @@ class EventController extends AbstractController
         string $uuid,
         ParticipationService $participationService,
         ParticipationRepository $participationRepository,
+        EventReactionRepository $eventReactions,
+        \App\Repository\PostRepository $postRepository,
+        \App\Repository\PostReactionRepository $postReactions,
         #[CurrentUser] ?User $user = null,
     ): Response {
         $event = $this->eventRepository->findOneBy(['uuid' => $uuid, 'isDeleted' => false]);
@@ -58,10 +63,24 @@ class EventController extends AbstractController
         }
         $this->denyAccessUnlessGranted(EventVoter::VIEW, $event);
 
+        $feedPosts = $postRepository->findFeedPage($event, 20);
+        $hypedPostIds = $user
+            ? $postReactions->findPostIdsHypedBy($user, array_map(fn($p) => $p->getId(), $feedPosts))
+            : [];
+
+        $lastUnpinned = null;
+        foreach (array_reverse($feedPosts) as $p) {
+            if (!$p->isPinned()) { $lastUnpinned = $p; break; }
+        }
+
         return $this->render('web/event/show.html.twig', [
             'event' => $event,
             'currentUserStatus' => $user ? $participationService->getStatus($event, $user) : null,
             'participationCounts' => $participationRepository->countsByStatusForEvent($event),
+            'eventReactions' => $eventReactions,
+            'feedPosts' => $feedPosts,
+            'hypedPostIds' => $hypedPostIds,
+            'nextCursor' => $lastUnpinned?->getCreatedAt(),
         ]);
     }
 
@@ -97,27 +116,44 @@ class EventController extends AbstractController
                 'event' => $event,
                 'participationCounts' => $participationRepository->countsByStatusForEvent($event),
             ])
+            ->replace('event-feed-composer-' . $event->getUuid(), 'web/event/feed/_composer.html.twig', [
+                'event' => $event,
+            ])
             ->makeResponse();
     }
 
-    #[Route('/{uuid}/interest', name: 'app_event_interest', requirements: ['uuid' => self::UUID_REQUIREMENT], methods: ['POST'])]
-    public function interest(
+    #[Route('/{uuid}/hype', name: 'app_event_hype', requirements: ['uuid' => self::UUID_REQUIREMENT], methods: ['POST'])]
+    #[\Symfony\Component\Security\Http\Attribute\IsGranted('ROLE_USER')]
+    public function hype(
+        #[CurrentUser] User $user,
         string $uuid,
         Request $request,
+        ReactionService $reactionService,
         TurboStreamHelper $turbo,
+        EventReactionRepository $eventReactions,
     ): Response {
         $event = $this->eventRepository->findOneBy(['uuid' => $uuid, 'isDeleted' => false]);
         if ($event === null) {
             throw $this->createNotFoundException();
         }
-        $this->denyAccessUnlessGranted(EventVoter::INTERACT, $event);
+        $this->denyAccessUnlessGranted(EventVoter::VIEW, $event);
 
-        if (!$this->isCsrfTokenValid('interest-' . $event->getUuid(), (string) $request->request->get('_token'))) {
+        if (!$this->isCsrfTokenValid('hype-event-' . $event->getUuid(), (string) $request->request->get('_token'))) {
             throw $this->createAccessDeniedException('Invalid CSRF token.');
         }
 
-        // TEMP: will be replaced by ReactionService in a later task
-        return $turbo->makeResponse();
+        $reactionService->toggleEventHype($event, $user);
+        $isHyped = $eventReactions->isHypedBy($event, $user);
+
+        return $turbo
+            ->replace('event-hype-' . $event->getUuid(), 'web/_hype_button.html.twig', [
+                'count' => $event->getHypeCount(),
+                'isHyped' => $isHyped,
+                'formAction' => $this->generateUrl('app_event_hype', ['uuid' => $event->getUuid()]),
+                'csrfTokenName' => 'hype-event-' . $event->getUuid(),
+                'targetId' => 'event-hype-' . $event->getUuid(),
+            ])
+            ->makeResponse();
     }
 
     #[Route('/{uuid}/share', name: 'app_event_share', requirements: ['uuid' => self::UUID_REQUIREMENT], methods: ['GET'])]

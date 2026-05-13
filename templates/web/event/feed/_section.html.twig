@@ -1,0 +1,22 @@
+<section class="mt-6">
+    <h2 class="text-lg font-semibold text-primary-text mb-3">Feed</h2>
+
+    {% include 'web/event/feed/_composer.html.twig' with {event: event} only %}
+
+    <div id="event-feed-posts-{{ event.uuid }}">
+        {% if feedPosts is empty %}
+            {% if is_granted('POST_TO_FEED', event) %}
+                <p class="text-secondary-text text-sm text-center py-6">Be the first to post on this feed.</p>
+            {% else %}
+                <p class="text-secondary-text text-sm text-center py-6">No posts yet.</p>
+            {% endif %}
+        {% else %}
+            {% include 'web/event/feed/_posts_list.html.twig' with {
+                event: event,
+                posts: feedPosts,
+                hypedPostIds: hypedPostIds,
+                nextCursor: nextCursor,
+            } only %}
+        {% endif %}
+    </div>
+</section>

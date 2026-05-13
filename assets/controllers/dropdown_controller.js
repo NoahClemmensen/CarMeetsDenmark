@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-    static targets = ['trigger'];
+    static targets = ['trigger', 'menu'];
 
     connect() {
         this._handleClickOutside = this._handleClickOutside.bind(this);
@@ -11,12 +11,16 @@ export default class extends Controller {
         document.removeEventListener('click', this._handleClickOutside);
     }
 
-    toggle() {
+    toggle(event) {
+        event?.stopPropagation();
         this.isOpen ? this.close() : this.open();
     }
 
     open() {
         this.element.classList.add('open');
+        if (this.hasMenuTarget) {
+            this.menuTarget.classList.remove('hidden');
+        }
         if (this.hasTriggerTarget) {
             this.triggerTarget.setAttribute('aria-expanded', 'true');
         }
@@ -25,6 +29,9 @@ export default class extends Controller {
 
     close() {
         this.element.classList.remove('open');
+        if (this.hasMenuTarget) {
+            this.menuTarget.classList.add('hidden');
+        }
         if (this.hasTriggerTarget) {
             this.triggerTarget.setAttribute('aria-expanded', 'false');
         }

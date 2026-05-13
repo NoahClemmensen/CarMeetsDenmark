@@ -21,8 +21,12 @@ import SegmentedControlController from "./controllers/segmented_control_controll
 import SubmitOnceController from "./controllers/submit_once_controller.js";
 import UserSetupController from "./controllers/user_setup_controller.js";
 import EventBannerEditorController from "./controllers/event_banner_editor_controller.js";
+import PostComposerController from "./controllers/post_composer_controller.js";
+import LightboxController from "./controllers/lightbox_controller.js";
+import IgEmbedController from "./controllers/ig_embed_controller.js";
 import './turbo-actions/redirect.js'; // Custom Turbo Stream actions — self-registering
 import './turbo-actions/copy_to_clipboard.js';
+import './turbo-actions/modal_hide.js';
 
 // Start Stimulus
 const application = Application.start();
@@ -40,6 +44,9 @@ application.register('segmented-control', SegmentedControlController);
 application.register('submit-once', SubmitOnceController);
 application.register('user-setup', UserSetupController);
 application.register('event-banner-editor', EventBannerEditorController);
+application.register('post-composer', PostComposerController);
+application.register('lightbox', LightboxController);
+application.register('ig-embed', IgEmbedController);
 
 // Turbo is enabled automatically on import
 Turbo.setProgressBarDelay(100);

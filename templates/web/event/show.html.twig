@@ -2,7 +2,7 @@
 {% import 'web/event/_macros.html.twig' as eventMacros %}
 {% import 'web/_icons.html.twig' as icons %}
 
-{% block title %}{{ event.name }} – CMD{% endblock %}
+{% block title %}{{ event.name }} – CarMeetsDenmark{% endblock %}
 
 {% block header %}{% endblock %}
 
@@ -27,7 +27,13 @@
                     {% endif %}
                 </div>
                 <div class="flex items-center gap-2 shrink-0">
-                    {% include 'web/event/_hype_meter.html.twig' %}
+                    {% include 'web/_hype_button.html.twig' with {
+                        count: event.hypeCount,
+                        isHyped: app.user ? eventReactions.isHypedBy(event, app.user) : false,
+                        formAction: path('app_event_hype', {uuid: event.uuid}),
+                        csrfTokenName: 'hype-event-' ~ event.uuid,
+                        targetId: 'event-hype-' ~ event.uuid,
+                    } only %}
                     <button type="button"
                             class="btn-secondary-sm"
                             data-controller="modal-trigger"
@@ -85,18 +91,16 @@
             {% include 'web/event/_participation_counts.html.twig' %}
         </div>
 
-        {# Actions: pick a participation status + show interest #}
+        {# Actions: pick a participation status #}
         <div class="flex flex-col gap-2 mb-5">
             {% include 'web/event/_participation_widget.html.twig' %}
-
-            <form method="POST"
-                  action="{{ path('app_event_interest', {uuid: event.uuid}) }}">
-                <input type="hidden" name="_token" value="{{ csrf_token('interest-' ~ event.uuid) }}">
-                <button type="submit" class="btn-secondary w-full justify-center">
-                    {{ icons.flame({size: 14}) }}
-                    Show interest
-                </button>
-            </form>
         </div>
+
+        {% include 'web/event/feed/_section.html.twig' with {
+            event: event,
+            feedPosts: feedPosts,
+            hypedPostIds: hypedPostIds,
+            nextCursor: nextCursor,
+        } only %}
     </div>
 {% endblock %}

@@ -60,7 +60,7 @@ class Post
     private bool $isDeleted = false;
 
     /** @var Collection<int, PostImage> */
-    #[ORM\OneToMany(mappedBy: 'post', targetEntity: PostImage::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: PostImage::class, mappedBy: 'post', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['position' => 'ASC'])]
     private Collection $images;
 

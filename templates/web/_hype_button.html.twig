@@ -1,0 +1,23 @@
+{% import 'web/_icons.html.twig' as icons %}
+
+<span id="{{ targetId }}"
+      class="inline-flex items-center gap-1 px-2.5 py-1 rounded-button text-xs font-semibold
+             {{ isHyped
+                ? 'bg-gradient-to-r from-orange-200 to-red-200 text-red-700'
+                : 'bg-gradient-to-r from-orange-100 to-red-100 text-red-600' }}"
+      title="{{ count }} hyped">
+    {% if app.user %}
+        <form method="POST" action="{{ formAction }}" class="contents">
+            <input type="hidden" name="_token" value="{{ csrf_token(csrfTokenName) }}">
+            <button type="submit" class="inline-flex items-center gap-1" aria-pressed="{{ isHyped ? 'true' : 'false' }}">
+                {{ icons.flame({size: 12}) }}
+                <span>{{ count }}</span>
+            </button>
+        </form>
+    {% else %}
+        <span class="inline-flex items-center gap-1" title="Log in to hype">
+            {{ icons.flame({size: 12}) }}
+            <span>{{ count }}</span>
+        </span>
+    {% endif %}
+</span>

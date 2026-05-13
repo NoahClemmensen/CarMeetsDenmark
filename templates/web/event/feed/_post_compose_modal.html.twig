@@ -1,0 +1,30 @@
+{% extends 'components/Modal/ContentShell.html.twig' %}
+
+{% block header %}
+    <twig:Modal:Header title="New post" />
+{% endblock %}
+
+{% block body %}
+    <div class="px-6 py-4">
+        {{ form_start(form, {
+            action: path('app_event_post_create', {uuid: event.uuid}),
+            attr: {'data-turbo': 'true', id: 'event-feed-compose-form-' ~ event.uuid},
+        }) }}
+            {{ form_widget(form.body) }}
+            <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {{ form_row(form.link) }}
+                {{ form_row(form.embedUrl) }}
+            </div>
+            {{ form_row(form.imageFiles) }}
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <div class="modal-footer">
+        <button type="button" class="btn-grey" data-action="click->modal#hide">Cancel</button>
+        <button type="submit"
+                form="event-feed-compose-form-{{ event.uuid }}"
+                class="btn-primary">Post</button>
+    </div>
+{% endblock %}
