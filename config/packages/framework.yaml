@@ -6,6 +6,7 @@ framework:
     session:
         cookie_lifetime: 86400
         gc_maxlifetime: 86400
+        save_path: '%kernel.project_dir%/var/sessions'
 
     #esi: true
     #fragments: true
