@@ -15,6 +15,13 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class PostRepositoryTest extends KernelTestCase
 {
+    use \App\Tests\EnsuresSymfonyEnv;
+
+    public static function setUpBeforeClass(): void
+    {
+        self::ensureSymfonyEnv();
+    }
+
     private EntityManagerInterface $em;
     private PostRepository $repo;
 
