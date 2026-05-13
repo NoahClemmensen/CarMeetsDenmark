@@ -27,8 +27,11 @@ services:
             DATABASE_URL: "mysql://admin:stikadmin1bajer@db:3306/carmeetsdenmark?serverVersion=9.3"
             APP_ENV: dev
             APP_SECRET: dinmorergrim
+        volumes:
+            - uploads_data:/var/www/public/uploads
         depends_on:
             - db
 
 volumes:
     db_data:
+    uploads_data:
