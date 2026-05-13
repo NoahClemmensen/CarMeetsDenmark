@@ -104,7 +104,6 @@ class EventController extends AbstractController
     public function interest(
         string $uuid,
         Request $request,
-        EventService $eventService,
         TurboStreamHelper $turbo,
     ): Response {
         $event = $this->eventRepository->findOneBy(['uuid' => $uuid, 'isDeleted' => false]);
@@ -117,13 +116,8 @@ class EventController extends AbstractController
             throw $this->createAccessDeniedException('Invalid CSRF token.');
         }
 
-        $eventService->incrementInterest($event);
-
-        return $turbo
-            ->replace('event-hype-' . $event->getUuid(), 'web/event/_hype_meter.html.twig', [
-                'event' => $event,
-            ])
-            ->makeResponse();
+        // TEMP: will be replaced by ReactionService in a later task
+        return $turbo->makeResponse();
     }
 
     #[Route('/{uuid}/share', name: 'app_event_share', requirements: ['uuid' => self::UUID_REQUIREMENT], methods: ['GET'])]

@@ -67,11 +67,4 @@ class EventService
         $this->em->flush();
     }
 
-    public function incrementInterest(Event $event): int
-    {
-        $event->incrementInterest();
-        $this->em->flush();
-
-        return $event->getInterest();
-    }
 }

@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Enum\EventRepeatFrequency;
 use App\Repository\EventRepository;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -57,9 +59,9 @@ class Event
     #[Groups(['public'])]
     private ?int $repeatAmount = null;
 
-    #[ORM\Column(options: ['default' => 0])]
+    #[ORM\Column(name: 'hype_count', options: ['default' => 0])]
     #[Groups(['public'])]
-    private int $interest = 0;
+    private int $hypeCount = 0;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imageFilename = null;
@@ -77,11 +79,16 @@ class Event
     #[ORM\Column(type: 'boolean')]
     private bool $archived = false;
 
+    /** @var Collection<int, Post> */
+    #[ORM\OneToMany(mappedBy: 'event', targetEntity: Post::class)]
+    private Collection $posts;
+
     public function __construct(User $user)
     {
         $this->uuid = Uuid::v4()->toRfc4122();
         $this->createdAt = time();
         $this->host = $user;
+        $this->posts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -195,21 +202,14 @@ class Event
         return $this;
     }
 
-    public function getInterest(): int
+    public function getHypeCount(): int
     {
-        return $this->interest;
+        return $this->hypeCount;
     }
 
-    public function setInterest(int $interest): static
+    public function setHypeCount(int $hypeCount): static
     {
-        $this->interest = $interest;
-
-        return $this;
-    }
-
-    public function incrementInterest(): static
-    {
-        ++$this->interest;
+        $this->hypeCount = $hypeCount;
 
         return $this;
     }
@@ -272,5 +272,11 @@ class Event
         $this->archived = $archived;
 
         return $this;
+    }
+
+    /** @return Collection<int, Post> */
+    public function getPosts(): Collection
+    {
+        return $this->posts;
     }
 }
