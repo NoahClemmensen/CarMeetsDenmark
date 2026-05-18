@@ -30,7 +30,7 @@ Web platform for the Danish car-meet community. Symfony 8 + PHP 8.4 + Hotwire (T
 git clone <repo>
 cd CarMeetsDenmark
 
-## Deploy the stack
+## Deploy the stack (See more details in /docker)
 docker stack deploy -c docker/docker-stack.yml carmeets --with-registry-auth
 
 ## Remove stack

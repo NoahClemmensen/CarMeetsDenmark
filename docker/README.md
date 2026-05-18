@@ -16,7 +16,7 @@ Volumes: `db_data`, `uploads_data`, `sessions_data` persist across redeploys.
 
 ## Prerequisites
 
-- Docker Engine 20.10+ with Swarm mode initialized (`docker swarm init` on the manager node).
+- Docker Engine 20.10+ with Swarm mode initialized (`docker swarm init` on the server).
 - Access to pull `ghcr.io/noahclemmensen/carmeetsdenmark:latest`. For private images run `docker login ghcr.io` first, then pass `--with-registry-auth` on deploy.
 - Ports `3306`, `8000`, `8025`, and `1025` free on the host.
 
@@ -28,7 +28,7 @@ From the repository root:
 docker stack deploy -c docker/docker-stack.yml carmeets --with-registry-auth
 ```
 
-This creates the stack named `carmeets`. The first deploy pulls images and starts containers; subsequent deploys perform a rolling update on `php` (`parallelism: 1`, `delay: 10s`, rollback on failure).
+This creates the stack named `carmeets`. The first deploy pulls images and starts containers. Future deploys perform a rolling update on `php` (`parallelism: 1`, `delay: 10s`, rollback on failure).
 
 Verify everything is up:
 
@@ -39,17 +39,13 @@ docker stack ps carmeets
 
 `REPLICAS` should read `1/1` for `db` and `mailpit`, and `2/2` for `php`. Once healthy:
 
+
 - App: <http://localhost:8000>
 - Mailpit UI: <http://localhost:8025>
 
 ## Update / redeploy
 
-Re-running `docker stack deploy` with the same command applies any changes in `docker-stack.yml` and triggers a rolling update. To force a refresh of the `php` image without editing the file:
-
-```bash
-docker service update --image ghcr.io/noahclemmensen/carmeetsdenmark:latest --with-registry-auth carmeets_php
-```
-
+Re-running `docker stack deploy` with the same command applies any changes in `docker-stack.yml` and triggers a rolling update.
 ## Tear down
 
 ```bash
@@ -82,7 +78,7 @@ docker service logs --tail 200 carmeets_db
 docker service logs carmeets_mailpit
 ```
 
-For a single replica, find its container ID via `docker stack ps carmeets` and run `docker logs <container-id>` on the node it's scheduled on.
+For a single replica, find its container ID via `docker stack ps carmeets` and run `docker logs <container-id>` on the server.
 
 ### Exec into a running container
 
