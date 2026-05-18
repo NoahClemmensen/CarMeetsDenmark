@@ -16,6 +16,7 @@ services:
             MYSQL_USER: admin
             MYSQL_PASSWORD: stikadmin1bajer
         volumes:
+            - ./config:/etc/mysql/conf.d
             - db_data:/var/lib/mysql
         deploy:
             replicas: 1
@@ -36,6 +37,10 @@ services:
             DATABASE_URL: "mysql://admin:stikadmin1bajer@db:3306/carmeetsdenmark?serverVersion=9.3"
             APP_ENV: prod
             APP_SECRET: your-app-secret-here
+            MAILER_DSN: "smtp://mailpit:1025"
+        volumes:
+            - uploads_data:/var/www/public/uploads
+            - sessions_data:/var/www/var/sessions
         deploy:
             replicas: 2
             update_config:
@@ -64,4 +69,6 @@ services:
 
 volumes:
     db_data:
+    uploads_data:
+    sessions_data:
 
