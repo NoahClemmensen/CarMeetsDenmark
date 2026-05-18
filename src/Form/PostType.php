@@ -11,7 +11,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\File;
 
 class PostType extends AbstractType
 {
@@ -43,13 +42,6 @@ class PostType extends AbstractType
                 'label' => 'Images (up to 4)',
                 'multiple' => true,
                 'required' => false,
-                'constraints' => [
-                    new File(
-                        maxSize: '12M',
-                        mimeTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
-                        mimeTypesMessage: 'Please upload a valid image file (JPEG, PNG, GIF, or WEBP) with a maximum size of 4MB.',
-                    ),
-                ],
                 'attr' => [
                     'accept' => 'image/*',
                     'data-post-composer-target' => 'imageInput',
