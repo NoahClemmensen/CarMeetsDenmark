@@ -1,6 +1,6 @@
-{% extends 'web/base.html.twig' %}
-{% import 'web/event/_macros.html.twig' as eventMacros %}
-{% import 'web/_icons.html.twig' as icons %}
+{% extends 'base.html.twig' %}
+{% import 'event/_macros.html.twig' as eventMacros %}
+{% import '_icons.html.twig' as icons %}
 
 {% block title %}{{ event.name }} – CarMeetsDenmark{% endblock %}
 
@@ -27,7 +27,7 @@
                     {% endif %}
                 </div>
                 <div class="flex items-center gap-2 shrink-0">
-                    {% include 'web/_hype_button.html.twig' with {
+                    {% include '_hype_button.html.twig' with {
                         count: event.hypeCount,
                         isHyped: app.user ? eventReactions.isHypedBy(event, app.user) : false,
                         formAction: path('app_event_hype', {uuid: event.uuid}),
@@ -88,15 +88,15 @@
         {# Participants — counts now; full list comes later #}
         <div class="card p-6 mb-3">
             <p class="text-xs font-semibold uppercase tracking-wider text-secondary-text mb-2">Participants</p>
-            {% include 'web/event/_participation_counts.html.twig' %}
+            {% include 'event/_participation_counts.html.twig' %}
         </div>
 
         {# Actions: pick a participation status #}
         <div class="flex flex-col gap-2 mb-5">
-            {% include 'web/event/_participation_widget.html.twig' %}
+            {% include 'event/_participation_widget.html.twig' %}
         </div>
 
-        {% include 'web/event/feed/_section.html.twig' with {
+        {% include 'event/feed/_section.html.twig' with {
             event: event,
             feedPosts: feedPosts,
             hypedPostIds: hypedPostIds,

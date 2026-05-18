@@ -1,7 +1,7 @@
 {% set hasIgEmbed = posts|filter(p => p.hasEmbed and p.embedProvider.value == 'instagram')|length > 0 %}
 
 {% for post in posts %}
-    {% include 'web/event/feed/_post.html.twig' with {
+    {% include 'event/feed/_post.html.twig' with {
         event: event,
         post: post,
         hypedPostIds: hypedPostIds,

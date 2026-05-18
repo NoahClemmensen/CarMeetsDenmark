@@ -46,7 +46,7 @@ class RegistrationController extends AbstractController
                     ->from(new Address('noahcv2004@gmail.com', 'CarMeetsDenmark Bot'))
                     ->to((string) $user->getEmail())
                     ->subject('Please Confirm your Email')
-                    ->htmlTemplate('web/registration/confirmation_email.html.twig')
+                    ->htmlTemplate('registration/confirmation_email.html.twig')
             );
 
             // do anything else you need here, like send an email
@@ -54,7 +54,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_discover');
         }
 
-        return $this->render('web/registration/register.html.twig', [
+        return $this->render('registration/register.html.twig', [
             'registrationForm' => $form,
         ]);
     }

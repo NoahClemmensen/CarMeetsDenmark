@@ -1,5 +1,5 @@
 <turbo-frame id="event-feed-page-{{ before|default(nextCursor) }}">
-    {% include 'web/event/feed/_posts_list.html.twig' with {
+    {% include 'event/feed/_posts_list.html.twig' with {
         event: event,
         posts: posts,
         hypedPostIds: hypedPostIds,

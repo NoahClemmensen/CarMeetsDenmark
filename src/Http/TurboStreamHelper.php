@@ -16,9 +16,9 @@ use Twig\Environment;
  * workers.
  *
  * Each helper pairs with a client-side consumer:
- *  - {@see addToast()}      → templates/web/_turbo/toast_stream.html.twig
+ *  - {@see addToast()}      → templates/_turbo/toast_stream.html.twig
  *                             + assets/controllers/toast_controller.js
- *  - {@see addFlash()}      → templates/web/_turbo/flash_stream.html.twig
+ *  - {@see addFlash()}      → templates/_turbo/flash_stream.html.twig
  *  - {@see addRedirect()}   → assets/turbo-actions/redirect.js
  *                             (carries an optional toast across the navigation
  *                             via sessionStorage)
@@ -55,7 +55,7 @@ class TurboStreamHelper implements ResetInterface
 
     public function addFlash(string $message, string $type, string $targetId = 'modal-flashes'): self
     {
-        return $this->addStream($this->twig->render('web/_turbo/flash_stream.html.twig', [
+        return $this->addStream($this->twig->render('_turbo/flash_stream.html.twig', [
             'message' => $message,
             'type' => $type,
             'frameId' => $targetId,
@@ -64,7 +64,7 @@ class TurboStreamHelper implements ResetInterface
 
     public function addToast(string $message, string $type = 'success', bool $dismissable = true, int $fadeOutAfterMs = 5000): self
     {
-        return $this->addStream($this->twig->render('web/_turbo/toast_stream.html.twig', [
+        return $this->addStream($this->twig->render('_turbo/toast_stream.html.twig', [
             'message' => $message,
             'type' => $type,
             'dismissable' => $dismissable,

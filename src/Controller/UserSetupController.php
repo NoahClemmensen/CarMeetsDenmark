@@ -78,7 +78,7 @@ class UserSetupController extends AbstractController
                 ->makeResponse();
         }
 
-        return $this->render('web/setup/index.html.twig', [
+        return $this->render('setup/index.html.twig', [
             'form' => $form->createView(),
         ], new Response(status: $form->isSubmitted() ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK));
     }

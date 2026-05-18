@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Car Meets Denmark{% endblock %}</title>
-    <link rel="icon" href="{{ asset('logo.png') }}">
+    <link rel="icon" href="{{ asset('wheel.png') }}">
 
     {# Tailwind CSS for web platform #}
     <link rel="stylesheet" href="{{ asset('styles/web.css') }}">
@@ -16,14 +16,15 @@
     {% block head %}{% endblock %}
 </head>
 <body class="h-full bg-neutral-light text-primary-text font-inter" data-controller="turbo-error-handler">
-{% import 'web/_icons.html.twig' as icons %}
+{% import '_icons.html.twig' as icons %}
 {% if app.user %}
     <div class="app-layout">
         {# Sidebar #}
         <aside class="sidebar-card">
             <div class="sidebar-header">
                 <a href="{{ path('app_discover') }}" class="sidebar-logo">
-                    <img src="{{ asset('maturix-nova-logo.svg') }}" alt="Carmeets Denmark">
+                    <img src="{{ asset('wheel.png') }}" alt="Carmeets Denmark">
+                    Carmeets Denmark
                 </a>
             </div>
 

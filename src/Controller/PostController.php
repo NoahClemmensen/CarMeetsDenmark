@@ -70,7 +70,7 @@ class PostController extends AbstractController
         $post = $postService->createFromDto($event, $user, $dto);
 
         return $turbo
-            ->prepend('event-feed-posts-' . $event->getUuid(), 'web/event/feed/_post.html.twig', [
+            ->prepend('event-feed-posts-' . $event->getUuid(), 'event/feed/_post.html.twig', [
                 'event' => $event,
                 'post' => $post,
                 'hypedPostIds' => [],
@@ -93,7 +93,7 @@ class PostController extends AbstractController
 
         $form = $this->createForm(PostType::class, new SavePostDTO());
 
-        return $this->render('web/event/feed/_post_compose_modal.html.twig', [
+        return $this->render('event/feed/_post_compose_modal.html.twig', [
             'event' => $event,
             'form' => $form->createView(),
         ]);
@@ -129,7 +129,7 @@ class PostController extends AbstractController
         }
         $nextCursor = $lastUnpinned?->getCreatedAt();
 
-        return $this->render('web/event/feed/_page.html.twig', [
+        return $this->render('event/feed/_page.html.twig', [
             'event' => $event,
             'posts' => $posts,
             'hypedPostIds' => $hypedPostIds,
@@ -148,7 +148,7 @@ class PostController extends AbstractController
         }
         $this->denyAccessUnlessGranted(PostVoter::EDIT, $post);
 
-        return $this->render('web/event/feed/_post_edit_modal.html.twig', [
+        return $this->render('event/feed/_post_edit_modal.html.twig', [
             'post' => $post,
         ]);
     }
@@ -181,7 +181,7 @@ class PostController extends AbstractController
         $postService->editBody($post, $body);
 
         return $turbo
-            ->replace('feed-post-' . $post->getUuid(), 'web/event/feed/_post.html.twig', [
+            ->replace('feed-post-' . $post->getUuid(), 'event/feed/_post.html.twig', [
                 'event' => $post->getEvent(),
                 'post' => $post,
                 'hypedPostIds' => [],
@@ -202,7 +202,7 @@ class PostController extends AbstractController
         }
         $this->denyAccessUnlessGranted(PostVoter::DELETE, $post);
 
-        return $this->render('web/event/feed/_post_delete_modal.html.twig', [
+        return $this->render('event/feed/_post_delete_modal.html.twig', [
             'post' => $post,
         ]);
     }
@@ -263,7 +263,7 @@ class PostController extends AbstractController
             : [];
 
         return $turbo
-            ->replace('event-feed-posts-' . $event->getUuid(), 'web/event/feed/_posts_list.html.twig', [
+            ->replace('event-feed-posts-' . $event->getUuid(), 'event/feed/_posts_list.html.twig', [
                 'event' => $event,
                 'posts' => $posts,
                 'hypedPostIds' => $hypedPostIds,
@@ -296,7 +296,7 @@ class PostController extends AbstractController
         $isHyped = $postReactions->findOneForPostAndUser($post, $user) !== null;
 
         return $turbo
-            ->replace('post-hype-' . $post->getUuid(), 'web/_hype_button.html.twig', [
+            ->replace('post-hype-' . $post->getUuid(), '_hype_button.html.twig', [
                 'count' => $post->getHypeCount(),
                 'isHyped' => $isHyped,
                 'formAction' => $this->generateUrl('app_post_hype', ['uuid' => $post->getUuid()]),

@@ -1,4 +1,4 @@
-{% import 'web/_icons.html.twig' as icons %}
+{% import '_icons.html.twig' as icons %}
 
 {% set isHostPost = post.author and post.author == event.host %}
 {% set isHyped = isHypedByCurrent is defined ? isHypedByCurrent : (post.id in hypedPostIds) %}
@@ -28,7 +28,7 @@
             </div>
         </div>
         {% if canEdit or canDelete or canPin %}
-            {% include 'web/event/feed/_post_actions.html.twig' with {post: post, canEdit: canEdit, canDelete: canDelete, canPin: canPin} only %}
+            {% include 'event/feed/_post_actions.html.twig' with {post: post, canEdit: canEdit, canDelete: canDelete, canPin: canPin} only %}
         {% endif %}
     </header>
 
@@ -37,12 +37,12 @@
     {% endif %}
 
     {% if post.images|length > 0 %}
-        {% include 'web/event/feed/_post_images.html.twig' with {images: post.images} only %}
+        {% include 'event/feed/_post_images.html.twig' with {images: post.images} only %}
     {% elseif post.hasEmbed %}
         {% if post.embedProvider.value == 'youtube' %}
-            {% include 'web/event/feed/_post_embed_youtube.html.twig' with {post: post} only %}
+            {% include 'event/feed/_post_embed_youtube.html.twig' with {post: post} only %}
         {% elseif post.embedProvider.value == 'instagram' %}
-            {% include 'web/event/feed/_post_embed_instagram.html.twig' with {post: post} only %}
+            {% include 'event/feed/_post_embed_instagram.html.twig' with {post: post} only %}
         {% endif %}
     {% endif %}
 
@@ -55,7 +55,7 @@
     {% endif %}
 
     <footer class="mt-4 flex items-center gap-2">
-        {% include 'web/_hype_button.html.twig' with {
+        {% include '_hype_button.html.twig' with {
             count: post.hypeCount,
             isHyped: isHyped,
             formAction: path('app_post_hype', {uuid: post.uuid}),

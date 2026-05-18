@@ -39,7 +39,7 @@ class EventController extends AbstractController
     {
         $events = $this->eventRepository->findVisibleTo($user);
 
-        return $this->render('web/event/index.html.twig', [
+        return $this->render('event/index.html.twig', [
             'events' => $events,
         ]);
     }
@@ -73,7 +73,7 @@ class EventController extends AbstractController
             if (!$p->isPinned()) { $lastUnpinned = $p; break; }
         }
 
-        return $this->render('web/event/show.html.twig', [
+        return $this->render('event/show.html.twig', [
             'event' => $event,
             'currentUserStatus' => $user ? $participationService->getStatus($event, $user) : null,
             'participationCounts' => $participationRepository->countsByStatusForEvent($event),
@@ -108,15 +108,15 @@ class EventController extends AbstractController
         $participationService->setStatus($event, $user, $newStatus);
 
         return $turbo
-            ->replace('event-participation-' . $event->getUuid(), 'web/event/_participation_widget.html.twig', [
+            ->replace('event-participation-' . $event->getUuid(), 'event/_participation_widget.html.twig', [
                 'event' => $event,
                 'currentUserStatus' => $newStatus,
             ])
-            ->replace('event-counts-' . $event->getUuid(), 'web/event/_participation_counts.html.twig', [
+            ->replace('event-counts-' . $event->getUuid(), 'event/_participation_counts.html.twig', [
                 'event' => $event,
                 'participationCounts' => $participationRepository->countsByStatusForEvent($event),
             ])
-            ->replace('event-feed-composer-' . $event->getUuid(), 'web/event/feed/_composer.html.twig', [
+            ->replace('event-feed-composer-' . $event->getUuid(), 'event/feed/_composer.html.twig', [
                 'event' => $event,
             ])
             ->makeResponse();
@@ -146,7 +146,7 @@ class EventController extends AbstractController
         $isHyped = $eventReactions->isHypedBy($event, $user);
 
         return $turbo
-            ->replace('event-hype-' . $event->getUuid(), 'web/_hype_button.html.twig', [
+            ->replace('event-hype-' . $event->getUuid(), '_hype_button.html.twig', [
                 'count' => $event->getHypeCount(),
                 'isHyped' => $isHyped,
                 'formAction' => $this->generateUrl('app_event_hype', ['uuid' => $event->getUuid()]),
@@ -171,7 +171,7 @@ class EventController extends AbstractController
             UrlGeneratorInterface::ABSOLUTE_URL,
         );
 
-        return $this->render('web/event/_share_modal.html.twig', [
+        return $this->render('event/_share_modal.html.twig', [
             'event' => $event,
             'shareUrl' => $shareUrl,
         ]);
@@ -186,7 +186,7 @@ class EventController extends AbstractController
         }
         $this->denyAccessUnlessGranted(EventVoter::DELETE, $event);
 
-        return $this->render('web/event/_delete_modal.html.twig', [
+        return $this->render('event/_delete_modal.html.twig', [
             'event' => $event,
         ]);
     }
@@ -266,7 +266,7 @@ class EventController extends AbstractController
                 ->makeResponse();
         }
 
-        return $this->render('web/event/save.html.twig', [
+        return $this->render('event/save.html.twig', [
             'form' => $form->createView(),
             'event' => $event,
         ]);

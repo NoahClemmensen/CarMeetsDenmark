@@ -1,4 +1,4 @@
-{% import 'web/_icons.html.twig' as icons %}
+{% import '_icons.html.twig' as icons %}
 
 {# ── Row: wraps every visible field in .form-group ── #}
 {% block form_row %}
@@ -45,7 +45,7 @@
         <input type="text" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
         {% if icon %}
             <span class="absolute inset-y-0 right-0 flex items-center pr-3 text-secondary-text pointer-events-none">
-                {{ include('web/_icon.html.twig', {name: icon}, with_context: false) }}
+                {{ include('_icon.html.twig', {name: icon}, with_context: false) }}
             </span>
         {% endif %}
     </div>

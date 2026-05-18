@@ -12,6 +12,6 @@ class DiscoverController extends AbstractController
     #[Route("", name: "app_discover")]
     public function index(): Response
     {
-        return $this->render("web/discover/discover.html.twig");
+        return $this->render("discover/discover.html.twig");
     }
 }
