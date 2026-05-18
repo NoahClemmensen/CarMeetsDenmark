@@ -30,32 +30,13 @@ Web platform for the Danish car-meet community. Symfony 8 + PHP 8.4 + Hotwire (T
 git clone <repo>
 cd CarMeetsDenmark
 
-# 2. Install PHP dependencies
-composer install
+## Deploy the stack
+docker stack deploy -c docker/docker-stack.yml carmeets --with-registry-auth
 
-# 3. Local config — see docs/environment-variables.md for what to set
-cp /dev/null .env.local   # then edit, at minimum APP_SECRET=…
-                          # override DATABASE_URL / MAILER_DSN if needed
+## Remove stack
+docker stack rm carmeets
+```
 
-# 4. Database — pick one of the two paths below
-
-# 4a. If you can reach the team's dev DB (defaults in .env.dev), nothing to start.
-# 4b. If you want a local MySQL, start the included compose:
-docker compose -f dev/mysql/docker-compose.yaml up -d
-
-# 5. (optional) Local mail catcher
-docker compose -f dev/mailpit/docker-compose.yaml up -d
-# UI at http://localhost:8025
-
-# 6. Apply database migrations (see "Migrations" below)
-php bin/console doctrine:migrations:migrate
-
-# 7. Build CSS in watch mode
-php bin/console tailwind:build --watch
-
-# 8. Run the app (in another terminal)
-symfony serve
-# or: php -S 127.0.0.1:8000 -t public
 ```
 
 You should now be able to register at `/register`, click the email-verify link from Mailpit, log in at `/login`, and complete profile setup at `/setup`.
