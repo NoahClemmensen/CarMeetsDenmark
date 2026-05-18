@@ -65,12 +65,15 @@ class EventController extends AbstractController
 
         $feedPosts = $postRepository->findFeedPage($event, 20);
         $hypedPostIds = $user
-            ? $postReactions->findPostIdsHypedBy($user, array_map(fn($p) => $p->getId(), $feedPosts))
+            ? $postReactions->findPostIdsHypedBy($user, array_map(fn ($p) => $p->getId(), $feedPosts))
             : [];
 
         $lastUnpinned = null;
         foreach (array_reverse($feedPosts) as $p) {
-            if (!$p->isPinned()) { $lastUnpinned = $p; break; }
+            if (!$p->isPinned()) {
+                $lastUnpinned = $p;
+                break;
+            }
         }
 
         return $this->render('event/show.html.twig', [

@@ -32,8 +32,20 @@ class PostReaction
         $this->createdAt = time();
     }
 
-    public function getId(): ?int { return $this->id; }
-    public function getPost(): Post { return $this->post; }
-    public function getUser(): User { return $this->user; }
-    public function getCreatedAt(): int { return $this->createdAt; }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+    public function getPost(): Post
+    {
+        return $this->post;
+    }
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+    public function getCreatedAt(): int
+    {
+        return $this->createdAt;
+    }
 }

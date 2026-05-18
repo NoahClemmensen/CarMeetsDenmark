@@ -37,7 +37,7 @@ class PostReactionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getArrayResult();
 
-        return array_map(static fn(array $row) => (int) $row['post_id'], $rows);
+        return array_map(static fn (array $row) => (int) $row['post_id'], $rows);
     }
 
     public function findOneForPostAndUser(Post $post, User $user): ?PostReaction

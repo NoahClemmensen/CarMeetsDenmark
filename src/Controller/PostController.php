@@ -117,7 +117,7 @@ class PostController extends AbstractController
 
         $posts = $this->postRepository->findFeedPage($event, self::FEED_PAGE_SIZE, $before);
         $hypedPostIds = $user
-            ? $postReactions->findPostIdsHypedBy($user, array_map(fn($p) => $p->getId(), $posts))
+            ? $postReactions->findPostIdsHypedBy($user, array_map(fn ($p) => $p->getId(), $posts))
             : [];
 
         $lastUnpinned = null;
@@ -259,7 +259,7 @@ class PostController extends AbstractController
         $event = $post->getEvent();
         $posts = $this->postRepository->findFeedPage($event, self::FEED_PAGE_SIZE);
         $hypedPostIds = $user
-            ? $postReactions->findPostIdsHypedBy($user, array_map(fn($p) => $p->getId(), $posts))
+            ? $postReactions->findPostIdsHypedBy($user, array_map(fn ($p) => $p->getId(), $posts))
             : [];
 
         return $turbo

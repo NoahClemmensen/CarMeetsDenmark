@@ -71,7 +71,7 @@ class Event
     private ?User $host;
 
     #[ORM\Column(type: 'boolean')]
-    private  bool $private = false;
+    private bool $private = false;
 
     #[ORM\Column(type: 'boolean')]
     private bool $isDeleted = false;

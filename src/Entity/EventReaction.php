@@ -32,8 +32,20 @@ class EventReaction
         $this->createdAt = time();
     }
 
-    public function getId(): ?int { return $this->id; }
-    public function getEvent(): Event { return $this->event; }
-    public function getUser(): User { return $this->user; }
-    public function getCreatedAt(): int { return $this->createdAt; }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+    public function getEvent(): Event
+    {
+        return $this->event;
+    }
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+    public function getCreatedAt(): int
+    {
+        return $this->createdAt;
+    }
 }

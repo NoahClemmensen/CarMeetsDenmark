@@ -73,40 +73,117 @@ class Post
         $this->images = new ArrayCollection();
     }
 
-    public function getId(): ?int { return $this->id; }
-    public function getUuid(): string { return $this->uuid; }
-    public function getEvent(): Event { return $this->event; }
-    public function getAuthor(): ?User { return $this->author; }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+    public function getUuid(): string
+    {
+        return $this->uuid;
+    }
+    public function getEvent(): Event
+    {
+        return $this->event;
+    }
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
 
-    public function getBody(): ?string { return $this->body; }
-    public function setBody(?string $body): static { $this->body = $body; return $this; }
+    public function getBody(): ?string
+    {
+        return $this->body;
+    }
+    public function setBody(?string $body): static
+    {
+        $this->body = $body;
+        return $this;
+    }
 
-    public function getLink(): ?string { return $this->link; }
-    public function setLink(?string $link): static { $this->link = $link; return $this; }
+    public function getLink(): ?string
+    {
+        return $this->link;
+    }
+    public function setLink(?string $link): static
+    {
+        $this->link = $link;
+        return $this;
+    }
 
-    public function getEmbedProvider(): ?EmbedProvider { return $this->embedProvider; }
-    public function setEmbedProvider(?EmbedProvider $provider): static { $this->embedProvider = $provider; return $this; }
+    public function getEmbedProvider(): ?EmbedProvider
+    {
+        return $this->embedProvider;
+    }
+    public function setEmbedProvider(?EmbedProvider $provider): static
+    {
+        $this->embedProvider = $provider;
+        return $this;
+    }
 
-    public function getEmbedExternalId(): ?string { return $this->embedExternalId; }
-    public function setEmbedExternalId(?string $id): static { $this->embedExternalId = $id; return $this; }
+    public function getEmbedExternalId(): ?string
+    {
+        return $this->embedExternalId;
+    }
+    public function setEmbedExternalId(?string $id): static
+    {
+        $this->embedExternalId = $id;
+        return $this;
+    }
 
-    public function getHypeCount(): int { return $this->hypeCount; }
-    public function setHypeCount(int $count): static { $this->hypeCount = $count; return $this; }
+    public function getHypeCount(): int
+    {
+        return $this->hypeCount;
+    }
+    public function setHypeCount(int $count): static
+    {
+        $this->hypeCount = $count;
+        return $this;
+    }
 
-    public function getPinnedAt(): ?DateTimeImmutable { return $this->pinnedAt; }
-    public function setPinnedAt(?DateTimeImmutable $pinnedAt): static { $this->pinnedAt = $pinnedAt; return $this; }
-    public function isPinned(): bool { return $this->pinnedAt !== null; }
+    public function getPinnedAt(): ?DateTimeImmutable
+    {
+        return $this->pinnedAt;
+    }
+    public function setPinnedAt(?DateTimeImmutable $pinnedAt): static
+    {
+        $this->pinnedAt = $pinnedAt;
+        return $this;
+    }
+    public function isPinned(): bool
+    {
+        return $this->pinnedAt !== null;
+    }
 
-    public function getEditedAt(): ?DateTimeImmutable { return $this->editedAt; }
-    public function setEditedAt(?DateTimeImmutable $editedAt): static { $this->editedAt = $editedAt; return $this; }
+    public function getEditedAt(): ?DateTimeImmutable
+    {
+        return $this->editedAt;
+    }
+    public function setEditedAt(?DateTimeImmutable $editedAt): static
+    {
+        $this->editedAt = $editedAt;
+        return $this;
+    }
 
-    public function getCreatedAt(): int { return $this->createdAt; }
+    public function getCreatedAt(): int
+    {
+        return $this->createdAt;
+    }
 
-    public function isDeleted(): bool { return $this->isDeleted; }
-    public function setIsDeleted(bool $isDeleted): static { $this->isDeleted = $isDeleted; return $this; }
+    public function isDeleted(): bool
+    {
+        return $this->isDeleted;
+    }
+    public function setIsDeleted(bool $isDeleted): static
+    {
+        $this->isDeleted = $isDeleted;
+        return $this;
+    }
 
     /** @return Collection<int, PostImage> */
-    public function getImages(): Collection { return $this->images; }
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
 
     public function addImage(PostImage $image): static
     {

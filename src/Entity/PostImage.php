@@ -30,8 +30,20 @@ class PostImage
         $this->position = $position;
     }
 
-    public function getId(): ?int { return $this->id; }
-    public function getPost(): Post { return $this->post; }
-    public function getFilename(): string { return $this->filename; }
-    public function getPosition(): int { return $this->position; }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+    public function getPost(): Post
+    {
+        return $this->post;
+    }
+    public function getFilename(): string
+    {
+        return $this->filename;
+    }
+    public function getPosition(): int
+    {
+        return $this->position;
+    }
 }

@@ -76,7 +76,7 @@ class EventVoter extends Voter
         $userRoles = $user->getRoles();
         $hasEligibleRole = array_any(
             self::FEED_ELIGIBLE_ROLES,
-            static fn(string $role) => in_array($role, $userRoles, true),
+            static fn (string $role) => in_array($role, $userRoles, true),
         );
 
         if (!$hasEligibleRole) {
