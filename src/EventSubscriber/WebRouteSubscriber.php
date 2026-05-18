@@ -62,7 +62,7 @@ readonly class WebRouteSubscriber implements EventSubscriberInterface
 
         if ($user instanceof User && !$user->getName()) {
             $request->getSession()->set('web_setup_target', $target);
-            $url = $this->urlGenerator->generate('web_setup');
+            $url = $this->urlGenerator->generate('app_setup');
             $event->setResponse(new RedirectResponse($url));
         }
     }

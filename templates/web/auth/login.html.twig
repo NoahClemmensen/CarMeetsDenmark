@@ -17,7 +17,7 @@
                 <div class="alert-error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
 
-            <form method="post" data-turbo="false" action="{{ path('web_login') }}">
+            <form method="post" data-turbo="false" action="{{ path('app_login') }}">
                 <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
 
                 <div class="form-group">

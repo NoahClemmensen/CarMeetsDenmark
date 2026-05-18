@@ -22,7 +22,7 @@
         {# Sidebar #}
         <aside class="sidebar-card">
             <div class="sidebar-header">
-                <a href="{{ path('web_home') }}" class="sidebar-logo">
+                <a href="{{ path('app_discover') }}" class="sidebar-logo">
                     <img src="{{ asset('maturix-nova-logo.svg') }}" alt="Carmeets Denmark">
                 </a>
             </div>
@@ -30,11 +30,11 @@
             <nav class="sidebar-nav">
                 {# Main navigation #}
                 <div class="sidebar-section">
-                    {% set isActive = app.request.attributes.get('_route') == 'web_home' %}
-                    <a href="{{ path('web_home') }}"
+                    {% set isActive = app.request.attributes.get('_route') == 'app_discover' %}
+                    <a href="{{ path('app_discover') }}"
                        class="sidebar-link {{ isActive ? 'active' : '' }}">
                         {{ icons.dashboard() }}
-                        <span>Home</span>
+                        <span>Discover</span>
                     </a>
                     {% set isActive = app.request.attributes.get('_route') == 'app_event_index' %}
                     <a href="{{ path('app_event_index') }}"
@@ -47,8 +47,8 @@
                 {% if is_support_mode() %}
                     <div class="sidebar-section">
                         <div class="sidebar-section-label">Support</div>
-                        {% set isActive = app.request.attributes.get('_route') == 'web_home' %}
-                        <a href="{{ path('web_home') }}"
+                        {% set isActive = app.request.attributes.get('_route') == 'app_discover' %}
+                        <a href="{{ path('app_discover') }}"
                            class="sidebar-link {{ isActive ? 'active' : '' }}">
                             {{ icons.dashboard() }}
                             <span>Pours</span>
@@ -61,11 +61,11 @@
 
                 {# Bottom section #}
                 <div class="sidebar-section">
-                    <a href="{{ path('web_settings') }}" class="sidebar-link" data-turbo="false">
+                    <a href="{{ path('app_settings') }}" class="sidebar-link" data-turbo="false">
                         {{ icons.settings() }}
                         <span>Settings</span>
                     </a>
-                    <a href="{{ path('web_logout') }}" class="sidebar-link" data-turbo="false">
+                    <a href="{{ path('app_logout') }}" class="sidebar-link" data-turbo="false">
                         {{ icons.logout() }}
                         <span>Logout</span>
                     </a>
@@ -96,7 +96,7 @@
                     </div>
                     <div class="topbar-right">
                         <div class="user-info">
-                            <a href="{{ path('web_settings') }}" class="user-avatar">
+                            <a href="{{ path('app_settings') }}" class="user-avatar">
                                 {{ app.user.name|slice(0,1)|upper }}{{ app.user.name|split(' ')|last|slice(0,1)|upper }}
                             </a>
                             <div class="user-details">

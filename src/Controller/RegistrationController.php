@@ -51,7 +51,7 @@ class RegistrationController extends AbstractController
 
             // do anything else you need here, like send an email
 
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_discover');
         }
 
         return $this->render('web/registration/register.html.twig', [
@@ -79,6 +79,6 @@ class RegistrationController extends AbstractController
 
         $this->addFlash('success', 'Your email address has been verified.');
 
-        return $this->redirectToRoute('web_login');
+        return $this->redirectToRoute('app_login');
     }
 }

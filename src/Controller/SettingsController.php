@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class SettingsController extends AbstractController
 {
-    #[Route('/settings', name: 'web_settings')]
+    #[Route('/settings', name: 'app_settings')]
     public function index(): Response
     {
         return $this->render('settings/index.html.twig');

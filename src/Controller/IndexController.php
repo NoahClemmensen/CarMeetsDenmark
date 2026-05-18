@@ -13,6 +13,6 @@ class IndexController extends AbstractController
     #[Route('/')]
     public function index(): Response
     {
-        return $this->redirectToRoute('web_home');
+        return $this->redirectToRoute('app_discover');
     }
 }
