@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Car Meets Denmark{% endblock %}</title>
+    <link rel="icon" href="{{ asset('wheel.png') }}">
+
+    {# Tailwind CSS for web platform #}
+    <link rel="stylesheet" href="{{ asset('styles/web.css') }}">
+
+    {# MapTiler SDK for map pages #}
+{#    <link rel="stylesheet" href="https://cdn.maptiler.com/maptiler-sdk-js/v1.2.0/maptiler-sdk.css">#}
+
+    {% block stylesheets %}{% endblock %}
+    {% block head %}{% endblock %}
+</head>
+<body class="h-full bg-neutral-light text-primary-text font-inter" data-controller="turbo-error-handler">
+{% import '_icons.html.twig' as icons %}
+
+{% set pageTitle %}{% block page_title %}{% endblock %}{% endset %}
+{% set pageTitle = pageTitle|trim ?: block('title') %}
+
+{% set backUrl %}{% block back_url %}{% endblock %}{% endset %}
+{% set backUrl = backUrl|trim %}
+
+{% if app.user %}
+    {# === Mobile topbar (visible <lg) === #}
+    <header class="mobile-topbar">
+        {% if backUrl %}
+            <a href="{{ backUrl }}" class="inline-flex items-center justify-center w-9 h-9 -ml-2 text-primary-text" aria-label="Back">
+                {{ icons.chevronLeft({size: 22}) }}
+            </a>
+        {% endif %}
+        <h1 class=" {{ backUrl ? 'text-center' : 'text-left' }}">
+            {{ pageTitle }}
+        </h1>
+        <a href="{{ path('app_settings') }}" class="user-avatar !w-9 !h-9" data-turbo="false" aria-label="Account">
+            {{ app.user.name|slice(0,1)|upper }}{{ app.user.name|split(' ')|last|slice(0,1)|upper }}
+        </a>
+    </header>
+
+    {# === Mobile bottom nav (visible <lg) === #}
+    <nav class="mobile-bottombar lg:hidden fixed bottom-0 inset-x-0 z-30 bg-black text-white" aria-label="Primary">
+        <div class="grid grid-cols-2 h-16">
+            {% set isActive = app.request.attributes.get('_route') == 'app_discover' %}
+            <a href="{{ path('app_discover') }}" class="mobile-bottombar-link relative flex flex-col items-center justify-center gap-1 {{ isActive ? 'is-active' : '' }}">
+                {{ icons.dashboard({size: 22}) }}
+                <span class="text-xs">Discover</span>
+                <span class="mobile-bottombar-indicator absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-8 bg-primary {{ isActive ? '' : 'opacity-0' }}" aria-hidden="true"></span>
+            </a>
+
+            {% set isActive = app.request.attributes.get('_route') == 'app_event_index' %}
+            <a href="{{ path('app_event_index') }}" class="mobile-bottombar-link relative flex flex-col items-center justify-center gap-1 {{ isActive ? 'is-active' : '' }}">
+                {{ icons.location({size: 22}) }}
+                <span class="text-xs">Your events</span>
+                <span class="mobile-bottombar-indicator absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-8 bg-primary {{ isActive ? '' : 'opacity-0' }}" aria-hidden="true"></span>
+            </a>
+        </div>
+    </nav>
+
+    {# === Desktop === #}
+    <div class="app-layout">
+        {# Sidebar — desktop only #}
+        <aside class="sidebar-card hidden lg:flex">
+            <div class="sidebar-header">
+                <a href="{{ path('app_discover') }}" class="sidebar-logo">
+                    <img src="{{ asset('wheel.png') }}" alt="Carmeets Denmark">
+                    Carmeets Denmark
+                </a>
+            </div>
+
+            <nav class="sidebar-nav">
+                {# Main navigation #}
+                <div class="sidebar-section">
+                    {% set isActive = app.request.attributes.get('_route') == 'app_discover' %}
+                    <a href="{{ path('app_discover') }}"
+                       class="sidebar-link {{ isActive ? 'active' : '' }}">
+                        {{ icons.dashboard() }}
+                        <span>Discover</span>
+                    </a>
+                    {% set isActive = app.request.attributes.get('_route') == 'app_event_index' %}
+                    <a href="{{ path('app_event_index') }}"
+                       class="sidebar-link {{ isActive ? 'active' : '' }}">
+                        {{ icons.location() }}
+                        <span>Events</span>
+                    </a>
+                </div>
+
+                {% if is_support_mode() %}
+                    <div class="sidebar-section">
+                        <div class="sidebar-section-label">Support</div>
+                        {% set isActive = app.request.attributes.get('_route') == 'app_discover' %}
+                        <a href="{{ path('app_discover') }}"
+                           class="sidebar-link {{ isActive ? 'active' : '' }}">
+                            {{ icons.dashboard() }}
+                            <span>Pours</span>
+                        </a>
+                    </div>
+                {% endif %}
+
+                {# Spacer #}
+                <div class="sidebar-spacer"></div>
+
+                {# Bottom section #}
+                <div class="sidebar-section">
+                    <a href="{{ path('app_settings') }}" class="sidebar-link" data-turbo="false">
+                        {{ icons.settings() }}
+                        <span>Settings</span>
+                    </a>
+                    <a href="{{ path('app_logout') }}" class="sidebar-link" data-turbo="false">
+                        {{ icons.logout() }}
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        {# Main content #}
+        <div class="main-wrapper">
+            {# Desktop topbar, desktop only #}
+            <header class="topbar-card hidden lg:block">
+                <div class="topbar-content">
+                    <div class="topbar-left">
+                        {# Support mode indicator #}
+                        {% if is_support_mode() %}
+                            <div class="support-mode-badge" role="status"
+                                 aria-label="Support mode active - viewing all pours">
+                                {{ icons.shield({size: 14}) }}
+                                <span>Support</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="topbar-right">
+                        <div class="user-info">
+                            <a href="{{ path('app_settings') }}" class="user-avatar">
+                                {{ app.user.name|slice(0,1)|upper }}{{ app.user.name|split(' ')|last|slice(0,1)|upper }}
+                            </a>
+                            <div class="user-details">
+                                <div class="user-name">{{ app.user.name }}</div>
+                                <div class="user-email">{{ app.user.email }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            {# Main content area — top/bottom padding on mobile to clear the fixed bars #}
+            <main class="content-card">
+                {% for message in app.flashes('success') %}
+                    <div class="alert-success" role="alert">{{ message }}</div>
+                {% endfor %}
+                {% for message in app.flashes('error') %}
+                    <div class="alert-error" role="alert">{{ message }}</div>
+                {% endfor %}
+
+                {% block body %}{% endblock %}
+            </main>
+        </div>
+    </div>
+
+    <div id="toast-container" data-turbo-permanent></div>
+
+    <twig:Modal:Shell/>
+{% else %}
+    {# Non-authenticated layout (login pages) #}
+    <main class="min-h-full flex items-center justify-center py-12 px-4 bg-neutral">
+        {{ block('body') }}
+    </main>
+{% endif %}
+
+{% block javascripts %}
+    {{ importmap('web') }}
+{% endblock %}
+</body>
+</html>

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Event;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +17,25 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
-    //    /**
-    //     * @return Event[] Returns an array of Event objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('e')
-    //            ->andWhere('e.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('e.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * Events the given user is allowed to see in listings.
+     * Anonymous visitors (null user) see only public events.
+     *
+     * @return Event[]
+     */
+    public function findVisibleTo(?User $user): array
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->andWhere('e.isDeleted = false')
+            ->orderBy('e.id', 'DESC');
 
-    //    public function findOneBySomeField($value): ?Event
-    //    {
-    //        return $this->createQueryBuilder('e')
-    //            ->andWhere('e.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        if ($user === null) {
+            $qb->andWhere('e.private = false');
+        } else {
+            $qb->andWhere('e.private = false OR e.host = :user')
+                ->setParameter('user', $user);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

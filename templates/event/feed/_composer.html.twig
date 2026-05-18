@@ -1,0 +1,19 @@
+{# Always render this wrapper so RSVP changes (or post creates) can replace it via Turbo Stream. #}
+<div id="event-feed-composer-{{ event.uuid }}">
+    {% if is_granted('POST_TO_FEED', event) %}
+        <button type="button"
+                class="card w-full p-3 mb-3 flex items-center gap-3 text-left hover:bg-neutral transition-colors"
+                data-controller="modal-trigger"
+                data-modal-trigger-url-value="{{ path('app_event_post_new', {uuid: event.uuid}) }}"
+                data-action="click->modal-trigger#open">
+            <span class="w-9 h-9 rounded-full bg-primary-container text-primary flex items-center justify-center text-sm font-semibold shrink-0">
+                {{ app.user ? (app.user.name|default(app.user.email))|first|upper : '?' }}
+            </span>
+            <span class="text-sm text-secondary-text flex-1">Share something about this event…</span>
+        </button>
+    {% elseif app.user is not null and (constant('App\\Enum\\UserRole::Photographer').value in app.user.roles or constant('App\\Enum\\UserRole::Influencer').value in app.user.roles) %}
+        <div class="card p-4 mb-3 text-center text-sm text-secondary-text">
+            RSVP <strong>going</strong> or <strong>maybe</strong> to this event to post on the feed.
+        </div>
+    {% endif %}
+</div>

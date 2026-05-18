@@ -13,14 +13,17 @@ export default class extends Controller {
     connect() {
         this.handleKeydown = this.handleKeydown.bind(this);
         this.handleTurboBeforeCache = this.handleTurboBeforeCache.bind(this);
+        this.handleRequestHide = () => this.hide();
         this.previouslyFocusedElement = null;
 
         document.addEventListener('turbo:before-cache', this.handleTurboBeforeCache);
+        this.element.addEventListener('modal:request-hide', this.handleRequestHide);
     }
 
     disconnect() {
         document.removeEventListener('turbo:before-cache', this.handleTurboBeforeCache);
         document.removeEventListener('keydown', this.handleKeydown);
+        this.element.removeEventListener('modal:request-hide', this.handleRequestHide);
         this.restoreScroll();
     }
 

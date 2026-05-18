@@ -1,0 +1,50 @@
+{% set count = images|length %}
+<div class="mt-3"
+     data-controller="lightbox"
+     data-lightbox-images-value="{{ images|map(img => asset('uploads/event-feed/' ~ img.filename))|json_encode }}">
+    {% if count == 1 %}
+        <img src="{{ asset('uploads/event-feed/' ~ images[0].filename) }}"
+             alt=""
+             class="w-full aspect-video object-cover rounded-element cursor-zoom-in"
+             data-action="click->lightbox#open"
+             data-lightbox-index-param="0">
+    {% elseif count == 2 %}
+        <div class="grid grid-cols-2 gap-1">
+            {% for img in images %}
+                <img src="{{ asset('uploads/event-feed/' ~ img.filename) }}"
+                     alt=""
+                     class="aspect-square object-cover rounded-element cursor-zoom-in"
+                     data-action="click->lightbox#open"
+                     data-lightbox-index-param="{{ loop.index0 }}">
+            {% endfor %}
+        </div>
+    {% elseif count == 3 %}
+        <div class="grid grid-cols-2 gap-1">
+            <img src="{{ asset('uploads/event-feed/' ~ images[0].filename) }}"
+                 alt=""
+                 class="row-span-2 aspect-square object-cover rounded-element cursor-zoom-in"
+                 data-action="click->lightbox#open"
+                 data-lightbox-index-param="0">
+            <img src="{{ asset('uploads/event-feed/' ~ images[1].filename) }}"
+                 alt=""
+                 class="aspect-square object-cover rounded-element cursor-zoom-in"
+                 data-action="click->lightbox#open"
+                 data-lightbox-index-param="1">
+            <img src="{{ asset('uploads/event-feed/' ~ images[2].filename) }}"
+                 alt=""
+                 class="aspect-square object-cover rounded-element cursor-zoom-in"
+                 data-action="click->lightbox#open"
+                 data-lightbox-index-param="2">
+        </div>
+    {% else %}
+        <div class="grid grid-cols-2 gap-1">
+            {% for img in images|slice(0, 4) %}
+                <img src="{{ asset('uploads/event-feed/' ~ img.filename) }}"
+                     alt=""
+                     class="aspect-square object-cover rounded-element cursor-zoom-in"
+                     data-action="click->lightbox#open"
+                     data-lightbox-index-param="{{ loop.index0 }}">
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>

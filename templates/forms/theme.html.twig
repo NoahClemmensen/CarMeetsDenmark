@@ -1,0 +1,222 @@
+{% import '_icons.html.twig' as icons %}
+
+{# ── Row: wraps every visible field in .form-group ── #}
+{% block form_row %}
+    {% set row_class = row_attr.class|default('form-group') %}
+    <div class="{{ row_class }}"{% for key, val in row_attr|filter((v, k) => k != 'class') %} {{ key }}="{{ val }}"{% endfor %}>
+    {{ form_label(form) }}
+    {{ form_widget(form) }}
+    {{ form_errors(form) }}
+    </div>
+{% endblock %}
+
+{# ── Hidden fields: no wrapper ── #}
+{% block hidden_row %}
+    {{ form_widget(form) }}
+{% endblock %}
+
+{# ── Label: auto-adds .form-label, merges any consumer-provided label_attr ── #}
+{% block form_label %}
+    {% if label is not same as(false) %}
+        {% set label_attr = label_attr|merge({ class: (label_attr.class|default('') ~ ' form-label')|trim }) %}
+        <label{% if id %} for="{{ id }}"{% endif %}{% for key, val in label_attr %} {{ key }}="{{ val }}"{% endfor %}>
+        {{ label|default(name|humanize) }}
+        </label>
+    {% endif %}
+{% endblock %}
+
+{# ── Errors ── #}
+{% block form_errors %}
+    {% for error in errors %}
+        <p class="form-error">{{ error.message }}</p>
+    {% endfor %}
+{% endblock %}
+
+{# ── Text-like widgets: auto-add .form-input ── #}
+{% block text_widget %}
+    {% set type = type|default('text') %}
+    {% set attr = attr|merge({ class: (attr.class|default('') ~ ' form-input')|trim }) %}
+    <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+{% endblock %}
+
+{% block icon_text_widget %}
+    {% set attr = attr|merge({ class: (attr.class|default('') ~ ' form-input pr-10')|trim }) %}
+    <div class="relative">
+        <input type="text" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+        {% if icon %}
+            <span class="absolute inset-y-0 right-0 flex items-center pr-3 text-secondary-text pointer-events-none">
+                {{ include('_icon.html.twig', {name: icon}, with_context: false) }}
+            </span>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block tel_widget %}
+    {% set attr = attr|merge({ class: (attr.class|default('') ~ ' form-input')|trim }) %}
+    <input type="tel" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+{% endblock %}
+
+{% block password_widget %}
+    {% set attr = attr|merge({ class: (attr.class|default('') ~ ' form-input')|trim }) %}
+    <input type="password" {{ block('widget_attributes') }}/>
+{% endblock %}
+
+{% block email_widget %}
+    {% set attr = attr|merge({ class: (attr.class|default('') ~ ' form-input')|trim }) %}
+    <input type="email" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+{% endblock %}
+
+{% block date_widget %}
+    {% if widget == 'single_text' %}
+        {% set classes = 'form-input' ~ (value is empty ? ' is-empty' : '') %}
+        {% set attr = attr|merge({
+            class: (attr.class|default('') ~ ' ' ~ classes)|trim,
+            'data-controller': (attr['data-controller']|default('') ~ ' date-input')|trim,
+            'data-action': (attr['data-action']|default('') ~ ' input->date-input#sync change->date-input#sync')|trim,
+        }) %}
+        <input type="{{ type|default('date') }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    {% else %}
+        {{ block('form_widget') }}
+    {% endif %}
+{% endblock %}
+
+{% block datetime_widget %}
+    {% if widget == 'single_text' %}
+        {% set classes = 'form-input' ~ (value is empty ? ' is-empty' : '') %}
+        {% set attr = attr|merge({
+            class: (attr.class|default('') ~ ' ' ~ classes)|trim,
+            'data-controller': (attr['data-controller']|default('') ~ ' date-input')|trim,
+            'data-action': (attr['data-action']|default('') ~ ' input->date-input#sync change->date-input#sync')|trim,
+        }) %}
+        <input type="datetime-local" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    {% else %}
+        {{ block('form_widget') }}
+    {% endif %}
+{% endblock %}
+
+{% block time_widget %}
+    {% if widget == 'single_text' %}
+        {% set classes = 'form-input' ~ (value is empty ? ' is-empty' : '') %}
+        {% set attr = attr|merge({
+            class: (attr.class|default('') ~ ' ' ~ classes)|trim,
+            'data-controller': (attr['data-controller']|default('') ~ ' date-input')|trim,
+            'data-action': (attr['data-action']|default('') ~ ' input->date-input#sync change->date-input#sync')|trim,
+        }) %}
+        <input type="time" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    {% else %}
+        {{ block('form_widget') }}
+    {% endif %}
+{% endblock %}
+
+{% block integer_widget %}
+    {% set type = type|default('number') %}
+    {% set attr = attr|merge({ class: (attr.class|default('') ~ ' form-input')|trim }) %}
+    <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+{% endblock %}
+
+{% block number_widget %}
+    {% set type = type|default('text') %}
+    {% set attr = attr|merge({ class: (attr.class|default('') ~ ' form-input')|trim }) %}
+    <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+{% endblock %}
+
+{# ── Textarea widget: auto-add .form-textarea ── #}
+{% block textarea_widget %}
+    {% set attr = attr|merge({ class: (attr.class|default('') ~ ' form-textarea')|trim }) %}
+    <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+{% endblock %}
+
+{# ── File widget: auto-add .form-file (styles native ::file-selector-button) ── #}
+{% block file_widget %}
+    {% set attr = attr|merge({ class: (attr.class|default('') ~ ' form-file')|trim }) %}
+    <input type="file" {{ block('widget_attributes') }}/>
+{% endblock %}
+
+{# ── Select widget: auto-add .form-select ── #}
+{% block choice_widget_collapsed %}
+    {% set attr = attr|merge({ class: (attr.class|default('') ~ ' form-select')|trim }) %}
+    {%- if required and placeholder is none and not placeholder_in_choices and not multiple and (attr.size is not defined or attr.size <= 1) -%}
+        {% set required = false %}
+    {%- endif -%}
+    <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+        {%- if placeholder is not none -%}
+            <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</option>
+        {%- endif -%}
+        {%- if preferred_choices|length > 0 -%}
+            {% set options = preferred_choices %}
+            {% set render_preferred_choices = true %}
+            {{- block('choice_widget_options') -}}
+            {%- if choices|length > 0 and separator is not none -%}
+                <option disabled="disabled">{{ separator }}</option>
+            {%- endif -%}
+        {%- endif -%}
+        {%- set options = choices -%}
+        {%- set render_preferred_choices = false -%}
+        {{- block('choice_widget_options') -}}
+    </select>
+{% endblock %}
+
+{# ── Phone number compound type ── #}
+{% block phone_number_widget %}
+    <div class="flex items-center gap-2">
+        <div class="relative shrink-0" style="width: 72px;">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary-text text-sm pointer-events-none">+</span>
+            {{ form_widget(form.countryCode, { attr: form.countryCode.vars.attr|merge({ class: (form.countryCode.vars.attr.class|default('') ~ ' form-input pl-7 pr-2 w-full')|trim }) }) }}
+        </div>
+        {{ form_widget(form.phone) }}
+    </div>
+    {{ form_errors(form.countryCode) }}
+    {{ form_errors(form.phone) }}
+{% endblock %}
+
+{# ── Checkbox: inline label next to the box ── #}
+{% block checkbox_row %}
+    {% set row_class = row_attr.class|default('form-group') %}
+    <div class="{{ row_class }}"{% for key, val in row_attr|filter((v, k) => k != 'class') %} {{ key }}="{{ val }}"{% endfor %}>
+        <label class="flex items-center gap-2 cursor-pointer"{% if id %} for="{{ id }}"{% endif %}>
+            {{ form_widget(form) }}
+            <span class="text-sm text-primary-text">{{ label|default(name|humanize) }}</span>
+        </label>
+        {{ form_errors(form) }}
+    </div>
+{% endblock %}
+
+{% block phone_number_row %}
+    <div class="form-group">
+        {{ form_label(form) }}
+        {{ form_widget(form) }}
+    </div>
+{% endblock %}
+
+{# ── Segmented choice (enum toggle buttons) ── #}
+{% block segmented_choice_widget %}
+    <div class="segmented-track" data-controller="segmented-control">
+        {% for choice in choices %}
+            <button type="button"
+                    class="segmented-option {{ choice.value == value ? 'segmented-option--active' : '' }}"
+                    data-action="click->segmented-control#select"
+                    data-segmented-control-value-param="{{ choice.value }}">
+                {{ translation_domain is same as(false) ? choice.label : choice.label|trans({}, translation_domain) }}
+            </button>
+        {% endfor %}
+        <select {{ block('widget_attributes') }} hidden>
+            {%- if not required -%}
+                <option value=""{{ value is empty ? ' selected="selected"' : '' }}></option>
+            {%- endif -%}
+            {% for choice in choices %}
+                <option value="{{ choice.value }}"{{ choice.value == value ? ' selected="selected"' : '' }}>{{ choice.label }}</option>
+            {% endfor %}
+        </select>
+    </div>
+{% endblock %}
+
+{% block segmented_choice_row %}
+    {% set row_class = row_attr.class|default('segmented-group') %}
+    <div class="{{ row_class }}"{% for key, val in row_attr|filter((v, k) => k != 'class') %} {{ key }}="{{ val }}"{% endfor %}>
+    {% if label is not same as(false) %}
+        <div class="segmented-label">{{ label|default(name|humanize) }}</div>
+    {% endif %}
+    {{ form_widget(form) }}
+    {{ form_errors(form) }}
+    </div>
+{% endblock %}

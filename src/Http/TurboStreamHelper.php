@@ -16,9 +16,9 @@ use Twig\Environment;
  * workers.
  *
  * Each helper pairs with a client-side consumer:
- *  - {@see addToast()}      → templates/web/_turbo/toast_stream.html.twig
+ *  - {@see addToast()}      → templates/_turbo/toast_stream.html.twig
  *                             + assets/controllers/toast_controller.js
- *  - {@see addFlash()}      → templates/web/_turbo/flash_stream.html.twig
+ *  - {@see addFlash()}      → templates/_turbo/flash_stream.html.twig
  *  - {@see addRedirect()}   → assets/turbo-actions/redirect.js
  *                             (carries an optional toast across the navigation
  *                             via sessionStorage)
@@ -55,7 +55,7 @@ class TurboStreamHelper implements ResetInterface
 
     public function addFlash(string $message, string $type, string $targetId = 'modal-flashes'): self
     {
-        return $this->addStream($this->twig->render('web/_turbo/flash_stream.html.twig', [
+        return $this->addStream($this->twig->render('_turbo/flash_stream.html.twig', [
             'message' => $message,
             'type' => $type,
             'frameId' => $targetId,
@@ -64,7 +64,7 @@ class TurboStreamHelper implements ResetInterface
 
     public function addToast(string $message, string $type = 'success', bool $dismissable = true, int $fadeOutAfterMs = 5000): self
     {
-        return $this->addStream($this->twig->render('web/_turbo/toast_stream.html.twig', [
+        return $this->addStream($this->twig->render('_turbo/toast_stream.html.twig', [
             'message' => $message,
             'type' => $type,
             'dismissable' => $dismissable,
@@ -76,6 +76,15 @@ class TurboStreamHelper implements ResetInterface
     {
         return $this->addStream(sprintf(
             '<turbo-stream action="replace" target="%s"><template>%s</template></turbo-stream>',
+            htmlspecialchars($targetId, ENT_QUOTES),
+            $this->twig->render($template, $context)
+        ));
+    }
+
+    public function prepend(string $targetId, string $template, array $context = []): self
+    {
+        return $this->addStream(sprintf(
+            '<turbo-stream action="prepend" target="%s"><template>%s</template></turbo-stream>',
             htmlspecialchars($targetId, ENT_QUOTES),
             $this->twig->render($template, $context)
         ));
@@ -93,6 +102,14 @@ class TurboStreamHelper implements ResetInterface
         return $this->addStream(sprintf(
             '<turbo-stream action="copy-to-clipboard" value="%s"></turbo-stream>',
             htmlspecialchars($value, ENT_QUOTES)
+        ));
+    }
+
+    public function hideModal(string $modalId = 'app-modal'): self
+    {
+        return $this->addStream(sprintf(
+            '<turbo-stream action="modal-hide" modal-id="%s"><template></template></turbo-stream>',
+            htmlspecialchars($modalId, ENT_QUOTES)
         ));
     }
 

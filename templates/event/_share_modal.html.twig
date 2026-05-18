@@ -1,0 +1,44 @@
+{% extends 'components/Modal/ContentShell.html.twig' %}
+
+{% block header %}
+    <twig:Modal:Header title="Share event" />
+{% endblock %}
+
+{% block body %}
+    <div class="px-6 py-5 flex flex-col items-center gap-5">
+
+        {# URL + copy button #}
+        <div class="w-full" data-controller="share">
+            <label class="form-label">Link</label>
+            <div class="flex gap-2">
+                <input type="text"
+                       class="form-input flex-1"
+                       readonly
+                       value="{{ shareUrl }}"
+                       data-share-target="input"
+                       onfocus="this.select()">
+                <button type="button"
+                        class="btn-secondary"
+                        data-action="click->share#copy"
+                        data-share-target="button">
+                    Copy
+                </button>
+            </div>
+        </div>
+
+        {# QR code #}
+        <div class="flex flex-col items-center gap-2"
+             data-controller="qr-code"
+             data-qr-code-data-value="{{ shareUrl }}">
+            <div data-qr-code-target="container"></div>
+            <p class="text-xs text-secondary-text">Scan to open on mobile</p>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <div class="modal-footer">
+        <button type="button" class="btn-grey" data-action="click->modal#hide">Close</button>
+    </div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% import '_icons.html.twig' as icons %}
+
+{% set isHostPost = post.author and post.author == event.host %}
+{% set isHyped = isHypedByCurrent is defined ? isHypedByCurrent : (post.id in hypedPostIds) %}
+{% set canEdit = is_granted('EDIT', post) %}
+{% set canDelete = is_granted('DELETE', post) %}
+{% set canPin = is_granted('PIN', post) %}
+
+<article id="feed-post-{{ post.uuid }}"
+         class="card p-5 mb-3 {{ isHostPost ? 'border-l-2 border-primary' : '' }} {{ post.isPinned ? 'bg-primary-container/30' : '' }}">
+    <header class="flex items-start justify-between gap-3 mb-3">
+        <div class="flex items-center gap-3 min-w-0">
+            <div class="w-9 h-9 rounded-full bg-primary-container text-primary flex items-center justify-center text-sm font-semibold shrink-0">
+                {{ post.author ? post.author.name|default(post.author.email)|first|upper : '?' }}
+            </div>
+            <div class="min-w-0">
+                <p class="font-semibold text-primary-text truncate">
+                    {{ post.author ? post.author.name|default(post.author.email) : 'Deleted user' }}
+                    {% if isHostPost %}
+                        <span class="ml-1 inline-flex items-center px-1.5 py-0.5 rounded-element bg-primary-container text-primary text-[10px] font-bold uppercase tracking-wide">Host</span>
+                    {% endif %}
+                </p>
+                <p class="text-xs text-secondary-text">
+                    {{ post.createdAt|date('M j · H:i') }}
+                    {% if post.editedAt %} · <span title="Edited {{ post.editedAt|date('M j H:i') }}">edited</span>{% endif %}
+                    {% if post.isPinned %} · <span class="inline-flex items-center gap-1">{{ icons.pin({size: 10}) }} Pinned</span>{% endif %}
+                </p>
+            </div>
+        </div>
+        {% if canEdit or canDelete or canPin %}
+            {% include 'event/feed/_post_actions.html.twig' with {post: post, canEdit: canEdit, canDelete: canDelete, canPin: canPin} only %}
+        {% endif %}
+    </header>
+
+    {% if post.body %}
+        <p class="text-sm text-primary-text whitespace-pre-line mb-3">{{ post.body|nl2br }}</p>
+    {% endif %}
+
+    {% if post.images|length > 0 %}
+        {% include 'event/feed/_post_images.html.twig' with {images: post.images} only %}
+    {% elseif post.hasEmbed %}
+        {% if post.embedProvider.value == 'youtube' %}
+            {% include 'event/feed/_post_embed_youtube.html.twig' with {post: post} only %}
+        {% elseif post.embedProvider.value == 'instagram' %}
+            {% include 'event/feed/_post_embed_instagram.html.twig' with {post: post} only %}
+        {% endif %}
+    {% endif %}
+
+    {% if post.link %}
+        <a href="{{ post.link }}" target="_blank" rel="noopener noreferrer"
+           class="block mt-3 p-3 rounded-element bg-neutral border border-neutral-dark hover:bg-neutral-dark transition-colors">
+            <p class="text-xs text-secondary-text">{{ post.link|url_encode|split('/')[2] ?? post.link }}</p>
+            <p class="text-sm text-primary-text truncate">{{ post.link }}</p>
+        </a>
+    {% endif %}
+
+    <footer class="mt-4 flex items-center gap-2">
+        {% include '_hype_button.html.twig' with {
+            count: post.hypeCount,
+            isHyped: isHyped,
+            formAction: path('app_post_hype', {uuid: post.uuid}),
+            csrfTokenName: 'hype-post-' ~ post.uuid,
+            targetId: 'post-hype-' ~ post.uuid,
+        } only %}
+    </footer>
+</article>

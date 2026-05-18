@@ -14,7 +14,7 @@ use function strlen;
  * Returns the input path if it passes, or null if it fails — never
  * mutates / sanitises silently.
  *
- * Accepted: any non-empty relative path (e.g. "/web/home", "/x?y=1").
+ * Accepted: any non-empty relative path (e.g. "/discover", "/x?y=1").
  * Rejected: absolute URLs, protocol-relative URLs, paths containing
  * "..", paths over MAX_URL_LENGTH, and login/logout paths (which
  * would defeat the redirect's intent).

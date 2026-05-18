@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% import 'event/_macros.html.twig' as eventMacros %}
+
+{% block title %}Events{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block body %}
+    <div class="w-full max-w-2xl">
+        <div class="flex items-center justify-between mb-4">
+            <a class="btn-cta" href="{{ path('app_event_save') }}">Add event</a>
+            <div>
+
+            </div>
+        </div>
+
+        {% if events is empty %}
+            <div class="card p-8 text-center text-secondary-text">
+                No events yet.
+            </div>
+        {% else %}
+            <div class="flex flex-col gap-3">
+                {% for event in events %}
+                    <div class="card p-4 flex items-center gap-4">
+                        <img src="{{ eventMacros.banner_url(event) }}"
+                             alt="{{ event.name }}"
+                             class="w-20 h-20 object-cover rounded-container flex-shrink-0">
+
+                        <div class="flex-1 min-w-0">
+                            <a href="{{ path('app_event_show', {uuid: event.uuid}) }}"
+                               class="font-semibold text-primary-text hover:underline truncate block">
+                                {{ event.name }}
+                            </a>
+                            <p class="text-sm text-secondary-text truncate">{{ event.description }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

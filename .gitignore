@@ -10,7 +10,6 @@
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###
-/phpunit.xml
 /.phpunit.cache/
 ###< phpunit/phpunit ###
 
@@ -22,9 +21,11 @@
 /.claude/
 /.idea/
 .env.dev
+.env.test
 /migrations/
 /docs/
 /public/uploads/
 
 .php-cs-fixer.cache
 .phplint-cache
+/.superpowers/

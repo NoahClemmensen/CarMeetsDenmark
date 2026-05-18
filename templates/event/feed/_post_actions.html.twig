@@ -1,0 +1,41 @@
+{% import '_icons.html.twig' as icons %}
+
+<div class="relative" data-controller="dropdown">
+    <button type="button"
+            class="text-secondary-text hover:text-primary-text p-1 rounded-element"
+            data-action="click->dropdown#toggle"
+            aria-label="Post actions">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <circle cx="3" cy="8" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="13" cy="8" r="1.5"/>
+        </svg>
+    </button>
+    <div class="hidden absolute right-0 mt-1 w-44 bg-white border border-neutral-dark rounded-element shadow-lg z-10"
+         data-dropdown-target="menu">
+        {% if canPin %}
+            <form method="POST" action="{{ path('app_post_pin', {uuid: post.uuid}) }}">
+                <input type="hidden" name="_token" value="{{ csrf_token('pin-post-' ~ post.uuid) }}">
+                <button type="submit" class="w-full text-left px-3 py-2 text-sm hover:bg-neutral">
+                    {{ post.isPinned ? 'Unpin post' : 'Pin post' }}
+                </button>
+            </form>
+        {% endif %}
+        {% if canEdit %}
+            <button type="button"
+                    class="w-full text-left px-3 py-2 text-sm hover:bg-neutral"
+                    data-controller="modal-trigger"
+                    data-action="click->modal-trigger#open"
+                    data-modal-trigger-url-value="{{ path('app_post_edit_form', {uuid: post.uuid}) }}">
+                Edit text
+            </button>
+        {% endif %}
+        {% if canDelete %}
+            <button type="button"
+                    class="w-full text-left px-3 py-2 text-sm text-error hover:bg-error-container"
+                    data-controller="modal-trigger"
+                    data-action="click->modal-trigger#open"
+                    data-modal-trigger-url-value="{{ path('app_post_delete_confirm', {uuid: post.uuid}) }}">
+                Delete
+            </button>
+        {% endif %}
+    </div>
+</div>

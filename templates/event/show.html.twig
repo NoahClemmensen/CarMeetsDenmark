@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+{% import 'event/_macros.html.twig' as eventMacros %}
+{% import '_icons.html.twig' as icons %}
+
+{% block title %}{{ event.name }}{% endblock %}
+
+{% block back_url %}{{ path('app_event_index') }}{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block body %}
+    {% set canEdit = is_granted('SAVE', event) %}
+    {% set canDelete = is_granted('DELETE', event) %}
+    {% set tz = event.timezone ?: 'UTC' %}
+
+    <div class="w-full max-w-lg">
+        {# Banner #}
+        <img src="{{ eventMacros.banner_url(event) }}"
+             alt="{{ event.name }}"
+             class="rounded-container w-full h-56 object-cover mb-4">
+
+        {# Header card: title + meta + actions #}
+        <div class="card p-6 mb-3">
+            <div class="flex items-start justify-between gap-3 mb-4">
+                <div class="min-w-0">
+                    <h1 class="text-2xl font-bold text-primary-text leading-tight break-words">{{ event.name }}</h1>
+                    {% if event.private %}
+                        <span class="badge-grey mt-2 inline-flex">Private</span>
+                    {% endif %}
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                    {% include '_hype_button.html.twig' with {
+                        count: event.hypeCount,
+                        isHyped: app.user ? eventReactions.isHypedBy(event, app.user) : false,
+                        formAction: path('app_event_hype', {uuid: event.uuid}),
+                        csrfTokenName: 'hype-event-' ~ event.uuid,
+                        targetId: 'event-hype-' ~ event.uuid,
+                    } only %}
+                    <button type="button"
+                            class="btn-secondary-sm"
+                            data-controller="modal-trigger"
+                            data-action="click->modal-trigger#open"
+                            data-modal-trigger-url-value="{{ path('app_event_share', {uuid: event.uuid}) }}"
+                            aria-label="Share event">
+                        {{ icons.share({size: 14}) }}
+                    </button>
+                    {% if canEdit %}
+                        <a class="btn-secondary-sm" href="{{ path('app_event_save', {uuid: event.uuid}) }}">Edit</a>
+                    {% endif %}
+                    {% if canDelete %}
+                        <button type="button"
+                                class="btn-secondary-sm !text-error !outline-error hover:!bg-error-container"
+                                data-controller="modal-trigger"
+                                data-action="click->modal-trigger#open"
+                                data-modal-trigger-url-value="{{ path('app_event_delete_confirm', {uuid: event.uuid}) }}"
+                                aria-label="Delete event">
+                            {{ icons.trashcan({size: 14}) }}
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+
+            {# When + where #}
+            <div class="space-y-3 text-sm">
+                <div class="flex items-start gap-3 text-primary-text">
+                    <span class="text-secondary-text shrink-0 mt-0.5" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                            <path fill-rule="evenodd" d="M5.75 2a.75.75 0 0 1 .75.75V4h7V2.75a.75.75 0 0 1 1.5 0V4h.25A2.75 2.75 0 0 1 18 6.75v8.5A2.75 2.75 0 0 1 15.25 18H4.75A2.75 2.75 0 0 1 2 15.25v-8.5A2.75 2.75 0 0 1 4.75 4H5V2.75A.75.75 0 0 1 5.75 2zM3.5 8v7.25c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25V8h-13z" clip-rule="evenodd"/>
+                        </svg>
+                    </span>
+                    <div class="min-w-0">
+                        <p>{{ event.startDate|date('l, F j · H:i', tz) }}</p>
+                        {% if event.endDate %}
+                            <p class="text-secondary-text">until {{ event.endDate|date('l, F j · H:i', tz) }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3 text-primary-text">
+                    <span class="text-secondary-text shrink-0" aria-hidden="true">{{ icons.location({size: 16}) }}</span>
+                    <span class="min-w-0 break-words">{{ event.location }}</span>
+                </div>
+            </div>
+
+            {% if event.description %}
+                <p class="text-sm text-secondary-text mt-5 whitespace-pre-line">{{ event.description }}</p>
+            {% endif %}
+        </div>
+
+        {# Participants — counts now; full list comes later #}
+        <div class="card p-6 mb-3">
+            <p class="text-xs font-semibold uppercase tracking-wider text-secondary-text mb-2">Participants</p>
+            {% include 'event/_participation_counts.html.twig' %}
+        </div>
+
+        {# Actions: pick a participation status #}
+        <div class="flex flex-col gap-2 mb-5">
+            {% include 'event/_participation_widget.html.twig' %}
+        </div>
+
+        {% include 'event/feed/_section.html.twig' with {
+            event: event,
+            feedPosts: feedPosts,
+            hypedPostIds: hypedPostIds,
+            nextCursor: nextCursor,
+        } only %}
+    </div>
+{% endblock %}

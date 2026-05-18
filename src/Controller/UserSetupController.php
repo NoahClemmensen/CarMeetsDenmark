@@ -25,7 +25,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
  * Reached because {@see \App\EventSubscriber\WebRouteSubscriber} redirects
  * any authenticated user without a `name` to `/setup`. After successful
  * submission, the user is sent back to the URI they originally requested
- * (stashed in session as `web_setup_target`), or to /web/home if no safe
+ * (stashed in session as `web_setup_target`), or to /discover if no safe
  * target is on file.
  *
  * If the user already has a name, GET /setup short-circuits and redirects
@@ -35,7 +35,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/setup')]
 class UserSetupController extends AbstractController
 {
-    #[Route('', name: 'web_setup')]
+    #[Route('', name: 'app_setup')]
     public function index(
         Request             $request,
         #[CurrentUser] User $user,
@@ -48,7 +48,7 @@ class UserSetupController extends AbstractController
         if ($user->getName()) {
             $stored = $session->remove('web_setup_target');
             $target = WebTargetPath::validate(is_string($stored) ? $stored : null)
-                ?? $this->generateUrl('web_home');
+                ?? $this->generateUrl('app_discover');
 
             return $this->redirect($target);
         }
@@ -67,7 +67,7 @@ class UserSetupController extends AbstractController
 
             $stored = $session->remove('web_setup_target');
             $target = WebTargetPath::validate(is_string($stored) ? $stored : null)
-                ?? $this->generateUrl('web_home');
+                ?? $this->generateUrl('app_discover');
 
             return $turboStreamHelper
                 ->addRedirect(
@@ -78,7 +78,7 @@ class UserSetupController extends AbstractController
                 ->makeResponse();
         }
 
-        return $this->render('web/setup/index.html.twig', [
+        return $this->render('setup/index.html.twig', [
             'form' => $form->createView(),
         ], new Response(status: $form->isSubmitted() ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK));
     }

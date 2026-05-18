@@ -1,6 +1,6 @@
 twig:
     file_name_pattern: '*.twig'
-    form_themes: ['web/forms/theme.html.twig']
+    form_themes: ['forms/theme.html.twig']
     globals:
 
 when@test:

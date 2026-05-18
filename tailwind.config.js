@@ -3,7 +3,7 @@ module.exports = {
     content: [
         "./assets/**/*.js",
         './assets/**/*.css',
-        "./templates/web/**/*.html.twig",
+        "./templates/**/*.html.twig",
     ],
     safelist: [
         'tooltip-visible'
