@@ -17,10 +17,52 @@
 </head>
 <body class="h-full bg-neutral-light text-primary-text font-inter" data-controller="turbo-error-handler">
 {% import '_icons.html.twig' as icons %}
+
+{% set pageTitle %}{% block page_title %}{% endblock %}{% endset %}
+{% set pageTitle = pageTitle|trim ?: block('title') %}
+
+{% set backUrl %}{% block back_url %}{% endblock %}{% endset %}
+{% set backUrl = backUrl|trim %}
+
 {% if app.user %}
+    {# === Mobile topbar (visible <lg) === #}
+    <header class="mobile-topbar">
+        {% if backUrl %}
+            <a href="{{ backUrl }}" class="inline-flex items-center justify-center w-9 h-9 -ml-2 text-primary-text" aria-label="Back">
+                {{ icons.chevronLeft({size: 22}) }}
+            </a>
+        {% endif %}
+        <h1 class=" {{ backUrl ? 'text-center' : 'text-left' }}">
+            {{ pageTitle }}
+        </h1>
+        <a href="{{ path('app_settings') }}" class="user-avatar !w-9 !h-9" data-turbo="false" aria-label="Account">
+            {{ app.user.name|slice(0,1)|upper }}{{ app.user.name|split(' ')|last|slice(0,1)|upper }}
+        </a>
+    </header>
+
+    {# === Mobile bottom nav (visible <lg) === #}
+    <nav class="mobile-bottombar lg:hidden fixed bottom-0 inset-x-0 z-30 bg-black text-white" aria-label="Primary">
+        <div class="grid grid-cols-2 h-16">
+            {% set isActive = app.request.attributes.get('_route') == 'app_discover' %}
+            <a href="{{ path('app_discover') }}" class="mobile-bottombar-link relative flex flex-col items-center justify-center gap-1 {{ isActive ? 'is-active' : '' }}">
+                {{ icons.dashboard({size: 22}) }}
+                <span class="text-xs">Discover</span>
+                <span class="mobile-bottombar-indicator absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-8 bg-primary {{ isActive ? '' : 'opacity-0' }}" aria-hidden="true"></span>
+            </a>
+
+            {% set isActive = app.request.attributes.get('_route') == 'app_event_index' %}
+            <a href="{{ path('app_event_index') }}" class="mobile-bottombar-link relative flex flex-col items-center justify-center gap-1 {{ isActive ? 'is-active' : '' }}">
+                {{ icons.location({size: 22}) }}
+                <span class="text-xs">Your events</span>
+                <span class="mobile-bottombar-indicator absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-8 bg-primary {{ isActive ? '' : 'opacity-0' }}" aria-hidden="true"></span>
+            </a>
+        </div>
+    </nav>
+
+    {# === Desktop === #}
     <div class="app-layout">
-        {# Sidebar #}
-        <aside class="sidebar-card">
+        {# Sidebar — desktop only #}
+        <aside class="sidebar-card hidden lg:flex">
             <div class="sidebar-header">
                 <a href="{{ path('app_discover') }}" class="sidebar-logo">
                     <img src="{{ asset('wheel.png') }}" alt="Carmeets Denmark">
@@ -76,22 +118,16 @@
 
         {# Main content #}
         <div class="main-wrapper">
-            <header class="topbar-card">
+            {# Desktop topbar, desktop only #}
+            <header class="topbar-card hidden lg:block">
                 <div class="topbar-content">
                     <div class="topbar-left">
-                        {# Mobile menu button #}
-                        <button type="button" class="mobile-menu-btn" onclick="toggleMobileMenu()"
-                                aria-label="Open menu">
-                            {{ icons.menu() }}
-                        </button>
                         {# Support mode indicator #}
                         {% if is_support_mode() %}
                             <div class="support-mode-badge" role="status"
                                  aria-label="Support mode active - viewing all pours">
                                 {{ icons.shield({size: 14}) }}
-                                <span>
-                                    Support
-                                </span>
+                                <span>Support</span>
                             </div>
                         {% endif %}
                     </div>
@@ -108,6 +144,8 @@
                     </div>
                 </div>
             </header>
+
+            {# Main content area — top/bottom padding on mobile to clear the fixed bars #}
             <main class="content-card">
                 {% for message in app.flashes('success') %}
                     <div class="alert-success" role="alert">{{ message }}</div>
@@ -121,37 +159,8 @@
         </div>
     </div>
 
-    {# Mobile sidebar overlay #}
-    <div class="mobile-overlay" id="mobile-overlay" onclick="toggleMobileMenu()"></div>
-
-    <script>
-        function toggleMobileMenu() {
-            var sidebar = document.querySelector('.sidebar-card');
-            var overlay = document.getElementById('mobile-overlay');
-            if (sidebar && overlay) {
-                sidebar.classList.toggle('mobile-open');
-                overlay.classList.toggle('active');
-                document.body.classList.toggle('mobile-menu-open');
-            }
-        }
-
-        if (!window._sidebarListenersAttached) {
-            window._sidebarListenersAttached = true;
-            document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape') {
-                    var sidebar = document.querySelector('.sidebar-card');
-                    if (sidebar && sidebar.classList.contains('mobile-open')) {
-                        toggleMobileMenu();
-                    }
-                }
-            });
-        }
-    </script>
-
-    {# Toast container - persists through Turbo navigations #}
     <div id="toast-container" data-turbo-permanent></div>
 
-    {# Modal shell - one per app, content swapped via Turbo Streams #}
     <twig:Modal:Shell/>
 {% else %}
     {# Non-authenticated layout (login pages) #}

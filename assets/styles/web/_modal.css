@@ -1,7 +1,8 @@
 @layer components {
     /* Base modal container - hidden by default */
     .modal {
-        @apply fixed inset-0 z-50 hidden items-center justify-center p-4;
+        @apply fixed inset-0 z-50 hidden items-center justify-center;
+        @apply p-0 lg:p-4;
     }
 
     /* Visible state */
@@ -14,10 +15,11 @@
         @apply absolute inset-0 backdrop-blur-sm;
     }
 
-    /* Dialog panel */
+    /* Dialog panel — full screen on mobile, floating card on desktop */
     .modal__dialog {
-        @apply relative z-10 w-full max-w-lg mx-4 bg-neutral-light rounded-container shadow-xl overflow-hidden;
-        @apply max-h-[90vh] flex flex-col;
+        @apply relative z-10 w-full bg-neutral-light shadow-xl overflow-hidden flex flex-col;
+        @apply h-full max-h-screen mx-0 rounded-none;
+        @apply lg:h-auto lg:max-h-[90vh] lg:max-w-lg lg:mx-4 lg:rounded-container;
     }
 
     /* Content sections */

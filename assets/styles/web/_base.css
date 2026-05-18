@@ -1,0 +1,13 @@
+@layer components {
+    /* mobile topbar */
+    .mobile-topbar {
+        @apply lg:hidden fixed top-0 inset-x-0 z-30 h-14 bg-white border-b w-full mb-[12px] border-neutral-dark flex items-center px-4 gap-3;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.10), 0 4px 8px 0 rgba(0, 0, 0, 0.10);
+        height: 70px;
+        padding: 0 16px;
+    }
+
+    .mobile-topbar h1 {
+        @apply text-2xl font-bold m-0 text-primary-text flex-1 truncate;
+    }
+}

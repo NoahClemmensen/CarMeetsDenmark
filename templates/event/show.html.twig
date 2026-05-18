@@ -2,7 +2,9 @@
 {% import 'event/_macros.html.twig' as eventMacros %}
 {% import '_icons.html.twig' as icons %}
 
-{% block title %}{{ event.name }} – CarMeetsDenmark{% endblock %}
+{% block title %}{{ event.name }}{% endblock %}
+
+{% block back_url %}{{ path('app_event_index') }}{% endblock %}
 
 {% block header %}{% endblock %}
 

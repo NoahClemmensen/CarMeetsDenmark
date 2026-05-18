@@ -1,15 +1,17 @@
 {% extends 'base.html.twig' %}
 {% import 'event/_macros.html.twig' as eventMacros %}
 
-{% block title %}Events - CarMeetsDenmark{% endblock %}
+{% block title %}Events{% endblock %}
 
 {% block header %}{% endblock %}
 
 {% block body %}
     <div class="w-full max-w-2xl">
         <div class="flex items-center justify-between mb-4">
-            <h1 class="text-2xl font-bold text-primary-text">Events</h1>
-            <a class="btn-cta" href="{{ path('app_event_save') }}">New event</a>
+            <a class="btn-cta" href="{{ path('app_event_save') }}">Add event</a>
+            <div>
+
+            </div>
         </div>
 
         {% if events is empty %}
@@ -31,10 +33,6 @@
                             </a>
                             <p class="text-sm text-secondary-text truncate">{{ event.description }}</p>
                         </div>
-
-                        <a class="btn-secondary-sm" href="{{ path('app_event_save', {uuid: event.uuid}) }}">
-                            Edit
-                        </a>
                     </div>
                 {% endfor %}
             </div>
