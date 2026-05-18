@@ -14,6 +14,8 @@ services:
         volumes:
             - ../config:/etc/mysql/conf.d
             - db_data:/var/lib/mysql
+        networks:
+            - symfony_net
 
     php:
         build:
@@ -27,11 +29,31 @@ services:
             DATABASE_URL: "mysql://admin:stikadmin1bajer@db:3306/carmeetsdenmark?serverVersion=9.3"
             APP_ENV: dev
             APP_SECRET: dinmorergrim
+            MAILER_DSN: "smtp://mailpit:1025"
         volumes:
             - uploads_data:/var/www/public/uploads
+            - sessions_data:/var/www/var/sessions
         depends_on:
             - db
+            - mailpit
+        networks:
+            - symfony_net
+
+    mailpit:
+        image: axllent/mailpit
+        container_name: mailpit
+        restart: always
+        ports:
+            - "8025:8025"
+            - "1025:1025"
+        networks:
+            - symfony_net
+
+networks:
+    symfony_net:
+        driver: bridge
 
 volumes:
     db_data:
     uploads_data:
+    sessions_data:
