@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+{% import '_icons.html.twig' as icons %}
+
+{% block title %}{{ profileUser.name|default('User') }}{% endblock %}
+
+{% block back_url %}{{ path('app_event_index') }}{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block body %}
+    <div class="w-full max-w-lg">
+        {# Profile header #}
+        <div class="card p-6 mb-4">
+            <div class="flex items-center gap-4">
+                <div class="w-16 h-16 rounded-full bg-primary-container text-primary flex items-center justify-center text-2xl font-semibold shrink-0">
+                    {{ profileUser.name|default(profileUser.email)|first|upper }}
+                </div>
+                <div class="min-w-0">
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-2xl font-bold text-primary-text leading-tight break-words">
+                            {{ profileUser.name|default('User') }}
+                        </h1>
+                        {% if app.user and app.user.uuid == profileUser.uuid %}
+                            <a href="{{ path('app_settings') }}" class="btn-secondary-sm shrink-0" aria-label="Edit profile">Edit</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            {% if profileUser.description %}
+                <p class="text-sm text-secondary-text mt-4 whitespace-pre-line">{{ profileUser.description }}</p>
+            {% endif %}
+
+            {% if profileUser.instagramUrl or profileUser.youtubeUrl or profileUser.facebookUrl or profileUser.websiteUrl %}
+                <div class="flex items-center gap-2 mt-4">
+                    {% if profileUser.instagramUrl %}
+                        <a href="{{ profileUser.instagramUrl }}" target="_blank" rel="noopener noreferrer" class="btn-secondary-sm" aria-label="Instagram">{{ icons.instagram({size: 16}) }}</a>
+                    {% endif %}
+                    {% if profileUser.youtubeUrl %}
+                        <a href="{{ profileUser.youtubeUrl }}" target="_blank" rel="noopener noreferrer" class="btn-secondary-sm" aria-label="YouTube">{{ icons.youtube({size: 16}) }}</a>
+                    {% endif %}
+                    {% if profileUser.facebookUrl %}
+                        <a href="{{ profileUser.facebookUrl }}" target="_blank" rel="noopener noreferrer" class="btn-secondary-sm" aria-label="Facebook">{{ icons.facebook({size: 16}) }}</a>
+                    {% endif %}
+                    {% if profileUser.websiteUrl %}
+                        <a href="{{ profileUser.websiteUrl }}" target="_blank" rel="noopener noreferrer" class="btn-secondary-sm" aria-label="Website">{{ icons.link({size: 16}) }}</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+
+        {# Posts across all events #}
+        <section>
+            <h2 class="text-lg font-semibold text-primary-text mb-3">Posts</h2>
+
+            <div id="user-posts-{{ profileUser.uuid }}">
+                {% if posts is empty %}
+                    <p class="text-secondary-text text-sm text-center py-6">No posts yet.</p>
+                {% else %}
+                    {% include 'user/_posts_list.html.twig' with {
+                        profileUser: profileUser,
+                        posts: posts,
+                        hypedPostIds: hypedPostIds,
+                        nextCursor: nextCursor,
+                    } only %}
+                {% endif %}
+            </div>
+        </section>
+    </div>
+{% endblock %}

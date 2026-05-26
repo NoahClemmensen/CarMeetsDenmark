@@ -1,4 +1,5 @@
 {% import '_icons.html.twig' as icons %}
+{% import 'event/_macros.html.twig' as eventMacros %}
 
 {% set isHostPost = post.author and post.author == event.host %}
 {% set isHyped = isHypedByCurrent is defined ? isHypedByCurrent : (post.id in hypedPostIds) %}
@@ -15,7 +16,11 @@
             </div>
             <div class="min-w-0">
                 <p class="font-semibold text-primary-text truncate">
-                    {{ post.author ? post.author.name|default(post.author.email) : 'Deleted user' }}
+                    {% if post.author %}
+                        <a href="{{ path('app_user_show', {uuid: post.author.uuid}) }}" class="hover:underline">{{ post.author.name|default(post.author.email) }}</a>
+                    {% else %}
+                        Deleted user
+                    {% endif %}
                     {% if isHostPost %}
                         <span class="ml-1 inline-flex items-center px-1.5 py-0.5 rounded-element bg-primary-container text-primary text-[10px] font-bold uppercase tracking-wide">Host</span>
                     {% endif %}
@@ -27,9 +32,18 @@
                 </p>
             </div>
         </div>
-        {% if canEdit or canDelete or canPin %}
-            {% include 'event/feed/_post_actions.html.twig' with {post: post, canEdit: canEdit, canDelete: canDelete, canPin: canPin} only %}
-        {% endif %}
+        <div class="flex items-center gap-2 shrink-0">
+            {% if showEvent|default(false) %}
+                <a href="{{ path('app_event_show', {uuid: event.uuid}) }}"
+                   class="flex items-center gap-2 text-xs text-secondary-text hover:underline">
+                    <span class="truncate max-w-[8rem]">{{ event.name }}</span>
+                    <img src="{{ eventMacros.banner_url(event) }}" alt="" class="w-12 h-12 rounded object-cover shrink-0">
+                </a>
+            {% endif %}
+            {% if canEdit or canDelete or canPin %}
+                {% include 'event/feed/_post_actions.html.twig' with {post: post, canEdit: canEdit, canDelete: canDelete, canPin: canPin} only %}
+            {% endif %}
+        </div>
     </header>
 
     {% if post.body %}

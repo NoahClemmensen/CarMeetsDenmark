@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Event;
 use App\Entity\Post;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -64,5 +65,44 @@ class PostRepository extends ServiceEntityRepository
     public function findByUuid(string $uuid): ?Post
     {
         return $this->findOneBy(['uuid' => $uuid, 'isDeleted' => false]);
+    }
+
+    /**
+     * Posts authored by $author that $viewer is allowed to see, newest first.
+     * Excludes deleted posts and posts on deleted events. Private events are
+     * only visible to their host (admins/support see everything).
+     *
+     * Cursor pagination: pass $beforeCreatedAt = createdAt of the last visible
+     * post to fetch the next $limit posts.
+     *
+     * @return Post[]
+     */
+    public function findByAuthorVisibleTo(User $author, ?User $viewer, int $limit, ?int $beforeCreatedAt = null): array
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->innerJoin('p.event', 'e')
+            ->andWhere('p.author = :author')
+            ->andWhere('p.isDeleted = false')
+            ->andWhere('e.isDeleted = false')
+            ->setParameter('author', $author)
+            ->orderBy('p.createdAt', 'DESC')
+            ->setMaxResults($limit);
+
+        $isPrivileged = $viewer !== null && ($viewer->isAdmin() || $viewer->isSupport());
+        if (!$isPrivileged) {
+            if ($viewer === null) {
+                $qb->andWhere('e.private = false');
+            } else {
+                $qb->andWhere('e.private = false OR e.host = :viewer')
+                    ->setParameter('viewer', $viewer);
+            }
+        }
+
+        if ($beforeCreatedAt !== null) {
+            $qb->andWhere('p.createdAt < :before')
+                ->setParameter('before', $beforeCreatedAt);
+        }
+
+        return $qb->getQuery()->getResult();
     }
 }

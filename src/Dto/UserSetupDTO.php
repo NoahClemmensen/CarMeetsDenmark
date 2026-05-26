@@ -11,6 +11,7 @@ class UserSetupDTO
     #[Assert\NotBlank(message: 'Name is required.')]
     public string $name = '';
 
+    #[Assert\Length(max: 255, maxMessage: 'Description is too long. Max character limit is {{ limit }}.')]
     public ?string $description = '';
 
     public ?UserRole $role = null;

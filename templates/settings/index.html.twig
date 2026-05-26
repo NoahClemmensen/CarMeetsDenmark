@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+{% import '_icons.html.twig' as icons %}
+
+{% block title %}Settings{% endblock %}
+
+{% block body %}
+<div class="max-w-lg w-full">
+    {# ── Header ── #}
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-primary-text leading-tight mb-1">Settings</h1>
+        <p class="text-sm text-secondary-text">Update your profile</p>
+    </div>
+
+    {{ form_start(form) }}
+
+    {# ── Card 1: The basics ── #}
+    <div class="card p-6 mb-3">
+        {{ form_row(form.name) }}
+
+        <div class="mt-4">
+            <label for="{{ form.description.vars.id }}" class="form-label flex items-center gap-2 mb-1">About you</label>
+            {{ form_widget(form.description) }}
+        </div>
+    </div>
+
+    {# ── Card 2: Socials + Creator role as accordions ── #}
+    <div class="card overflow-hidden mb-5">
+
+        {# Socials accordion — open by default so existing links are visible #}
+        <div data-controller="accordion" data-accordion-open-value="true">
+            <button type="button"
+                    data-action="click->accordion#toggle"
+                    aria-expanded="false"
+                    class="w-full flex items-center justify-between px-6 py-4 text-left transition-colors hover:bg-black/[0.02]">
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-secondary-text">Your socials</p>
+                    <p class="text-xs text-secondary-text font-normal normal-case tracking-normal mt-0.5">Instagram, YouTube, Facebook, website</p>
+                </div>
+                <span data-accordion-target="icon" class="shrink-0">{{ icons.chevronDown({class: 'text-secondary-text', size: 16}) }}</span>
+            </button>
+            <div data-accordion-target="panel">
+                <div class="px-6 pb-5 space-y-3">
+                    {{ form_row(form.instagramUrl) }}
+                    {{ form_row(form.youtubeUrl) }}
+                    {{ form_row(form.facebookUrl) }}
+                    {{ form_row(form.websiteUrl) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="border-t border-neutral-dark opacity-40 mx-6"></div>
+
+        {# Creator role accordion — open if a role is already set #}
+        <div data-controller="accordion" data-accordion-open-value="{{ roleSelected ? 'true' : 'false' }}">
+            <button type="button"
+                    data-action="click->accordion#toggle"
+                    aria-expanded="false"
+                    class="w-full flex items-center justify-between px-6 py-4 text-left transition-colors hover:bg-black/[0.02]">
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-secondary-text">Are you a creator?</p>
+                    <p class="text-xs text-secondary-text font-normal normal-case tracking-normal mt-0.5">Photographer or influencer</p>
+                </div>
+                <span data-accordion-target="icon" class="shrink-0">{{ icons.chevronDown({class: 'text-secondary-text', size: 16}) }}</span>
+            </button>
+            <div data-accordion-target="panel">
+                <div class="px-6 pb-5">
+                    <p class="text-xs text-secondary-text mb-3">Select only if you're actively working as a photographer or influencer.</p>
+                    {{ form_widget(form.role) }}
+                    {{ form_errors(form.role) }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {{ form_errors(form) }}
+
+    {# ── Submit ── #}
+    <div>
+        <button type="submit" class="btn-cta w-full justify-center">Save changes</button>
+    </div>
+
+    {{ form_end(form) }}
+</div>
+{% endblock %}

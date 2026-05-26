@@ -1,0 +1,3 @@
+# Scripts executed inside Linux containers must use LF line endings.
+# With CRLF, Docker fails at startup with: exec /setup.sh: no such file or directory
+*.sh text eol=lf

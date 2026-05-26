@@ -35,7 +35,7 @@
         <h1 class=" {{ backUrl ? 'text-center' : 'text-left' }}">
             {{ pageTitle }}
         </h1>
-        <a href="{{ path('app_settings') }}" class="user-avatar !w-9 !h-9" data-turbo="false" aria-label="Account">
+        <a href="{{ path('app_user_show', {uuid: app.user.uuid}) }}" class="user-avatar !w-9 !h-9" aria-label="Your profile">
             {{ app.user.name|slice(0,1)|upper }}{{ app.user.name|split(' ')|last|slice(0,1)|upper }}
         </a>
     </header>
@@ -104,7 +104,13 @@
 
                 {# Bottom section #}
                 <div class="sidebar-section">
-                    <a href="{{ path('app_settings') }}" class="sidebar-link" data-turbo="false">
+                    {% set isActive = app.request.attributes.get('_route') == 'app_user_show' %}
+                    <a href="{{ path('app_user_show', {uuid: app.user.uuid}) }}"
+                       class="sidebar-link {{ isActive ? 'active' : '' }}">
+                        {{ icons.person() }}
+                        <span>Profile</span>
+                    </a>
+                    <a href="{{ path('app_settings') }}" class="sidebar-link {{ app.request.attributes.get('_route') == 'app_settings' ? 'active' : '' }}" data-turbo="false">
                         {{ icons.settings() }}
                         <span>Settings</span>
                     </a>
@@ -133,7 +139,7 @@
                     </div>
                     <div class="topbar-right">
                         <div class="user-info">
-                            <a href="{{ path('app_settings') }}" class="user-avatar">
+                            <a href="{{ path('app_user_show', {uuid: app.user.uuid}) }}" class="user-avatar" aria-label="Your profile">
                                 {{ app.user.name|slice(0,1)|upper }}{{ app.user.name|split(' ')|last|slice(0,1)|upper }}
                             </a>
                             <div class="user-details">
