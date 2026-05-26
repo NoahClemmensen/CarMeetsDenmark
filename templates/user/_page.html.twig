@@ -1,0 +1,8 @@
+<turbo-frame id="user-posts-page-{{ before|default(nextCursor) }}">
+    {% include 'user/_posts_list.html.twig' with {
+        profileUser: profileUser,
+        posts: posts,
+        hypedPostIds: hypedPostIds,
+        nextCursor: nextCursor,
+    } only %}
+</turbo-frame>
