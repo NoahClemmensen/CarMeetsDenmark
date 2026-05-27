@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+{% import 'team/_macros.html.twig' as teamMacros %}
+
+{% block title %}{{ team.name }}{% endblock %}
+{% block back_url %}{{ path('app_team_index') }}{% endblock %}
+
+{% block body %}
+    <div class="w-full max-w-3xl">
+        <div class="card overflow-hidden mb-4">
+            <img src="{{ teamMacros.banner_url(team) }}" alt="" class="w-full h-48 object-cover">
+            <div class="p-6 flex items-start gap-4">
+                <img src="{{ teamMacros.profile_picture_url(team) }}" alt="" class="w-20 h-20 rounded-full object-cover -mt-12 border-4 border-white">
+                <div class="flex-1">
+                    <h1 class="text-2xl font-semibold">{{ team.name }}</h1>
+                    <div class="text-sm text-secondary-text mb-2">{{ members|length }} members</div>
+                    <p class="text-primary-text whitespace-pre-line">{{ team.description }}</p>
+                </div>
+            </div>
+            <div class="px-6 pb-6 flex flex-wrap gap-2">
+                {% if is_granted('TEAM_EDIT', team) %}
+                    <a class="btn-secondary-sm" href="{{ path('app_team_save', {uuid: team.uuid}) }}">Edit team</a>
+                    <button type="button"
+                            class="btn-secondary-sm"
+                            data-controller="modal-trigger"
+                            data-action="click->modal-trigger#open"
+                            data-modal-trigger-url-value="{{ path('app_team_invite_modal', {uuid: team.uuid}) }}">
+                        Invite members
+                    </button>
+                    <button type="button"
+                            class="btn-text text-error"
+                            data-controller="modal-trigger"
+                            data-action="click->modal-trigger#open"
+                            data-modal-trigger-url-value="{{ path('app_team_delete_confirm', {uuid: team.uuid}) }}">
+                        Delete team
+                    </button>
+                {% elseif is_granted('TEAM_LEAVE', team) %}
+                    <form method="post" action="{{ path('app_team_leave', {uuid: team.uuid}) }}"
+                          onsubmit="return confirm('Leave this team?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('team-leave-' ~ team.uuid) }}">
+                        <button type="submit" class="btn-text text-error">Leave team</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+
+        <section class="card p-6 mb-4">
+            <h2 class="font-semibold mb-3">Members</h2>
+            {{ include('team/_member_list.html.twig', {team: team, members: members}) }}
+        </section>
+
+        <section class="card p-6 mb-4">
+            <div class="flex items-center justify-between mb-3">
+                <h2 class="font-semibold">Upcoming events</h2>
+                {% if viewerMembership %}
+                    <a class="btn-cta" href="{{ path('app_event_save') }}?team={{ team.uuid }}">Create event</a>
+                {% endif %}
+            </div>
+            {{ include('team/_event_list.html.twig', {events: upcomingEvents, emptyMessage: 'No upcoming events.'}) }}
+        </section>
+
+        <section class="card p-6">
+            <h2 class="font-semibold mb-3">Past events</h2>
+            {{ include('team/_event_list.html.twig', {events: pastEvents, emptyMessage: 'No past events.'}) }}
+        </section>
+    </div>
+{% endblock %}

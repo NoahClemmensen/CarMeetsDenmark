@@ -1,0 +1,15 @@
+{% macro banner_url(team) %}
+{%- if team and team.bannerFilename -%}
+{{ asset('uploads/team-banners/' ~ team.bannerFilename) }}
+{%- else -%}
+{{ asset('placeholder-banner.jpg') }}
+{%- endif -%}
+{% endmacro %}
+
+{% macro profile_picture_url(team) %}
+{%- if team and team.profilePictureFilename -%}
+{{ asset('uploads/team-profile-pictures/' ~ team.profilePictureFilename) }}
+{%- else -%}
+{{ asset('wheel.png') }}
+{%- endif -%}
+{% endmacro %}

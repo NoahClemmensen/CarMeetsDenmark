@@ -178,11 +178,61 @@ final class EventVoterTest extends TestCase
         );
     }
 
-    private function makeVoter(): EventVoter
+    public function testPrivateEventGrantsViewToTeamMember(): void
+    {
+        $host = $this->makeUser([]);
+        $teammate = $this->makeUser([]);
+
+        $team = new \App\Entity\Team();
+        $team->setName('T');
+        $team->setDescription('D');
+
+        $hostMembership = new \App\Entity\TeamMember($team, $host, \App\Enum\TeamRole::Owner);
+        $teammateMembership = new \App\Entity\TeamMember($team, $teammate, \App\Enum\TeamRole::Member);
+
+        $event = $this->makeEvent($host, private: true);
+        $event->setTeam($team);
+
+        $teamMemberRepo = $this->createMock(\App\Repository\TeamMemberRepository::class);
+        $teamMemberRepo->method('findOneFor')->willReturnCallback(
+            fn ($t, $u) => $u === $host ? $hostMembership : ($u === $teammate ? $teammateMembership : null)
+        );
+
+        $voter = $this->makeVoter($teamMemberRepo);
+
+        self::assertSame(
+            \Symfony\Component\Security\Core\Authorization\Voter\Voter::ACCESS_GRANTED,
+            $voter->vote($this->tokenFor($teammate), $event, [\App\Security\Voter\EventVoter::VIEW]),
+        );
+    }
+
+    public function testPrivateEventDeniesViewToNonTeamMember(): void
+    {
+        $host = $this->makeUser([]);
+        $outsider = $this->makeUser([]);
+
+        $team = new \App\Entity\Team();
+        $event = $this->makeEvent($host, private: true);
+        $event->setTeam($team);
+
+        $teamMemberRepo = $this->createMock(\App\Repository\TeamMemberRepository::class);
+        $teamMemberRepo->method('findOneFor')->willReturn(null);
+
+        $voter = $this->makeVoter($teamMemberRepo);
+
+        self::assertSame(
+            \Symfony\Component\Security\Core\Authorization\Voter\Voter::ACCESS_DENIED,
+            $voter->vote($this->tokenFor($outsider), $event, [\App\Security\Voter\EventVoter::VIEW]),
+        );
+    }
+
+    private function makeVoter(?\App\Repository\TeamMemberRepository $teamMemberRepo = null): EventVoter
     {
         $repo = $this->createMock(ParticipationRepository::class);
         $repo->method('findForEventAndUser')->willReturn(null);
-        return new EventVoter($repo);
+
+        $teamMemberRepo ??= $this->createMock(\App\Repository\TeamMemberRepository::class);
+        return new EventVoter($repo, $teamMemberRepo);
     }
 
     private function tokenFor(?User $user): TokenInterface
@@ -196,6 +246,7 @@ final class EventVoterTest extends TestCase
     {
         $event = new Event($host);
         $event->setPrivate($private);
+        $event->setTeam(new \App\Entity\Team());
         return $event;
     }
 

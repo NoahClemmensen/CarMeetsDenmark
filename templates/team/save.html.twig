@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ team ? 'Edit ' ~ team.name : 'New team' }}{% endblock %}
+{% block back_url %}{{ team ? path('app_team_show', {uuid: team.uuid}) : path('app_team_index') }}{% endblock %}
+
+{% block body %}
+    <div class="w-full max-w-lg">
+        {{ form_start(form) }}
+
+        <div class="card p-6 mb-3">
+            {{ form_row(form.name) }}
+            <div class="mt-4">
+                {{ form_row(form.description) }}
+            </div>
+        </div>
+
+        <div class="card p-6 mb-3">
+            <h3 class="font-medium mb-2">Banner</h3>
+            {{ form_row(form.bannerFile) }}
+            {% if team and team.bannerFilename %}
+                {{ form_row(form.removeBanner) }}
+            {% endif %}
+        </div>
+
+        <div class="card p-6 mb-5">
+            <h3 class="font-medium mb-2">Profile picture</h3>
+            {{ form_row(form.profilePictureFile) }}
+            {% if team and team.profilePictureFilename %}
+                {{ form_row(form.removeProfilePicture) }}
+            {% endif %}
+        </div>
+
+        {{ form_errors(form) }}
+
+        <button type="submit" class="btn-cta w-full justify-center">
+            {{ team ? 'Save changes' : 'Create team' }}
+        </button>
+
+        {{ form_widget(form._token) }}
+        {{ form_end(form, {render_rest: false}) }}
+    </div>
+{% endblock %}

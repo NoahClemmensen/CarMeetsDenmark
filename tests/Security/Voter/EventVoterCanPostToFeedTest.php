@@ -9,6 +9,7 @@ use App\Entity\Participation;
 use App\Entity\User;
 use App\Enum\ParticipationStatus;
 use App\Repository\ParticipationRepository;
+use App\Repository\TeamMemberRepository;
 use App\Security\Voter\EventVoter;
 use PHPUnit\Framework\TestCase;
 
@@ -82,13 +83,16 @@ final class EventVoterCanPostToFeedTest extends TestCase
     {
         $repo = $this->createMock(ParticipationRepository::class);
         $repo->method('findForEventAndUser')->willReturn($participation);
-        return new TestableEventVoter($repo);
+        $teamRepo = $this->createMock(TeamMemberRepository::class);
+        return new TestableEventVoter($repo, $teamRepo);
     }
 
     private function makeEvent(?User $host = null): Event
     {
         $host ??= $this->makeUserWithRoles([]);
-        return new Event($host);
+        $event = new Event($host);
+        $event->setTeam(new \App\Entity\Team());
+        return $event;
     }
 
     private function makeUserWithRoles(array $roles): User

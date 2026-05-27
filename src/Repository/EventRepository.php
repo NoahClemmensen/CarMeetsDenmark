@@ -38,4 +38,44 @@ class EventRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    /**
+     * @return Event[]
+     */
+    public function findUpcomingForTeam(\App\Entity\Team $team, bool $includePrivate): array
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->andWhere('e.team = :team')
+            ->andWhere('e.isDeleted = false')
+            ->andWhere('e.startDate >= :now')
+            ->orderBy('e.startDate', 'ASC')
+            ->setParameter('team', $team)
+            ->setParameter('now', new \DateTimeImmutable());
+
+        if (!$includePrivate) {
+            $qb->andWhere('e.private = false');
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @return Event[]
+     */
+    public function findPastForTeam(\App\Entity\Team $team, bool $includePrivate): array
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->andWhere('e.team = :team')
+            ->andWhere('e.isDeleted = false')
+            ->andWhere('e.startDate < :now')
+            ->orderBy('e.startDate', 'DESC')
+            ->setParameter('team', $team)
+            ->setParameter('now', new \DateTimeImmutable());
+
+        if (!$includePrivate) {
+            $qb->andWhere('e.private = false');
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

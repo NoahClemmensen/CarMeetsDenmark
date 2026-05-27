@@ -27,8 +27,12 @@ class EventService
         ?UploadedFile $bannerFile,
         bool $removeBanner,
         User $author,
+        ?\App\Entity\Team $team = null,
     ): Event {
         $event ??= new Event($author);
+        if ($team !== null) {
+            $event->setTeam($team);
+        }
 
         $event->setName($dto->name);
         $event->setDescription($dto->description);
