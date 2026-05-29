@@ -1,4 +1,5 @@
 <?php
+
 // Holds a MySQL advisory lock for the duration of doctrine:schema:update,
 // so only one replica applies schema changes at a time. Other replicas
 // block on GET_LOCK, then run schema:update against the already-updated
