@@ -1,3 +1,4 @@
+{% import 'user/_macros.html.twig' as userMacros %}
 {# Always render this wrapper so RSVP changes (or post creates) can replace it via Turbo Stream. #}
 <div id="event-feed-composer-{{ event.uuid }}">
     {% if is_granted('POST_TO_FEED', event) %}
@@ -6,8 +7,12 @@
                 data-controller="modal-trigger"
                 data-modal-trigger-url-value="{{ path('app_event_post_new', {uuid: event.uuid}) }}"
                 data-action="click->modal-trigger#open">
-            <span class="w-9 h-9 rounded-full bg-primary-container text-primary flex items-center justify-center text-sm font-semibold shrink-0">
-                {{ app.user ? (app.user.name|default(app.user.email))|first|upper : '?' }}
+            <span class="w-9 h-9 rounded-full bg-primary-container text-primary flex items-center justify-center text-sm font-semibold shrink-0 overflow-hidden">
+                {% if app.user and app.user.avatarFilename %}
+                    <img src="{{ userMacros.avatar_url(app.user) }}" alt="" class="w-full h-full object-cover">
+                {% else %}
+                    {{ app.user ? (app.user.name|default(app.user.email))|first|upper : '?' }}
+                {% endif %}
             </span>
             <span class="text-sm text-secondary-text flex-1">Share something about this event…</span>
         </button>

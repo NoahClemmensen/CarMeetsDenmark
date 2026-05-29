@@ -69,6 +69,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $websiteUrl = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['public'])]
+    private ?string $avatarFilename = null;
+
     #[ORM\Column]
     private ?bool $isDeleted = false;
 
@@ -259,6 +263,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setWebsiteUrl(?string $websiteUrl): static
     {
         $this->websiteUrl = $websiteUrl;
+
+        return $this;
+    }
+
+    public function getAvatarFilename(): ?string
+    {
+        return $this->avatarFilename;
+    }
+
+    public function setAvatarFilename(?string $avatarFilename): static
+    {
+        $this->avatarFilename = $avatarFilename;
 
         return $this;
     }

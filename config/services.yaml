@@ -9,6 +9,7 @@
 parameters:
     event_banners_directory: '%kernel.project_dir%/public/uploads/event-banners'
     event_feed_directory: '%kernel.project_dir%/public/uploads/event-feed'
+    user_avatars_directory: '%kernel.project_dir%/public/uploads/user-avatars'
 
 services:
     # default configuration for services in *this* file

@@ -76,6 +76,63 @@
         @apply hidden;
     }
 
+    /* Profile-picture editor: circular avatar with side-by-side actions. */
+    .user-avatar-editor {
+        @apply flex items-center gap-4;
+    }
+
+    .user-avatar-editor__circle {
+        @apply relative w-20 h-20 rounded-full overflow-hidden bg-primary-container
+            text-primary flex items-center justify-center shrink-0;
+    }
+
+    .user-avatar-editor__image {
+        @apply absolute inset-0 w-full h-full object-cover;
+    }
+
+    .user-avatar-editor__initial {
+        @apply text-3xl font-semibold;
+    }
+
+    .user-avatar-editor__actions {
+        @apply flex flex-col items-start gap-2;
+    }
+
+    .user-avatar-editor--remove .user-avatar-editor__image {
+        @apply opacity-30;
+    }
+
+    .user-avatar-editor__inputs {
+        @apply hidden;
+    }
+
+    /* Crop preview: 240px square with circular mask + zoom slider. Lives in a modal. */
+    .user-avatar-cropper__frame {
+        @apply relative w-60 h-60 max-w-full overflow-hidden rounded-container bg-neutral cursor-grab select-none touch-none;
+    }
+
+    .user-avatar-cropper__frame:active {
+        @apply cursor-grabbing;
+    }
+
+    .user-avatar-cropper__image {
+        @apply absolute top-0 left-0 max-w-none origin-top-left pointer-events-none;
+    }
+
+    .user-avatar-cropper__mask {
+        @apply absolute inset-0 pointer-events-none;
+        background:
+            radial-gradient(circle at center, transparent 0, transparent calc(50% - 1px), rgba(0,0,0,0.45) 50%);
+    }
+
+    .user-avatar-cropper__controls {
+        @apply flex items-center gap-3 mt-3;
+    }
+
+    .user-avatar-cropper__slider {
+        @apply flex-1 accent-primary;
+    }
+
     .form-label {
         @apply block text-sm font-medium text-primary-text mb-1;
     }

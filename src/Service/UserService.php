@@ -6,11 +6,17 @@ use App\Dto\UserSetupDTO;
 use App\Entity\User;
 use App\Enum\UserRole;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UserService
 {
-    public function __construct(private readonly EntityManagerInterface $em)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly FileUploader $fileUploader,
+        #[Autowire('%user_avatars_directory%')]
+        private readonly string $avatarDirectory,
+    ) {
     }
 
     /**
@@ -21,8 +27,12 @@ class UserService
      * append the newly-chosen profile role. Anything else on the user
      * (e.g. `ROLE_SUPPORT`, `ROLE_ADMIN`) is preserved.
      */
-    public function updateFromUserSetup(User $user, UserSetupDTO $dto): void
-    {
+    public function updateFromUserSetup(
+        User $user,
+        UserSetupDTO $dto,
+        ?UploadedFile $avatarFile = null,
+        bool $removeAvatar = false,
+    ): void {
         $user->setName($dto->name);
         $user->setDescription($dto->description ?: null);
 
@@ -39,6 +49,21 @@ class UserService
         $user->setWebsiteUrl($dto->websiteUrl ?: null);
         $user->setTimezone($dto->timezone);
         $user->setLanguage($dto->language);
+
+        // Removal runs before upload so checking "remove" + picking a new file still works.
+        if ($removeAvatar && $user->getAvatarFilename() !== null) {
+            $this->fileUploader->remove($this->avatarDirectory, $user->getAvatarFilename());
+            $user->setAvatarFilename(null);
+        }
+
+        if ($avatarFile !== null) {
+            $newName = $this->fileUploader->upload(
+                $avatarFile,
+                $this->avatarDirectory,
+                $user->getAvatarFilename(),
+            );
+            $user->setAvatarFilename($newName);
+        }
 
         $this->em->flush();
     }

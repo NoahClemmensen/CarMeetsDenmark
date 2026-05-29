@@ -190,7 +190,18 @@
 
 {# ── Segmented choice (enum toggle buttons) ── #}
 {% block segmented_choice_widget %}
+    {% set has_placeholder = placeholder is not none and placeholder is not same as(false) %}
+    {% set placeholder_label = translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain) %}
     <div class="segmented-track" data-controller="segmented-control">
+        {# Placeholder acts as a "none" segment — selecting it clears the value #}
+        {% if has_placeholder %}
+            <button type="button"
+                    class="segmented-option {{ value is empty ? 'segmented-option--active' : '' }}"
+                    data-action="click->segmented-control#select"
+                    data-segmented-control-value-param="">
+                {{ placeholder_label }}
+            </button>
+        {% endif %}
         {% for choice in choices %}
             <button type="button"
                     class="segmented-option {{ choice.value == value ? 'segmented-option--active' : '' }}"
@@ -200,8 +211,8 @@
             </button>
         {% endfor %}
         <select {{ block('widget_attributes') }} hidden>
-            {%- if not required -%}
-                <option value=""{{ value is empty ? ' selected="selected"' : '' }}></option>
+            {%- if not required or has_placeholder -%}
+                <option value=""{{ value is empty ? ' selected="selected"' : '' }}>{{ has_placeholder ? placeholder_label : '' }}</option>
             {%- endif -%}
             {% for choice in choices %}
                 <option value="{{ choice.value }}"{{ choice.value == value ? ' selected="selected"' : '' }}>{{ choice.label }}</option>
