@@ -1,0 +1,22 @@
+{% set hasIgEmbed = posts|filter(p => p.hasEmbed and p.embedProvider.value == 'instagram')|length > 0 %}
+
+{% for post in posts %}
+    {% include 'event/feed/_post.html.twig' with {
+        event: post.event,
+        post: post,
+        hypedPostIds: hypedPostIds,
+        showEvent: true,
+    } only %}
+{% endfor %}
+
+{% if nextCursor is defined and nextCursor %}
+    <turbo-frame id="user-posts-page-{{ nextCursor }}" src="{{ path('app_user_posts', {uuid: profileUser.uuid, before: nextCursor}) }}" loading="lazy">
+        <p class="text-center text-secondary-text text-sm py-4">
+            <a href="{{ path('app_user_posts', {uuid: profileUser.uuid, before: nextCursor}) }}" class="link">Load more</a>
+        </p>
+    </turbo-frame>
+{% endif %}
+
+{% if hasIgEmbed %}
+    <script async src="https://www.instagram.com/embed.js"></script>
+{% endif %}

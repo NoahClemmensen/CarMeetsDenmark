@@ -1,0 +1,8 @@
+<turbo-frame id="follow-{{ targetUuid }}">
+    <form method="post" action="{{ action }}" class="inline">
+        <input type="hidden" name="_token" value="{{ csrf_token('follow-' ~ targetUuid) }}">
+        <button type="submit" class="{{ isFollowing ? 'btn-cta-sm' : 'btn-secondary-sm' }}">
+            {{ isFollowing ? 'Following' : 'Follow' }}
+        </button>
+    </form>
+</turbo-frame>

@@ -1,0 +1,28 @@
+{% extends 'components/Modal/ContentShell.html.twig' %}
+
+{% block header %}
+    <twig:Modal:Header title="Invite to {{ team.name }}" />
+{% endblock %}
+
+{% block body %}
+    <form id="team-invite-form"
+          method="POST"
+          action="{{ path('app_team_invite', {uuid: team.uuid}) }}"
+          class="px-6 py-4 flex flex-col gap-3">
+        <label class="form-label" for="team-invite-email">Email</label>
+        <input id="team-invite-email"
+               type="email"
+               name="email"
+               required
+               class="form-input"
+               placeholder="member@example.com">
+        <input type="hidden" name="_token" value="{{ csrf_token('team-invite-' ~ team.uuid) }}">
+    </form>
+{% endblock %}
+
+{% block footer %}
+    <div class="modal-footer">
+        <button type="button" class="btn-grey" data-action="click->modal#hide">Cancel</button>
+        <button type="submit" form="team-invite-form" class="btn-cta">Add to team</button>
+    </div>
+{% endblock %}

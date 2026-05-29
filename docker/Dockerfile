@@ -50,6 +50,10 @@ RUN php bin/console asset-map:compile
 # Pre-warm the cache as www-data so no runtime writes are needed
 RUN APP_ENV=prod php bin/console cache:warmup
 
+# Create the runtime-writable dirs so the named volumes mount onto existing,
+# owned paths instead of being created lazily as root.
+RUN mkdir -p var/sessions public/uploads
+
 # Copy entrypoint before chown so everything gets correct ownership in one pass
 COPY docker/setup.sh /setup.sh
 RUN chmod +x /setup.sh

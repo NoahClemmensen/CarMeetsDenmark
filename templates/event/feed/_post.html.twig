@@ -1,4 +1,5 @@
 {% import '_icons.html.twig' as icons %}
+{% import 'user/_macros.html.twig' as userMacros %}
 
 {% set isHostPost = post.author and post.author == event.host %}
 {% set isHyped = isHypedByCurrent is defined ? isHypedByCurrent : (post.id in hypedPostIds) %}
@@ -10,12 +11,20 @@
          class="card p-5 mb-3 {{ isHostPost ? 'border-l-2 border-primary' : '' }} {{ post.isPinned ? 'bg-primary-container/30' : '' }}">
     <header class="flex items-start justify-between gap-3 mb-3">
         <div class="flex items-center gap-3 min-w-0">
-            <div class="w-9 h-9 rounded-full bg-primary-container text-primary flex items-center justify-center text-sm font-semibold shrink-0">
-                {{ post.author ? post.author.name|default(post.author.email)|first|upper : '?' }}
+            <div class="w-9 h-9 rounded-full bg-primary-container text-primary flex items-center justify-center text-sm font-semibold shrink-0 overflow-hidden">
+                {% if post.author and post.author.avatarFilename %}
+                    <img src="{{ userMacros.avatar_url(post.author) }}" alt="" class="w-full h-full object-cover">
+                {% else %}
+                    {{ post.author ? post.author.name|default(post.author.email)|first|upper : '?' }}
+                {% endif %}
             </div>
             <div class="min-w-0">
                 <p class="font-semibold text-primary-text truncate">
-                    {{ post.author ? post.author.name|default(post.author.email) : 'Deleted user' }}
+                    {% if post.author %}
+                        <a href="{{ path('app_user_show', {uuid: post.author.uuid}) }}" class="hover:underline">{{ post.author.name|default(post.author.email) }}</a>
+                    {% else %}
+                        Deleted user
+                    {% endif %}
                     {% if isHostPost %}
                         <span class="ml-1 inline-flex items-center px-1.5 py-0.5 rounded-element bg-primary-container text-primary text-[10px] font-bold uppercase tracking-wide">Host</span>
                     {% endif %}
@@ -27,9 +36,18 @@
                 </p>
             </div>
         </div>
-        {% if canEdit or canDelete or canPin %}
-            {% include 'event/feed/_post_actions.html.twig' with {post: post, canEdit: canEdit, canDelete: canDelete, canPin: canPin} only %}
-        {% endif %}
+        <div class="flex items-center gap-2 shrink-0">
+            {% if showEvent|default(false) %}
+                <a href="{{ path('app_event_show', {uuid: event.uuid}) }}"
+                   class="flex items-center gap-1 text-xs text-secondary-text hover:underline">
+                    {{ icons.location({size: 14, class: 'shrink-0'}) }}
+                    <span class="truncate max-w-[8rem]">{{ event.name }}</span>
+                </a>
+            {% endif %}
+            {% if canEdit or canDelete or canPin %}
+                {% include 'event/feed/_post_actions.html.twig' with {post: post, canEdit: canEdit, canDelete: canDelete, canPin: canPin} only %}
+            {% endif %}
+        </div>
     </header>
 
     {% if post.body %}

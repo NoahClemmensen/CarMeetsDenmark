@@ -9,17 +9,37 @@ use App\Enum\UserRole;
 use App\Form\Type\IconTextType;
 use App\Form\Type\SegmentedChoiceType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class UserSetupType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('avatarFile', FileType::class, [
+                'label' => 'Profile picture',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File(
+                        maxSize: '4M',
+                        mimeTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
+                        mimeTypesMessage: 'Please upload a valid image (JPEG, PNG, GIF, or WEBP) up to 4MB.',
+                    ),
+                ],
+            ])
+            ->add('removeAvatar', CheckboxType::class, [
+                'label' => 'Remove current profile picture',
+                'mapped' => false,
+                'required' => false,
+            ])
             ->add('name', TextType::class, [
                 'label' => 'Your name',
                 'required' => true,
@@ -61,7 +81,9 @@ class UserSetupType extends AbstractType
                 'class' => UserRole::class,
                 'label' => false,
                 'required' => false,
-                'placeholder' => false,
+                // "Default" is the no-creator-role option; picking it clears any
+                // previously selected role (handled in UserService).
+                'placeholder' => 'Default',
                 'choice_label' => fn (UserRole $role) => $role->label(),
             ])
             ->add('timezone', HiddenType::class, [

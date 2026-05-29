@@ -1,0 +1,205 @@
+{% extends 'base.html.twig' %}
+{% import '_icons.html.twig' as icons %}
+{% import 'user/_macros.html.twig' as userMacros %}
+
+{% block title %}Settings{% endblock %}
+
+{% block body %}
+<div class="max-w-lg w-full">
+    {# ── Header ── #}
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-primary-text leading-tight mb-1">Settings</h1>
+        <p class="text-sm text-secondary-text">Update your profile</p>
+    </div>
+
+    {{ form_start(form) }}
+
+    {# ── Card 1: The basics ── #}
+    <div class="card p-6 mb-3">
+        {% set hasSavedAvatar = app.user.avatarFilename is not null %}
+        {% set avatarUrl = userMacros.avatar_url(app.user) %}
+        <div class="user-avatar-editor mb-5"
+             data-controller="user-avatar-editor"
+             data-has-saved-avatar="{{ hasSavedAvatar ? 'true' : 'false' }}">
+            <div class="user-avatar-editor__circle">
+                {% if avatarUrl %}
+                    <img data-user-avatar-editor-target="image"
+                         src="{{ avatarUrl }}"
+                         alt="Profile picture"
+                         class="user-avatar-editor__image">
+                {% else %}
+                    <img data-user-avatar-editor-target="image"
+                         src=""
+                         alt=""
+                         class="user-avatar-editor__image hidden">
+                {% endif %}
+                <span data-user-avatar-editor-target="initial"
+                      class="user-avatar-editor__initial {{ avatarUrl ? 'hidden' : '' }}">
+                    {{ (app.user.name|default(app.user.email))|first|upper }}
+                </span>
+            </div>
+
+            <div class="user-avatar-editor__actions">
+                <label for="{{ form.avatarFile.vars.id }}" class="btn-secondary-sm cursor-pointer">
+                    {{ hasSavedAvatar ? 'Change picture' : 'Upload picture' }}
+                </label>
+                <button type="button"
+                        data-action="click->user-avatar-editor#remove"
+                        data-user-avatar-editor-target="removeBtn"
+                        class="btn-text text-error{% if not hasSavedAvatar %} hidden{% endif %}">
+                    Remove
+                </button>
+            </div>
+
+            <div class="user-avatar-editor__inputs">
+                {{ form_widget(form.avatarFile, {
+                    attr: {
+                        'data-user-avatar-editor-target': 'fileInput',
+                        'data-action': 'change->user-avatar-editor#previewFile',
+                        'accept': 'image/jpeg,image/png,image/gif,image/webp',
+                    }
+                }) }}
+                {{ form_widget(form.removeAvatar, {
+                    attr: {
+                        'data-user-avatar-editor-target': 'removeCheckbox',
+                    }
+                }) }}
+            </div>
+            {{ form_errors(form.avatarFile) }}
+
+            <div class="modal"
+                 data-user-avatar-editor-target="cropper"
+                 role="dialog"
+                 aria-modal="true"
+                 aria-label="Adjust profile picture"
+                 aria-hidden="true">
+                <div class="modal__backdrop"
+                     data-action="click->user-avatar-editor#cancelCrop"></div>
+                <div class="modal__dialog">
+                    <div class="modal-header">
+                        <h2 class="modal-title">Adjust profile picture</h2>
+                        <button type="button"
+                                class="modal-close rounded-full"
+                                data-action="click->user-avatar-editor#cancelCrop"
+                                aria-label="Cancel">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="user-avatar-cropper px-6 py-5">
+                        <p class="text-xs text-secondary-text mb-3">Drag to reposition, slide to resize.</p>
+                        <div class="user-avatar-cropper__frame mx-auto"
+                             data-user-avatar-editor-target="cropFrame"
+                             data-action="pointerdown->user-avatar-editor#startPan">
+                            <img data-user-avatar-editor-target="cropImage"
+                                 class="user-avatar-cropper__image"
+                                 alt="Crop preview">
+                            <div class="user-avatar-cropper__mask"></div>
+                        </div>
+                        <div class="user-avatar-cropper__controls">
+                            <span class="text-xs text-secondary-text">Zoom</span>
+                            <input type="range"
+                                   min="1" max="3" step="0.01" value="1"
+                                   data-user-avatar-editor-target="zoom"
+                                   data-action="input->user-avatar-editor#zoomChanged"
+                                   class="user-avatar-cropper__slider">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button"
+                                class="btn-text"
+                                data-action="click->user-avatar-editor#cancelCrop">
+                            Cancel
+                        </button>
+                        <button type="button"
+                                class="btn-cta"
+                                data-action="click->user-avatar-editor#applyCrop">
+                            Apply
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{ form_row(form.name) }}
+
+        <div class="mt-4">
+            <label for="{{ form.description.vars.id }}" class="form-label flex items-center gap-2 mb-1">About you</label>
+            {{ form_widget(form.description) }}
+        </div>
+    </div>
+
+    {# ── Card 2: Socials + Creator role as accordions ── #}
+    <div class="card overflow-hidden mb-5">
+
+        {# Socials accordion — open by default so existing links are visible #}
+        <div data-controller="accordion" data-accordion-open-value="true">
+            <button type="button"
+                    data-action="click->accordion#toggle"
+                    aria-expanded="false"
+                    class="w-full flex items-center justify-between px-6 py-4 text-left transition-colors hover:bg-black/[0.02]">
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-secondary-text">Your socials</p>
+                    <p class="text-xs text-secondary-text font-normal normal-case tracking-normal mt-0.5">Instagram, YouTube, Facebook, website</p>
+                </div>
+                <span data-accordion-target="icon" class="shrink-0">{{ icons.chevronDown({class: 'text-secondary-text', size: 16}) }}</span>
+            </button>
+            <div data-accordion-target="panel">
+                <div class="px-6 pb-5 space-y-3">
+                    {{ form_row(form.instagramUrl) }}
+                    {{ form_row(form.youtubeUrl) }}
+                    {{ form_row(form.facebookUrl) }}
+                    {{ form_row(form.websiteUrl) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="border-t border-neutral-dark opacity-40 mx-6"></div>
+
+        {# Creator role accordion — open if a role is already set #}
+        <div data-controller="accordion" data-accordion-open-value="{{ roleSelected ? 'true' : 'false' }}">
+            <button type="button"
+                    data-action="click->accordion#toggle"
+                    aria-expanded="false"
+                    class="w-full flex items-center justify-between px-6 py-4 text-left transition-colors hover:bg-black/[0.02]">
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-secondary-text">Are you a creator?</p>
+                    <p class="text-xs text-secondary-text font-normal normal-case tracking-normal mt-0.5">Photographer or influencer</p>
+                </div>
+                <span data-accordion-target="icon" class="shrink-0">{{ icons.chevronDown({class: 'text-secondary-text', size: 16}) }}</span>
+            </button>
+            <div data-accordion-target="panel">
+                <div class="px-6 pb-5">
+                    <p class="text-xs text-secondary-text mb-3">Select only if you're actively working as a photographer or influencer.</p>
+                    {{ form_widget(form.role) }}
+                    {{ form_errors(form.role) }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {{ form_errors(form) }}
+
+    {# ── Submit ── #}
+    <div>
+        <button type="submit" class="btn-cta w-full justify-center">Save changes</button>
+    </div>
+
+    {{ form_end(form) }}
+
+    {# ── Change password — opens the shared modal, no page reload ── #}
+    <button type="button"
+            class="card w-full flex items-center justify-between px-6 py-4 mt-5 text-left transition-colors hover:bg-black/[0.02]"
+            data-controller="modal-trigger"
+            data-action="click->modal-trigger#open"
+            data-modal-trigger-url-value="{{ path('app_settings_password_form') }}">
+        <div>
+            <p class="text-xs font-semibold uppercase tracking-wider text-secondary-text">Change password</p>
+            <p class="text-xs text-secondary-text font-normal normal-case tracking-normal mt-0.5">Update your account password</p>
+        </div>
+        <span class="shrink-0">{{ icons.chevronRight({class: 'text-secondary-text', size: 16}) }}</span>
+    </button>
+</div>
+{% endblock %}

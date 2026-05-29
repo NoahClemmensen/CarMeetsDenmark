@@ -35,14 +35,29 @@
         <h1 class=" {{ backUrl ? 'text-center' : 'text-left' }}">
             {{ pageTitle }}
         </h1>
-        <a href="{{ path('app_settings') }}" class="user-avatar !w-9 !h-9" data-turbo="false" aria-label="Account">
+        {% set unreadCount = unread_notification_count() %}
+        <button type="button"
+                class="relative inline-flex items-center justify-center w-9 h-9 mr-1 text-primary-text"
+                data-controller="notification-bell"
+                data-action="click->notification-bell#toggle"
+                data-notification-bell-url-value="{{ path('app_notification_dropdown') }}"
+                aria-label="Notifications">
+            {{ icons.bell({size: 22}) }}
+            {% if unreadCount > 0 %}
+                <span class="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] rounded-full bg-error text-white text-xs font-semibold flex items-center justify-center px-1"
+                      data-notification-bell-target="badge">
+                    {{ unreadCount > 99 ? '99+' : unreadCount }}
+                </span>
+            {% endif %}
+        </button>
+        <a href="{{ path('app_user_show', {uuid: app.user.uuid}) }}" class="user-avatar !w-9 !h-9" aria-label="Your profile">
             {{ app.user.name|slice(0,1)|upper }}{{ app.user.name|split(' ')|last|slice(0,1)|upper }}
         </a>
     </header>
 
     {# === Mobile bottom nav (visible <lg) === #}
     <nav class="mobile-bottombar lg:hidden fixed bottom-0 inset-x-0 z-30 bg-black text-white" aria-label="Primary">
-        <div class="grid grid-cols-2 h-16">
+        <div class="grid grid-cols-3 h-16">
             {% set isActive = app.request.attributes.get('_route') == 'app_discover' %}
             <a href="{{ path('app_discover') }}" class="mobile-bottombar-link relative flex flex-col items-center justify-center gap-1 {{ isActive ? 'is-active' : '' }}">
                 {{ icons.dashboard({size: 22}) }}
@@ -54,6 +69,13 @@
             <a href="{{ path('app_event_index') }}" class="mobile-bottombar-link relative flex flex-col items-center justify-center gap-1 {{ isActive ? 'is-active' : '' }}">
                 {{ icons.location({size: 22}) }}
                 <span class="text-xs">Your events</span>
+                <span class="mobile-bottombar-indicator absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-8 bg-primary {{ isActive ? '' : 'opacity-0' }}" aria-hidden="true"></span>
+            </a>
+
+            {% set isActive = app.request.attributes.get('_route') starts with 'app_team_' %}
+            <a href="{{ path('app_team_index') }}" class="mobile-bottombar-link relative flex flex-col items-center justify-center gap-1 {{ isActive ? 'is-active' : '' }}">
+                {{ icons.teams({size: 22}) }}
+                <span class="text-xs">Teams</span>
                 <span class="mobile-bottombar-indicator absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-8 bg-primary {{ isActive ? '' : 'opacity-0' }}" aria-hidden="true"></span>
             </a>
         </div>
@@ -85,6 +107,12 @@
                         {{ icons.location() }}
                         <span>Events</span>
                     </a>
+                    {% set isActive = app.request.attributes.get('_route') starts with 'app_team_' %}
+                    <a href="{{ path('app_team_index') }}"
+                       class="sidebar-link {{ isActive ? 'active' : '' }}">
+                        {{ icons.teams() }}
+                        <span>Teams</span>
+                    </a>
                 </div>
 
                 {% if is_support_mode() %}
@@ -104,7 +132,13 @@
 
                 {# Bottom section #}
                 <div class="sidebar-section">
-                    <a href="{{ path('app_settings') }}" class="sidebar-link" data-turbo="false">
+                    {% set isActive = app.request.attributes.get('_route') == 'app_user_show' %}
+                    <a href="{{ path('app_user_show', {uuid: app.user.uuid}) }}"
+                       class="sidebar-link {{ isActive ? 'active' : '' }}">
+                        {{ icons.person() }}
+                        <span>Profile</span>
+                    </a>
+                    <a href="{{ path('app_settings') }}" class="sidebar-link {{ app.request.attributes.get('_route') == 'app_settings' ? 'active' : '' }}" data-turbo="false">
                         {{ icons.settings() }}
                         <span>Settings</span>
                     </a>
@@ -132,8 +166,23 @@
                         {% endif %}
                     </div>
                     <div class="topbar-right">
+                        {% set unreadCount = unread_notification_count() %}
+                        <button type="button"
+                                class="relative inline-flex items-center justify-center w-10 h-10 mr-2 text-primary-text"
+                                data-controller="notification-bell"
+                                data-action="click->notification-bell#toggle"
+                                data-notification-bell-url-value="{{ path('app_notification_dropdown') }}"
+                                aria-label="Notifications">
+                            {{ icons.bell({size: 22}) }}
+                            {% if unreadCount > 0 %}
+                                <span class="absolute top-1 right-1 min-w-[18px] h-[18px] rounded-full bg-error text-white text-xs font-semibold flex items-center justify-center px-1"
+                                      data-notification-bell-target="badge">
+                                    {{ unreadCount > 99 ? '99+' : unreadCount }}
+                                </span>
+                            {% endif %}
+                        </button>
                         <div class="user-info">
-                            <a href="{{ path('app_settings') }}" class="user-avatar">
+                            <a href="{{ path('app_user_show', {uuid: app.user.uuid}) }}" class="user-avatar" aria-label="Your profile">
                                 {{ app.user.name|slice(0,1)|upper }}{{ app.user.name|split(' ')|last|slice(0,1)|upper }}
                             </a>
                             <div class="user-details">

@@ -29,7 +29,7 @@ class EventType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new File(
-                        maxSize: '4M',
+                        maxSize: '12M',
                         mimeTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
                         mimeTypesMessage: 'Please upload a valid image file (JPEG, PNG, GIF, or WEBP) with a maximum size of 4MB.',
                     ),

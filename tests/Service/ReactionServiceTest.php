@@ -89,7 +89,13 @@ final class ReactionServiceTest extends KernelTestCase
 
     private function makeEvent(User $host): Event
     {
+        $team = new \App\Entity\Team();
+        $team->setName('T');
+        $team->setDescription('D');
+        $this->em->persist($team);
+
         $event = new Event($host);
+        $event->setTeam($team);
         $event->setName('E');
         $event->setLocation('L');
         $event->setStartDate(new \DateTime('+1 day'));

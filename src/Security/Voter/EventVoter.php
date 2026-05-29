@@ -6,6 +6,7 @@ use App\Entity\Event;
 use App\Entity\User;
 use App\Enum\ParticipationStatus;
 use App\Repository\ParticipationRepository;
+use App\Repository\TeamMemberRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -32,6 +33,7 @@ class EventVoter extends Voter
 
     public function __construct(
         private readonly ParticipationRepository $participationRepository,
+        private readonly TeamMemberRepository $teamMemberRepository,
     ) {
     }
 
@@ -51,8 +53,20 @@ class EventVoter extends Voter
             return true;
         }
 
-        if ($subject->isPrivate() && (!$user instanceof User || $subject->getHost() !== $user)) {
-            return false;
+        if ($subject->isPrivate()) {
+            if (!$user instanceof User) {
+                return false;
+            }
+            if ($subject->getHost() !== $user) {
+                $team = $subject->getTeam();
+                if ($team === null) {
+                    return false;
+                }
+                $membership = $this->teamMemberRepository->findOneFor($team, $user);
+                if ($membership === null) {
+                    return false;
+                }
+            }
         }
 
         return match ($attribute) {

@@ -70,6 +70,10 @@ class Event
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?User $host;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Team $team = null;
+
     #[ORM\Column(type: 'boolean')]
     private bool $private = false;
 
@@ -278,5 +282,17 @@ class Event
     public function getPosts(): Collection
     {
         return $this->posts;
+    }
+
+    public function getTeam(): ?Team
+    {
+        return $this->team;
+    }
+
+    public function setTeam(Team $team): static
+    {
+        $this->team = $team;
+
+        return $this;
     }
 }

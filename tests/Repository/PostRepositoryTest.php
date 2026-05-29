@@ -108,7 +108,13 @@ final class PostRepositoryTest extends KernelTestCase
 
     private function makeEvent(User $host): Event
     {
+        $team = new \App\Entity\Team();
+        $team->setName('T');
+        $team->setDescription('D');
+        $this->em->persist($team);
+
         $event = new Event($host);
+        $event->setTeam($team);
         $event->setName('Test Event');
         $event->setLocation('Test Location');
         $event->setStartDate(new \DateTime('+1 day'));
