@@ -16,6 +16,7 @@ class ParticipationService
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly ParticipationRepository $participationRepository,
+        private readonly NotificationService $notificationService,
     ) {
     }
 
@@ -26,6 +27,7 @@ class ParticipationService
     public function setStatus(Event $event, User $user, ParticipationStatus $status): Participation
     {
         $participation = $this->participationRepository->findForEventAndUser($event, $user);
+        $previousStatus = $participation?->getStatus();
 
         if ($participation === null) {
             $participation = new Participation($event, $user, $status);
@@ -35,6 +37,10 @@ class ParticipationService
         }
 
         $this->em->flush();
+
+        if ($status === ParticipationStatus::Going && $previousStatus !== ParticipationStatus::Going) {
+            $this->notificationService->notifyUserRsvpGoing($event, $user);
+        }
 
         return $participation;
     }

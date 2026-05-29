@@ -31,6 +31,8 @@ class EventController extends AbstractController
 {
     public function __construct(
         private readonly EventRepository $eventRepository,
+        private readonly \App\Repository\TeamRepository $teamRepository,
+        private readonly \App\Repository\TeamMemberRepository $teamMemberRepository,
     ) {
     }
 
@@ -245,7 +247,20 @@ class EventController extends AbstractController
             /** @var UploadedFile|null $bannerFile */
             $bannerFile = $form->get('imageFile')->getData();
             $removeBanner = (bool) $form->get('removeImage')->getData();
-            $event = $eventService->saveFromDto($event, $dto, $bannerFile, $removeBanner, $user);
+
+            $team = null;
+            if ($event === null) {
+                $teamUuid = (string) $request->query->get('team');
+                $team = $this->teamRepository->findOneActiveByUuid($teamUuid);
+                if ($team === null) {
+                    throw $this->createNotFoundException('Team not found.');
+                }
+                if ($this->teamMemberRepository->findOneFor($team, $user) === null) {
+                    throw $this->createAccessDeniedException('You are not a member of this team.');
+                }
+            }
+
+            $event = $eventService->saveFromDto($event, $dto, $bannerFile, $removeBanner, $user, $team);
 
             return $turbo
                 ->addRedirect(
@@ -269,9 +284,22 @@ class EventController extends AbstractController
                 ->makeResponse();
         }
 
+        $contextTeam = $event?->getTeam();
+        if ($event === null) {
+            $teamUuid = (string) $request->query->get('team');
+            $contextTeam = $teamUuid !== '' ? $this->teamRepository->findOneActiveByUuid($teamUuid) : null;
+            if ($contextTeam === null) {
+                throw $this->createNotFoundException('Events must be created from a team page.');
+            }
+            if ($this->teamMemberRepository->findOneFor($contextTeam, $user) === null) {
+                throw $this->createAccessDeniedException('You are not a member of this team.');
+            }
+        }
+
         return $this->render('event/save.html.twig', [
             'form' => $form->createView(),
             'event' => $event,
+            'team' => $contextTeam,
         ]);
     }
 

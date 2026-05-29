@@ -100,7 +100,13 @@ final class PostControllerTest extends WebTestCase
 
     private function makeEvent(EntityManagerInterface $em, User $host): Event
     {
+        $team = new \App\Entity\Team();
+        $team->setName('Test team');
+        $team->setDescription('Test team description');
+        $em->persist($team);
+
         $event = new Event($host);
+        $event->setTeam($team);
         $event->setName('Test Event');
         $event->setLocation('TestLoc');
         $event->setStartDate(new \DateTime('+1 day'));

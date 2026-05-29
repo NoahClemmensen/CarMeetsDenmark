@@ -1,0 +1,17 @@
+{% if events is empty %}
+    <p class="text-secondary-text">{{ emptyMessage }}</p>
+{% else %}
+    <ul class="flex flex-col gap-2">
+        {% for event in events %}
+            <li>
+                <a href="{{ path('app_event_show', {uuid: event.uuid}) }}"
+                   class="flex items-center justify-between gap-3 rounded-container border border-neutral hover:bg-neutral-light p-3">
+                    <span class="font-medium truncate">{{ event.name }}</span>
+                    <time datetime="{{ event.startDate|date('c') }}" class="text-sm text-secondary-text">
+                        {{ event.startDate|date('M j, Y') }}
+                    </time>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

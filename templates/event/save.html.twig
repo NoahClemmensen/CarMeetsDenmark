@@ -21,6 +21,11 @@
 
     <div class="w-full max-w-lg">
         {{ form_start(form) }}
+        {% if team is defined and team %}
+            <div class="mb-3 text-sm text-secondary-text">
+                Creating event for <a class="font-medium text-primary-text hover:underline" href="{{ path('app_team_show', {uuid: team.uuid}) }}">{{ team.name }}</a>
+            </div>
+        {% endif %}
         {% set hasSavedBanner = event and event.imageFilename %}
         <div class="event-banner-editor mb-4"
              data-controller="event-banner-editor"

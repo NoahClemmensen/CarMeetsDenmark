@@ -1,0 +1,25 @@
+{% extends 'components/Modal/ContentShell.html.twig' %}
+
+{% block header %}
+    <twig:Modal:Header title="Delete team?" />
+{% endblock %}
+
+{% block body %}
+    <div class="px-6 py-4">
+        <p class="text-sm text-primary-text">
+            This will delete <strong>{{ team.name }}</strong>, all of its events, and remove every member. This cannot be undone.
+        </p>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <div class="modal-footer">
+        <button type="button" class="btn-grey" data-action="click->modal#hide">Cancel</button>
+        <form method="POST"
+              action="{{ path('app_team_delete', {uuid: team.uuid}) }}"
+              class="inline">
+            <input type="hidden" name="_token" value="{{ csrf_token('team-delete-' ~ team.uuid) }}">
+            <button type="submit" class="btn-danger">Delete</button>
+        </form>
+    </div>
+{% endblock %}
