@@ -56,26 +56,73 @@ class Team
         $this->members = new ArrayCollection();
     }
 
-    public function getId(): ?int { return $this->id; }
-    public function getUuid(): ?string { return $this->uuid; }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+    public function getUuid(): ?string
+    {
+        return $this->uuid;
+    }
 
-    public function getName(): ?string { return $this->name; }
-    public function setName(string $name): static { $this->name = $name; return $this; }
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+    public function setName(string $name): static
+    {
+        $this->name = $name;
+        return $this;
+    }
 
-    public function getDescription(): ?string { return $this->description; }
-    public function setDescription(string $description): static { $this->description = $description; return $this; }
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
+        return $this;
+    }
 
-    public function getBannerFilename(): ?string { return $this->bannerFilename; }
-    public function setBannerFilename(?string $filename): static { $this->bannerFilename = $filename; return $this; }
+    public function getBannerFilename(): ?string
+    {
+        return $this->bannerFilename;
+    }
+    public function setBannerFilename(?string $filename): static
+    {
+        $this->bannerFilename = $filename;
+        return $this;
+    }
 
-    public function getProfilePictureFilename(): ?string { return $this->profilePictureFilename; }
-    public function setProfilePictureFilename(?string $filename): static { $this->profilePictureFilename = $filename; return $this; }
+    public function getProfilePictureFilename(): ?string
+    {
+        return $this->profilePictureFilename;
+    }
+    public function setProfilePictureFilename(?string $filename): static
+    {
+        $this->profilePictureFilename = $filename;
+        return $this;
+    }
 
-    public function getCreatedAt(): int { return $this->createdAt; }
+    public function getCreatedAt(): int
+    {
+        return $this->createdAt;
+    }
 
-    public function isDeleted(): bool { return $this->isDeleted; }
-    public function setIsDeleted(bool $isDeleted): static { $this->isDeleted = $isDeleted; return $this; }
+    public function isDeleted(): bool
+    {
+        return $this->isDeleted;
+    }
+    public function setIsDeleted(bool $isDeleted): static
+    {
+        $this->isDeleted = $isDeleted;
+        return $this;
+    }
 
     /** @return Collection<int, TeamMember> */
-    public function getMembers(): Collection { return $this->members; }
+    public function getMembers(): Collection
+    {
+        return $this->members;
+    }
 }

@@ -60,26 +60,79 @@ class Notification
         $this->createdAt = time();
     }
 
-    public function getId(): ?int { return $this->id; }
-    public function getUuid(): string { return $this->uuid; }
-    public function getRecipient(): User { return $this->recipient; }
-    public function getType(): NotificationType { return $this->type; }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+    public function getUuid(): string
+    {
+        return $this->uuid;
+    }
+    public function getRecipient(): User
+    {
+        return $this->recipient;
+    }
+    public function getType(): NotificationType
+    {
+        return $this->type;
+    }
 
-    public function getActorUser(): ?User { return $this->actorUser; }
-    public function setActorUser(?User $actorUser): static { $this->actorUser = $actorUser; return $this; }
+    public function getActorUser(): ?User
+    {
+        return $this->actorUser;
+    }
+    public function setActorUser(?User $actorUser): static
+    {
+        $this->actorUser = $actorUser;
+        return $this;
+    }
 
-    public function getActorTeam(): ?Team { return $this->actorTeam; }
-    public function setActorTeam(?Team $actorTeam): static { $this->actorTeam = $actorTeam; return $this; }
+    public function getActorTeam(): ?Team
+    {
+        return $this->actorTeam;
+    }
+    public function setActorTeam(?Team $actorTeam): static
+    {
+        $this->actorTeam = $actorTeam;
+        return $this;
+    }
 
-    public function getTargetEvent(): ?Event { return $this->targetEvent; }
-    public function setTargetEvent(?Event $targetEvent): static { $this->targetEvent = $targetEvent; return $this; }
+    public function getTargetEvent(): ?Event
+    {
+        return $this->targetEvent;
+    }
+    public function setTargetEvent(?Event $targetEvent): static
+    {
+        $this->targetEvent = $targetEvent;
+        return $this;
+    }
 
-    public function getTargetPost(): ?Post { return $this->targetPost; }
-    public function setTargetPost(?Post $targetPost): static { $this->targetPost = $targetPost; return $this; }
+    public function getTargetPost(): ?Post
+    {
+        return $this->targetPost;
+    }
+    public function setTargetPost(?Post $targetPost): static
+    {
+        $this->targetPost = $targetPost;
+        return $this;
+    }
 
-    public function getCreatedAt(): int { return $this->createdAt; }
+    public function getCreatedAt(): int
+    {
+        return $this->createdAt;
+    }
 
-    public function getReadAt(): ?int { return $this->readAt; }
-    public function setReadAt(?int $readAt): static { $this->readAt = $readAt; return $this; }
-    public function isRead(): bool { return $this->readAt !== null; }
+    public function getReadAt(): ?int
+    {
+        return $this->readAt;
+    }
+    public function setReadAt(?int $readAt): static
+    {
+        $this->readAt = $readAt;
+        return $this;
+    }
+    public function isRead(): bool
+    {
+        return $this->readAt !== null;
+    }
 }

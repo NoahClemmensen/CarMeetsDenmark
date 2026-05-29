@@ -123,7 +123,9 @@ final class TeamServiceTest extends KernelTestCase
         $invitee->setEmail('invitee@example.com');
         $this->em->flush();
 
-        $dto = new SaveTeamDTO(); $dto->name = 'T'; $dto->description = 'D';
+        $dto = new SaveTeamDTO();
+        $dto->name = 'T';
+        $dto->description = 'D';
         $team = $this->service->createTeam($owner, $dto, null, null);
         $this->service->inviteMemberByEmail($team, 'invitee@example.com');
 
@@ -139,7 +141,9 @@ final class TeamServiceTest extends KernelTestCase
         $owner = $this->makeUser();
         $this->em->flush();
 
-        $dto = new SaveTeamDTO(); $dto->name = 'T'; $dto->description = 'D';
+        $dto = new SaveTeamDTO();
+        $dto->name = 'T';
+        $dto->description = 'D';
         $team = $this->service->createTeam($owner, $dto, null, null);
 
         $this->expectException(\DomainException::class);
@@ -153,7 +157,9 @@ final class TeamServiceTest extends KernelTestCase
         $invitee->setEmail('invitee@example.com');
         $this->em->flush();
 
-        $dto = new SaveTeamDTO(); $dto->name = 'T'; $dto->description = 'D';
+        $dto = new SaveTeamDTO();
+        $dto->name = 'T';
+        $dto->description = 'D';
         $team = $this->service->createTeam($owner, $dto, null, null);
         $this->service->inviteMemberByEmail($team, 'invitee@example.com');
 
@@ -170,7 +176,9 @@ final class TeamServiceTest extends KernelTestCase
         $owner = $this->makeUser();
         $this->em->flush();
 
-        $dto = new SaveTeamDTO(); $dto->name = 'T'; $dto->description = 'D';
+        $dto = new SaveTeamDTO();
+        $dto->name = 'T';
+        $dto->description = 'D';
         $team = $this->service->createTeam($owner, $dto, null, null);
 
         $this->expectException(\DomainException::class);
@@ -184,7 +192,9 @@ final class TeamServiceTest extends KernelTestCase
         $invitee->setEmail('invitee@example.com');
         $this->em->flush();
 
-        $dto = new SaveTeamDTO(); $dto->name = 'T'; $dto->description = 'D';
+        $dto = new SaveTeamDTO();
+        $dto->name = 'T';
+        $dto->description = 'D';
         $team = $this->service->createTeam($owner, $dto, null, null);
         $this->service->inviteMemberByEmail($team, 'invitee@example.com');
         $event = $this->makeEvent($team, $owner);
@@ -208,7 +218,9 @@ final class TeamServiceTest extends KernelTestCase
         $owner = $this->makeUser();
         $this->em->flush();
 
-        $dto = new SaveTeamDTO(); $dto->name = 'Old'; $dto->description = 'Old desc';
+        $dto = new SaveTeamDTO();
+        $dto->name = 'Old';
+        $dto->description = 'Old desc';
         $team = $this->service->createTeam($owner, $dto, null, null);
 
         $update = new SaveTeamDTO();

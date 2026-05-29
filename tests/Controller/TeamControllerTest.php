@@ -72,7 +72,8 @@ final class TeamControllerTest extends WebTestCase
         $em->flush();
 
         $team = new Team();
-        $team->setName('T'); $team->setDescription('D');
+        $team->setName('T');
+        $team->setDescription('D');
         $em->persist($team);
         $em->persist(new TeamMember($team, $owner, TeamRole::Owner));
         $em->flush();
@@ -105,7 +106,8 @@ final class TeamControllerTest extends WebTestCase
         $em->flush();
 
         $team = new Team();
-        $team->setName('T'); $team->setDescription('D');
+        $team->setName('T');
+        $team->setDescription('D');
         $em->persist($team);
         $em->persist(new TeamMember($team, $owner, TeamRole::Owner));
         $em->flush();
@@ -136,7 +138,8 @@ final class TeamControllerTest extends WebTestCase
         $em->flush();
 
         $team = new Team();
-        $team->setName('T'); $team->setDescription('D');
+        $team->setName('T');
+        $team->setDescription('D');
         $em->persist($team);
         $em->persist(new TeamMember($team, $owner, TeamRole::Owner));
         $em->flush();
@@ -157,7 +160,8 @@ final class TeamControllerTest extends WebTestCase
         $em->flush();
 
         $team = new Team();
-        $team->setName('T'); $team->setDescription('D');
+        $team->setName('T');
+        $team->setDescription('D');
         $em->persist($team);
         $em->persist(new TeamMember($team, $owner, TeamRole::Owner));
         $em->flush();

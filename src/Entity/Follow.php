@@ -57,10 +57,28 @@ class Follow
         return $follow;
     }
 
-    public function getId(): ?int { return $this->id; }
-    public function getFollower(): User { return $this->follower; }
-    public function getTargetType(): FollowTargetType { return $this->targetType; }
-    public function getTargetUser(): ?User { return $this->targetUser; }
-    public function getTargetTeam(): ?Team { return $this->targetTeam; }
-    public function getCreatedAt(): int { return $this->createdAt; }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+    public function getFollower(): User
+    {
+        return $this->follower;
+    }
+    public function getTargetType(): FollowTargetType
+    {
+        return $this->targetType;
+    }
+    public function getTargetUser(): ?User
+    {
+        return $this->targetUser;
+    }
+    public function getTargetTeam(): ?Team
+    {
+        return $this->targetTeam;
+    }
+    public function getCreatedAt(): int
+    {
+        return $this->createdAt;
+    }
 }
