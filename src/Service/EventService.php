@@ -18,6 +18,7 @@ class EventService
         private readonly FileUploader $fileUploader,
         #[Autowire('%event_banners_directory%')]
         private readonly string $bannerDirectory,
+        private readonly NotificationService $notificationService,
     ) {
     }
 
@@ -29,6 +30,7 @@ class EventService
         User $author,
         ?\App\Entity\Team $team = null,
     ): Event {
+        $isNew = $event === null;
         $event ??= new Event($author);
         if ($team !== null) {
             $event->setTeam($team);
@@ -61,6 +63,10 @@ class EventService
 
         $this->em->persist($event);
         $this->em->flush();
+
+        if ($isNew) {
+            $this->notificationService->notifyTeamNewEvent($event);
+        }
 
         return $event;
     }

@@ -22,6 +22,7 @@ class PostService
         private readonly EmbedParser $embedParser,
         #[Autowire('%event_feed_directory%')]
         private readonly string $feedDirectory,
+        private readonly NotificationService $notificationService,
     ) {
     }
 
@@ -61,6 +62,8 @@ class PostService
 
         $this->em->persist($post);
         $this->em->flush();
+
+        $this->notificationService->notifyUserNewPost($post);
 
         return $post;
     }

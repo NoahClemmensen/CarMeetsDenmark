@@ -111,6 +111,7 @@ class TeamController extends AbstractController
     public function show(
         string $uuid,
         EventRepository $eventRepository,
+        \App\Service\FollowService $followService,
         ?UserInterface $user = null,
     ): Response {
         $team = $this->teamRepository->findOneActiveByUuid($uuid);
@@ -124,12 +125,15 @@ class TeamController extends AbstractController
             ? null
             : $this->teamMemberRepository->findOneFor($team, $viewer);
 
+        $isFollowing = $viewer !== null && $followService->isFollowingTeam($viewer, $team);
+
         return $this->render('team/show.html.twig', [
             'team' => $team,
             'members' => $team->getMembers(),
             'upcomingEvents' => $eventRepository->findUpcomingForTeam($team, $viewerMembership !== null),
             'pastEvents' => $eventRepository->findPastForTeam($team, $viewerMembership !== null),
             'viewerMembership' => $viewerMembership,
+            'isFollowing' => $isFollowing,
         ]);
     }
 

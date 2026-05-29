@@ -34,11 +34,14 @@ class UserController extends AbstractController
         string $uuid,
         PostReactionRepository $postReactions,
         #[CurrentUser] User $viewer,
+        \App\Service\FollowService $followService,
     ): Response {
         $profileUser = $this->userRepository->findOneBy(['uuid' => $uuid, 'isDeleted' => false]);
         if ($profileUser === null) {
             throw $this->createNotFoundException();
         }
+
+        $isFollowing = $viewer->getId() !== $profileUser->getId() && $followService->isFollowingUser($viewer, $profileUser);
 
         $posts = $this->postRepository->findByAuthorVisibleTo($profileUser, $viewer, self::POSTS_PAGE_SIZE);
         $hypedPostIds = $postReactions->findPostIdsHypedBy($viewer, array_map(fn (Post $p) => $p->getId(), $posts));
@@ -48,6 +51,7 @@ class UserController extends AbstractController
             'posts' => $posts,
             'hypedPostIds' => $hypedPostIds,
             'nextCursor' => $this->nextCursor($posts),
+            'isFollowing' => $isFollowing,
         ]);
     }
 

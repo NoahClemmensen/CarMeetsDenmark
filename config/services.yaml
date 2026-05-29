@@ -43,3 +43,9 @@ when@test:
         App\Service\TeamService:
             public: true
             autowire: true
+        App\Service\FollowService:
+            public: true
+            autowire: true
+        App\Service\NotificationService:
+            public: true
+            autowire: true

@@ -1,0 +1,61 @@
+{% import '_icons.html.twig' as icons %}
+
+<li id="notification-row-{{ notification.uuid }}" class="group relative">
+    <a href="{{ path('app_event_show', {uuid: notification.targetEvent.uuid}) }}"
+       class="flex items-start gap-3 pl-4 pr-10 py-3 transition-colors hover:bg-neutral-light/70 {{ notification.isRead() ? '' : 'bg-primary/[0.04]' }}">
+
+        {% if not notification.isRead() %}
+            <span class="absolute left-0 top-3 bottom-3 w-[3px] rounded-r-full bg-primary"></span>
+        {% endif %}
+
+        <div class="flex-shrink-0 mt-0.5">
+            {% if notification.type.value == 'team_new_event' %}
+                <div class="w-9 h-9 rounded-full flex items-center justify-center bg-primary/10 text-primary">
+                    {{ icons.location({size: 16}) }}
+                </div>
+            {% elseif notification.type.value == 'user_rsvp_going' %}
+                <div class="w-9 h-9 rounded-full flex items-center justify-center bg-emerald-500/10 text-emerald-600">
+                    {{ icons.person({size: 16}) }}
+                </div>
+            {% else %}
+                <div class="w-9 h-9 rounded-full flex items-center justify-center bg-amber-500/10 text-amber-600">
+                    {{ icons.location({size: 16}) }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="flex-1 min-w-0">
+            <p class="text-[0.8125rem] text-primary-text leading-snug">
+                {% if notification.type.value == 'team_new_event' %}
+                    <strong class="font-semibold">{{ notification.actorTeam.name }}</strong>
+                    <span class="text-secondary-text">added</span>
+                    <span class="font-medium">{{ notification.targetEvent.name }}</span>
+                {% elseif notification.type.value == 'user_rsvp_going' %}
+                    <strong class="font-semibold">{{ notification.actorUser.name|default(notification.actorUser.email) }}</strong>
+                    <span class="text-secondary-text">is going to</span>
+                    <span class="font-medium">{{ notification.targetEvent.name }}</span>
+                {% else %}
+                    <strong class="font-semibold">{{ notification.actorUser.name|default(notification.actorUser.email) }}</strong>
+                    <span class="text-secondary-text">posted in</span>
+                    <span class="font-medium">{{ notification.targetEvent.name }}</span>
+                {% endif %}
+            </p>
+            <time class="text-[10px] text-secondary-text mt-1 inline-block font-medium uppercase tracking-wider">
+                {{ notification.createdAt|date('M j · H:i') }}
+            </time>
+        </div>
+    </a>
+
+    <form method="post"
+          action="{{ path('app_notification_delete', {uuid: notification.uuid}) }}"
+          class="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
+        <input type="hidden" name="_token" value="{{ csrf_token('notification-delete-' ~ notification.uuid) }}">
+        <button type="submit"
+                class="w-6 h-6 rounded-full bg-white border border-neutral text-secondary-text hover:text-error hover:border-error/40 flex items-center justify-center transition-colors"
+                aria-label="Delete notification">
+            <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M2 2L10 10M10 2L2 10"/>
+            </svg>
+        </button>
+    </form>
+</li>
