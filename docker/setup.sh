@@ -5,10 +5,6 @@ set -e
 echo "Waiting for database..."
 sleep 10
 
-echo "Give permissions..."
-chmod -R 777 ./
-
-
 echo "Running migrations (serialized via MySQL advisory lock)..."
 php docker/migrate.php
 
