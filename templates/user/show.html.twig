@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 {% import '_icons.html.twig' as icons %}
+{% import 'user/_macros.html.twig' as userMacros %}
 
 {% block title %}{{ profileUser.name|default('User') }}{% endblock %}
 
@@ -12,8 +13,12 @@
         {# Profile header #}
         <div class="card p-6 mb-4">
             <div class="flex items-center gap-4">
-                <div class="w-16 h-16 rounded-full bg-primary-container text-primary flex items-center justify-center text-2xl font-semibold shrink-0">
-                    {{ profileUser.name|default(profileUser.email)|first|upper }}
+                <div class="w-16 h-16 rounded-full bg-primary-container text-primary flex items-center justify-center text-2xl font-semibold shrink-0 overflow-hidden">
+                    {% if profileUser.avatarFilename %}
+                        <img src="{{ userMacros.avatar_url(profileUser) }}" alt="{{ profileUser.name|default('') }}" class="w-full h-full object-cover">
+                    {% else %}
+                        {{ profileUser.name|default(profileUser.email)|first|upper }}
+                    {% endif %}
                 </div>
                 <div class="min-w-0">
                     <div class="flex items-center gap-2">

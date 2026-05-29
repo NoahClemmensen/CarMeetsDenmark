@@ -1,0 +1,7 @@
+{# Resolves the avatar URL for a user. Returns null when the user has no
+   uploaded picture, so callers can fall back to the initial-letter circle. #}
+{% macro avatar_url(user) %}
+    {{- user and user.avatarFilename
+        ? asset('uploads/user-avatars/' ~ user.avatarFilename)
+        : '' -}}
+{% endmacro %}
