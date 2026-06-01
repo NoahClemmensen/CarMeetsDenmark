@@ -14,7 +14,7 @@ STACK_FILE="$SCRIPT_DIR/docker/docker-stack.yml"
 STACK_NAME="carmeets"
 
 if [ ! -f "$ENV_FILE" ]; then
-  echo "Error: .env not found at $ENV_FILE" >&2
+  echo "Error: .env.prod not found at $ENV_FILE" >&2
   exit 1
 fi
 
