@@ -4,7 +4,8 @@
 
 {% block title %}{{ event.name }}{% endblock %}
 
-{% block back_url %}{{ path('app_event_index') }}{% endblock %}
+{% block back_url %}{{ path('app_team_show', {uuid: event.team.uuid}) }}{% endblock %}
+{% block back_label %}Back to {{ event.team.name }}{% endblock %}
 
 {% block header %}{% endblock %}
 
@@ -87,7 +88,7 @@
             {% endif %}
         </div>
 
-        {# Participants — counts now; full list comes later #}
+        {# Participants, counts now; full list comes later #}
         <div class="card p-6 mb-3">
             <p class="text-xs font-semibold uppercase tracking-wider text-secondary-text mb-2">Participants</p>
             {% include 'event/_participation_counts.html.twig' %}

@@ -78,7 +78,7 @@ export default class extends Controller {
                 this.map.setView([position.coords.latitude, position.coords.longitude], DENMARK_ZOOM);
             }
         } catch (e) {
-            // Location denied/unavailable — keep the default Denmark view.
+            // Location denied/unavailable, keep the default Denmark view.
         }
     }
 

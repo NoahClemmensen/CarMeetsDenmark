@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus';
 
 /**
- * Accordion controller — smooth height-animated collapsible panel.
+ * Accordion controller. Smooth height-animated collapsible panel.
  *
  * Usage:
  *   <div data-controller="accordion">

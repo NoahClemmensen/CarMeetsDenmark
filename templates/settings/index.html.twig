@@ -133,7 +133,7 @@
     {# ── Card 2: Socials + Creator role as accordions ── #}
     <div class="card overflow-hidden mb-5">
 
-        {# Socials accordion — open by default so existing links are visible #}
+        {# Socials accordion, open by default so existing links are visible #}
         <div data-controller="accordion" data-accordion-open-value="true">
             <button type="button"
                     data-action="click->accordion#toggle"
@@ -157,7 +157,7 @@
 
         <div class="border-t border-neutral-dark opacity-40 mx-6"></div>
 
-        {# Creator role accordion — open if a role is already set #}
+        {# Creator role accordion, open if a role is already set #}
         <div data-controller="accordion" data-accordion-open-value="{{ roleSelected ? 'true' : 'false' }}">
             <button type="button"
                     data-action="click->accordion#toggle"
@@ -189,7 +189,7 @@
 
     {{ form_end(form) }}
 
-    {# ── Change password — opens the shared modal, no page reload ── #}
+    {# ── Change password, opens the shared modal, no page reload ── #}
     <button type="button"
             class="card w-full flex items-center justify-between px-6 py-4 mt-5 text-left transition-colors hover:bg-black/[0.02]"
             data-controller="modal-trigger"

@@ -65,7 +65,7 @@ final class HeatmapControllerTest extends WebTestCase
 
         $client->loginUser($user);
 
-        // Pull the real CSRF token the page rendered — same token the JS posts.
+        // Pull the real CSRF token the page rendered, same token the JS posts.
         $crawler = $client->request('GET', '/heatmap');
         $token = $crawler->filter('[data-heatmap-csrf-value]')->attr('data-heatmap-csrf-value');
 
@@ -77,7 +77,7 @@ final class HeatmapControllerTest extends WebTestCase
         $em->clear();
         self::assertSame(1, $em->getRepository(\App\Entity\ActivityPing::class)->count([]));
 
-        // Remove (toggle off) — no coordinates needed
+        // Remove (toggle off), no coordinates needed
         $client->request('POST', '/heatmap/ping', ['_token' => $token]);
         self::assertResponseIsSuccessful();
         self::assertFalse(json_decode((string) $client->getResponse()->getContent(), true)['active']);

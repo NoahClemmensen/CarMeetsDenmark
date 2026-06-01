@@ -29,7 +29,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
  * target is on file.
  *
  * If the user already has a name, GET /setup short-circuits and redirects
- * away — there's no "edit profile" UX here; that lives in /settings.
+ * away. There's no "edit profile" UX here; that lives in /settings.
  */
 #[IsGranted("IS_AUTHENTICATED_FULLY")]
 #[Route('/setup')]

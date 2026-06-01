@@ -1,6 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 
-const OUTPUT_SIZE = 400; // pixels — what we save server-side
+const OUTPUT_SIZE = 400; // pixels, what we save server-side
 
 export default class extends Controller {
     static targets = [

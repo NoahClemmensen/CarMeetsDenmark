@@ -193,7 +193,7 @@
     {% set has_placeholder = placeholder is not none and placeholder is not same as(false) %}
     {% set placeholder_label = translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain) %}
     <div class="segmented-track" data-controller="segmented-control">
-        {# Placeholder acts as a "none" segment — selecting it clears the value #}
+        {# Placeholder acts as a "none" segment, selecting it clears the value #}
         {% if has_placeholder %}
             <button type="button"
                     class="segmented-option {{ value is empty ? 'segmented-option--active' : '' }}"

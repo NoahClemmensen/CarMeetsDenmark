@@ -53,7 +53,7 @@ class ActivityPingRepository extends ServiceEntityRepository
 
     /**
      * Anonymous coordinates of all active pings, for the heatmap overlay.
-     * Returns a plain list of [lat, lng] float pairs — no ids, no users.
+     * Returns a plain list of [lat, lng] float pairs, no ids, no users.
      *
      * @return array<int, array{0: float, 1: float}>
      */

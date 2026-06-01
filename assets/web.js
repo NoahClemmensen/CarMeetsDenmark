@@ -27,7 +27,7 @@ import LightboxController from "./controllers/lightbox_controller.js";
 import IgEmbedController from "./controllers/ig_embed_controller.js";
 import NotificationBellController from "./controllers/notification_bell_controller.js";
 import HeatmapController from "./controllers/heatmap_controller.js";
-import './turbo-actions/redirect.js'; // Custom Turbo Stream actions — self-registering
+import './turbo-actions/redirect.js'; // Custom Turbo Stream actions, self-registering
 import './turbo-actions/copy_to_clipboard.js';
 import './turbo-actions/modal_hide.js';
 

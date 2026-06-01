@@ -59,7 +59,7 @@ class SettingsController extends AbstractController
         }
 
         // Surface a too-long description (the column is VARCHAR(255)) as an
-        // alert banner — like the email-verification message — instead of
+        // alert banner, like the email-verification message, instead of
         // letting it fail silently at the database.
         if ($form->isSubmitted()) {
             foreach ($form->get('description')->getErrors() as $error) {
@@ -74,7 +74,7 @@ class SettingsController extends AbstractController
     }
 
     /**
-     * GET — render the change-password form into the shared modal. Fetched by
+     * GET: render the change-password form into the shared modal. Fetched by
      * the `modal-trigger` controller and rendered as a Turbo Stream.
      */
     #[Route('/settings/password', name: 'app_settings_password_form', methods: ['GET'])]
@@ -88,7 +88,7 @@ class SettingsController extends AbstractController
     }
 
     /**
-     * POST — handle the change-password submission. Responds with Turbo Streams
+     * POST: handle the change-password submission. Responds with Turbo Streams
      * so the page never reloads: on success the modal closes with a toast; on
      * failure the modal body is re-rendered in place with the validation errors.
      */
