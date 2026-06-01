@@ -3,7 +3,7 @@ import { showToast } from '../utilities/toast.js';
 
 /**
  * Drives the Hotspots page: a Leaflet map with a Leaflet.heat overlay plus the
- * "I'm here" ping button.
+ * "Drop a pin" ping button.
  *
  * Leaflet and Leaflet.heat are loaded as global scripts (window.L) from the
  * page template, so this controller does not import them.
@@ -14,17 +14,16 @@ import { showToast } from '../utilities/toast.js';
 const PING_INTENSITY = 0.5;
 const HEAT_OPTIONS = {
     radius: 35,
-    blur: 25,
+    blur: 30,
     maxZoom: 12,
-    max: 3.0,
-    gradient: { 0.1: '#1bc298', 0.4: '#fdcc09', 0.8: '#be2e2b' },
+    max: 8.0,
 };
 const DENMARK_CENTER = [55.3, 10.3];
 const DENMARK_ZOOM = 10;
 const REFRESH_MS = 30000;
 
 export default class extends Controller {
-    static targets = ['map', 'button', 'ring', 'count'];
+    static targets = ['map', 'button', 'count'];
     static values = {
         pointsUrl: String,
         toggleUrl: String,
@@ -76,11 +75,9 @@ export default class extends Controller {
             if (this.heat) {
                 this.heat.setLatLngs(points);
             }
-            if (this.hasCountTarget) {
-                this.countTarget.textContent = String(points.length);
-            }
+            this.countTargets.forEach((el) => { el.textContent = String(points.length); });
         } catch (e) {
-            // Network hiccups are non-fatal — the next interval retries.
+            // Network hiccups are non-fatal. The next interval retries.
         }
     }
 
@@ -101,7 +98,7 @@ export default class extends Controller {
                 this.map.setView([position.coords.latitude, position.coords.longitude], 12);
             }
         } catch (e) {
-            showToast('Giv adgang til din lokation for at lave en ping.', 'warning');
+            showToast('Allow location access to drop a pin.', 'warning');
         } finally {
             this.setBusy(false);
         }
@@ -124,11 +121,11 @@ export default class extends Controller {
             });
 
             if (response.status === 429) {
-                showToast('Du har lavet for mange pings. Prøv igen senere.', 'warning');
+                showToast('You\'ve dropped too many pins. Try again later.', 'warning');
                 return;
             }
             if (!response.ok) {
-                showToast('Noget gik galt. Prøv igen.', 'error');
+                showToast('Something went wrong. Try again.', 'error');
                 return;
             }
 
@@ -136,7 +133,7 @@ export default class extends Controller {
             this.activeValue = Boolean(data.active);
             this.refresh();
         } catch (e) {
-            showToast('Noget gik galt. Prøv igen.', 'error');
+            showToast('Something went wrong. Try again.', 'error');
         } finally {
             this.setBusy(false);
         }
@@ -156,25 +153,24 @@ export default class extends Controller {
     }
 
     setBusy(busy) {
-        if (this.hasButtonTarget) {
-            this.buttonTarget.disabled = busy;
-        }
+        this.buttonTargets.forEach((btn) => { btn.disabled = busy; });
     }
 
+    // Each button keeps its own layout/size classes from the template; this only
+    // swaps the state colours and label, so the desktop FAB and the mobile bar
+    // button can be sized independently.
     renderButton() {
-        if (!this.hasButtonTarget) return;
-
-        const base = 'relative inline-flex items-center gap-2 rounded-button px-5 py-3 font-semibold shadow-lg transition-colors disabled:opacity-60';
-
-        if (this.activeValue) {
-            this.buttonTarget.className = `${base} bg-gradient-to-r from-accent-d to-error text-white`;
-            this.buttonTarget.innerHTML = `${this.dotIcon()}<span>Du er live</span><span class="opacity-80 font-normal">· Fjern</span>`;
-            if (this.hasRingTarget) this.ringTarget.classList.remove('hidden');
-        } else {
-            this.buttonTarget.className = `${base} bg-primary-text text-white hover:bg-black`;
-            this.buttonTarget.innerHTML = `${this.pinIcon()}<span>Jeg er her</span>`;
-            if (this.hasRingTarget) this.ringTarget.classList.add('hidden');
-        }
+        this.buttonTargets.forEach((btn) => {
+            if (this.activeValue) {
+                btn.classList.remove('bg-primary-text', 'hover:bg-black');
+                btn.classList.add('bg-gradient-to-r', 'from-accent-d', 'to-error');
+                btn.innerHTML = `${this.dotIcon()}<span>You're live</span><span class="opacity-80 font-normal">· Remove</span>`;
+            } else {
+                btn.classList.remove('bg-gradient-to-r', 'from-accent-d', 'to-error');
+                btn.classList.add('bg-primary-text', 'hover:bg-black');
+                btn.innerHTML = `${this.pinIcon()}<span>Drop a pin</span>`;
+            }
+        });
     }
 
     pinIcon() {
