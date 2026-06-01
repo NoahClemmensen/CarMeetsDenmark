@@ -16,7 +16,7 @@ const HEAT_OPTIONS = {
     radius: 35,
     blur: 30,
     maxZoom: 12,
-    max: 8.0,
+    max: 3.0,
 };
 const DENMARK_CENTER = [55.3, 10.3];
 const DENMARK_ZOOM = 10;
@@ -48,6 +48,9 @@ export default class extends Controller {
         // Leaflet mis-measures a container that was hidden/animating on first paint.
         setTimeout(() => this.map.invalidateSize(), 0);
 
+        // Start on the visitor's location (Denmark center stays as the fallback above).
+        this.locateUser();
+
         this.refresh();
         this.timer = window.setInterval(() => this.refresh(), REFRESH_MS);
     }
@@ -64,6 +67,19 @@ export default class extends Controller {
 
     activeValueChanged() {
         this.renderButton();
+    }
+
+    // Recenter on the visitor's location once the browser resolves it. If they
+    // deny the prompt or geolocation is unavailable, the Denmark default stands.
+    async locateUser() {
+        try {
+            const position = await this.currentPosition();
+            if (this.map) {
+                this.map.setView([position.coords.latitude, position.coords.longitude], DENMARK_ZOOM);
+            }
+        } catch (e) {
+            // Location denied/unavailable — keep the default Denmark view.
+        }
     }
 
     async refresh() {
