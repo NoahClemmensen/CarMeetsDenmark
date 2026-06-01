@@ -43,19 +43,19 @@ You should now be able to register at `/register`, click the email-verify link f
 
 ## Common commands
 
-| Task | Command |
-|---|---|
-| Apply pending migrations | `php bin/console doctrine:migrations:migrate` |
-| Generate a new migration from entity changes | `php bin/console make:migration` |
-| Generate a new entity / form / controller | `php bin/console make:<thing>` |
-| Build / watch CSS | `php bin/console tailwind:build [--watch]` |
-| Refresh installed importmap deps | `php bin/console importmap:install` |
-| Add a new importmap dep | `php bin/console importmap:require <pkg>` |
-| Inspect routes | `php bin/console debug:router` |
-| Inspect services | `php bin/console debug:autowiring` |
-| Clear cache | `php bin/console cache:clear` |
-| Run tests (when present) | `php bin/phpunit` |
-
+| Task                                         | Command                                       |
+|----------------------------------------------|-----------------------------------------------|
+| Apply pending migrations                     | `php bin/console doctrine:migrations:migrate` |
+| Generate a new migration from entity changes | `php bin/console make:migration`              |
+| Generate a new entity / form / controller    | `php bin/console make:<thing>`                |
+| Build / watch CSS                            | `php bin/console tailwind:build [--watch]`    |
+| Refresh installed importmap deps             | `php bin/console importmap:install`           |
+| Add a new importmap dep                      | `php bin/console importmap:require <pkg>`     |
+| Inspect routes                               | `php bin/console debug:router`                |
+| Inspect services                             | `php bin/console debug:autowiring`            |
+| Clear cache                                  | `php bin/console cache:clear`                 |
+| Run tests (when present)                     | `php bin/phpunit`                             |
+| Purge heat map pings                         | `php bin/console app:activity-ping:purge-expired`                            |
 ---
 
 ## Migrations

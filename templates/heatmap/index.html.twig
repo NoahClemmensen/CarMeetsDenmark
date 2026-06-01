@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+{% import '_icons.html.twig' as icons %}
+
+{% block title %}Hotspots{% endblock %}
+{% block page_title %}Hotspots{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
+{% endblock %}
+
+{% block head %}
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="w-full max-w-5xl mx-auto"
+         data-controller="heatmap"
+         data-heatmap-points-url-value="{{ path('app_heatmap_points') }}"
+         data-heatmap-toggle-url-value="{{ path('app_heatmap_ping_toggle') }}"
+         data-heatmap-csrf-value="{{ csrf_token('activity-ping') }}"
+         data-heatmap-active-value="{{ hasActive ? 'true' : 'false' }}">
+
+        {# Header #}
+        <div class="flex items-end justify-between gap-4 mb-4">
+            <div>
+                <h2 class="text-2xl font-semibold m-0">Hotspots</h2>
+                <p class="text-secondary-text mt-1 mb-0">Se hvor der er aktivitet lige nu — og vis at du selv er der.</p>
+            </div>
+            <span class="shrink-0 inline-flex items-center gap-2 rounded-button bg-neutral px-3 py-1.5 text-sm font-medium">
+                <span class="relative flex h-2.5 w-2.5">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-b opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent-b"></span>
+                </span>
+                <span data-heatmap-target="count">{{ activeCount }}</span>&nbsp;aktive nu
+            </span>
+        </div>
+
+        {# Map card #}
+        <div class="card relative overflow-hidden !p-0">
+            <div data-heatmap-target="map" class="h-[70vh] min-h-[420px] w-full bg-neutral"></div>
+
+            {# Legend #}
+            <div class="absolute left-3 bottom-3 z-[500] rounded-element bg-white/90 backdrop-blur-sm px-3 py-2 shadow-md select-none">
+                <div class="text-[11px] font-semibold text-secondary-text mb-1.5 uppercase tracking-wide">Aktivitet</div>
+                <div class="flex items-center gap-3 text-xs">
+                    <span class="inline-flex items-center gap-1.5"><span class="h-2.5 w-2.5 rounded-full" style="background:#1bc298"></span>Let</span>
+                    <span class="inline-flex items-center gap-1.5"><span class="h-2.5 w-2.5 rounded-full" style="background:#fdcc09"></span>Medium</span>
+                    <span class="inline-flex items-center gap-1.5"><span class="h-2.5 w-2.5 rounded-full" style="background:#be2e2b"></span>Mest</span>
+                </div>
+            </div>
+
+            {# Ping FAB #}
+            <div class="absolute right-4 bottom-4 z-[500]">
+                <span data-heatmap-target="ring"
+                      class="hidden absolute inset-0 rounded-button bg-error/40 animate-ping" aria-hidden="true"></span>
+                <button type="button"
+                        data-heatmap-target="button"
+                        data-action="heatmap#toggle"
+                        class="relative inline-flex items-center gap-2 rounded-button px-5 py-3 font-semibold shadow-lg transition-colors disabled:opacity-60">
+                    {# Content rendered by the heatmap Stimulus controller based on state #}
+                </button>
+            </div>
+        </div>
+
+        <p class="text-xs text-secondary-text mt-3">
+            Din ping er anonym og forsvinder automatisk efter 3 timer. Kun den samlede aktivitet vises — aldrig hvem eller hvor præcist.
+        </p>
+    </div>
+{% endblock %}
