@@ -1,0 +1,9 @@
+framework:
+    rate_limiter:
+        # Limits how often a single user can create activity pings.
+        # The one-active-ping-at-a-time rule already caps presence; this guards
+        # against rapid create/remove churn. Adjust limit/interval as needed.
+        activity_ping:
+            policy: 'fixed_window'
+            limit: 10
+            interval: '1 hour'

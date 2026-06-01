@@ -62,7 +62,7 @@
 
     {# === Mobile bottom nav (visible <lg) === #}
     <nav class="mobile-bottombar lg:hidden fixed bottom-0 inset-x-0 z-30 bg-black text-white" aria-label="Primary">
-        <div class="grid grid-cols-3 h-16">
+        <div class="grid grid-cols-4 h-16">
             {% set isActive = app.request.attributes.get('_route') == 'app_discover' %}
             <a href="{{ path('app_discover') }}" class="mobile-bottombar-link relative flex flex-col items-center justify-center gap-1 {{ isActive ? 'is-active' : '' }}">
                 {{ icons.dashboard({size: 22}) }}
@@ -81,6 +81,13 @@
             <a href="{{ path('app_team_index') }}" class="mobile-bottombar-link relative flex flex-col items-center justify-center gap-1 {{ isActive ? 'is-active' : '' }}">
                 {{ icons.teams({size: 22}) }}
                 <span class="text-xs">Teams</span>
+                <span class="mobile-bottombar-indicator absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-8 bg-primary {{ isActive ? '' : 'opacity-0' }}" aria-hidden="true"></span>
+            </a>
+
+            {% set isActive = app.request.attributes.get('_route') starts with 'app_heatmap' %}
+            <a href="{{ path('app_heatmap_index') }}" data-turbo="false" class="mobile-bottombar-link relative flex flex-col items-center justify-center gap-1 {{ isActive ? 'is-active' : '' }}">
+                {{ icons.flame({size: 22}) }}
+                <span class="text-xs">Hotspots</span>
                 <span class="mobile-bottombar-indicator absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-8 bg-primary {{ isActive ? '' : 'opacity-0' }}" aria-hidden="true"></span>
             </a>
         </div>
@@ -117,6 +124,12 @@
                        class="sidebar-link {{ isActive ? 'active' : '' }}">
                         {{ icons.teams() }}
                         <span>Teams</span>
+                    </a>
+                    {% set isActive = app.request.attributes.get('_route') starts with 'app_heatmap' %}
+                    <a href="{{ path('app_heatmap_index') }}"
+                       class="sidebar-link {{ isActive ? 'active' : '' }}" data-turbo="false">
+                        {{ icons.flame({size: 20}) }}
+                        <span>Hotspots</span>
                     </a>
                 </div>
 

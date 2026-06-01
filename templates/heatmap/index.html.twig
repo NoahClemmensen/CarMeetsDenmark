@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+{% import '_icons.html.twig' as icons %}
+
+{% block title %}Hotspots{% endblock %}
+{% block page_title %}Hotspots{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
+{% endblock %}
+
+{% block head %}
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="w-full max-w-5xl mx-auto"
+         data-controller="heatmap"
+         data-heatmap-points-url-value="{{ path('app_heatmap_points') }}"
+         data-heatmap-toggle-url-value="{{ path('app_heatmap_ping_toggle') }}"
+         data-heatmap-csrf-value="{{ csrf_token('activity-ping') }}"
+         data-heatmap-active-value="{{ hasActive ? 'true' : 'false' }}">
+
+        {# Header #}
+        <div class="flex items-end justify-between gap-4 mb-4">
+            <div>
+                <h2 class="text-2xl font-semibold m-0">Hotspots</h2>
+                <p class="text-secondary-text mt-1 mb-0">See where the activity is right now</p>
+            </div>
+            {# Activity indicator — desktop only; on mobile it moves to the toolbar below the map #}
+            <span class="hidden lg:inline-flex shrink-0 items-center gap-2 rounded-button bg-neutral px-3 py-1.5 text-sm font-medium">
+                <span class="relative flex h-2.5 w-2.5">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-b opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent-b"></span>
+                </span>
+                <span data-heatmap-target="count">{{ activeCount }}</span>&nbsp;active now
+            </span>
+        </div>
+
+        {# Map card #}
+        <div class="card relative overflow-hidden !p-0">
+            {# Mobile: fit between the fixed top/bottom bars (content-card pads 102px/140px) so the map never slips under the bottom nav. Desktop: there is no bottom bar, so 70vh is fine. #}
+            {# relative z-0 contains Leaflet's internal panes (z-index 200–1000) to this stacking context so they don't paint over the header notification dropdown #}
+            <div data-heatmap-target="map" class="relative z-0 h-[calc(100dvh_-_22rem)] min-h-[18rem] w-full bg-neutral lg:h-[70vh] lg:min-h-[420px]"></div>
+
+            {# Ping FAB — desktop only (floats over the map). Content + active/inactive colours set by the Stimulus controller. #}
+            <div class="hidden lg:block absolute right-4 bottom-4 z-[500]">
+                <button type="button"
+                        data-heatmap-target="button"
+                        data-action="heatmap#toggle"
+                        class="relative inline-flex items-center gap-2 rounded-button px-5 py-3 font-semibold text-white shadow-lg transition-colors disabled:opacity-60">
+                </button>
+            </div>
+        </div>
+
+        {# Mobile toolbar — activity indicator + ping button live below the map, outside it #}
+        <div class="lg:hidden flex items-center justify-between gap-3 mt-3">
+            <span class="inline-flex items-center gap-2 rounded-button bg-neutral px-3 py-2 text-sm font-medium">
+                <span class="relative flex h-2.5 w-2.5">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-b opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent-b"></span>
+                </span>
+                <span data-heatmap-target="count">{{ activeCount }}</span>&nbsp;active now
+            </span>
+            <button type="button"
+                    data-heatmap-target="button"
+                    data-action="heatmap#toggle"
+                    class="inline-flex items-center justify-center gap-2 rounded-button px-4 py-2.5 text-sm font-semibold text-white shadow transition-colors disabled:opacity-60">
+            </button>
+        </div>
+
+        <p class="text-xs text-secondary-text mt-3">
+            Your pin is anonymous and disappears automatically after 3 hours. Only the combined activity is shown.
+        </p>
+    </div>
+{% endblock %}
