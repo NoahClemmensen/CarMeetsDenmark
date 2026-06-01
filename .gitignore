@@ -20,9 +20,9 @@
 
 /.claude/
 /.idea/
+.env.prod
 .env.dev
 .env.test
-/docker/.env
 /migrations/
 /docs/
 /public/uploads/
