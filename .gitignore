@@ -22,6 +22,7 @@
 /.idea/
 .env.dev
 .env.test
+/docker/.env
 /migrations/
 /docs/
 /public/uploads/
