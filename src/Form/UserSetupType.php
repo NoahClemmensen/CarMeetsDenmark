@@ -22,24 +22,28 @@ class UserSetupType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        if ($options['include_avatar']) {
+            $builder
+                ->add('avatarFile', FileType::class, [
+                    'label' => 'Profile picture',
+                    'mapped' => false,
+                    'required' => false,
+                    'constraints' => [
+                        new File(
+                            maxSize: '4M',
+                            mimeTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
+                            mimeTypesMessage: 'Please upload a valid image (JPEG, PNG, GIF, or WEBP) up to 4MB.',
+                        ),
+                    ],
+                ])
+                ->add('removeAvatar', CheckboxType::class, [
+                    'label' => 'Remove current profile picture',
+                    'mapped' => false,
+                    'required' => false,
+                ]);
+        }
+
         $builder
-            ->add('avatarFile', FileType::class, [
-                'label' => 'Profile picture',
-                'mapped' => false,
-                'required' => false,
-                'constraints' => [
-                    new File(
-                        maxSize: '4M',
-                        mimeTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
-                        mimeTypesMessage: 'Please upload a valid image (JPEG, PNG, GIF, or WEBP) up to 4MB.',
-                    ),
-                ],
-            ])
-            ->add('removeAvatar', CheckboxType::class, [
-                'label' => 'Remove current profile picture',
-                'mapped' => false,
-                'required' => false,
-            ])
             ->add('name', TextType::class, [
                 'label' => 'Your name',
                 'required' => true,
@@ -99,6 +103,9 @@ class UserSetupType extends AbstractType
         $resolver->setDefaults([
             'attr' => ['data-controller' => 'user-setup'],
             'data_class' => UserSetupDTO::class,
+            'include_avatar' => true,
         ]);
+
+        $resolver->setAllowedTypes('include_avatar', 'bool');
     }
 }

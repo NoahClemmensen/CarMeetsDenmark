@@ -55,7 +55,9 @@ class UserSetupController extends AbstractController
 
         $dto = new UserSetupDTO();
 
-        $form = $this->createForm(UserSetupType::class, $dto);
+        $form = $this->createForm(UserSetupType::class, $dto, [
+            'include_avatar' => false,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

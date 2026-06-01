@@ -25,6 +25,7 @@
 {% set backUrl = backUrl|trim %}
 
 {% if app.user %}
+    {% import 'user/_macros.html.twig' as userMacros %}
     {# === Mobile topbar (visible <lg) === #}
     <header class="mobile-topbar">
         {% if backUrl %}
@@ -50,8 +51,12 @@
                 </span>
             {% endif %}
         </button>
-        <a href="{{ path('app_user_show', {uuid: app.user.uuid}) }}" class="user-avatar !w-9 !h-9" aria-label="Your profile">
-            {{ app.user.name|slice(0,1)|upper }}{{ app.user.name|split(' ')|last|slice(0,1)|upper }}
+        <a href="{{ path('app_user_show', {uuid: app.user.uuid}) }}" class="user-avatar !w-9 !h-9 overflow-hidden" aria-label="Your profile">
+            {% if app.user.avatarFilename %}
+                <img src="{{ userMacros.avatar_url(app.user) }}" alt="{{ app.user.name|default('') }}" class="w-full h-full object-cover">
+            {% else %}
+                {{ app.user.name|slice(0,1)|upper }}{{ app.user.name|split(' ')|last|slice(0,1)|upper }}
+            {% endif %}
         </a>
     </header>
 
@@ -182,8 +187,12 @@
                             {% endif %}
                         </button>
                         <div class="user-info">
-                            <a href="{{ path('app_user_show', {uuid: app.user.uuid}) }}" class="user-avatar" aria-label="Your profile">
-                                {{ app.user.name|slice(0,1)|upper }}{{ app.user.name|split(' ')|last|slice(0,1)|upper }}
+                            <a href="{{ path('app_user_show', {uuid: app.user.uuid}) }}" class="user-avatar overflow-hidden" aria-label="Your profile">
+                                {% if app.user.avatarFilename %}
+                                    <img src="{{ userMacros.avatar_url(app.user) }}" alt="{{ app.user.name|default('') }}" class="w-full h-full object-cover">
+                                {% else %}
+                                    {{ app.user.name|slice(0,1)|upper }}{{ app.user.name|split(' ')|last|slice(0,1)|upper }}
+                                {% endif %}
                             </a>
                             <div class="user-details">
                                 <div class="user-name">{{ app.user.name }}</div>
