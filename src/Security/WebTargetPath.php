@@ -11,7 +11,7 @@ use function strlen;
  * (query strings, session-stored "return-to" URIs, form fields) goes
  * through the same checks. Preventing open-redirects is the goal.
  *
- * Returns the input path if it passes, or null if it fails — never
+ * Returns the input path if it passes, or null if it fails. Never
  * mutates / sanitises silently.
  *
  * Accepted: any non-empty relative path (e.g. "/discover", "/x?y=1").

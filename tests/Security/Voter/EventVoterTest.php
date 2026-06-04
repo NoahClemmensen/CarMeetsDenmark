@@ -226,6 +226,82 @@ final class EventVoterTest extends TestCase
         );
     }
 
+    public function testHostCannotSaveStartedEvent(): void
+    {
+        $host = $this->makeUser([]);
+        $event = $this->makeEvent(host: $host);
+        $event->setStartDate(new \DateTime('-1 hour'));
+        $voter = $this->makeVoter();
+
+        self::assertSame(
+            Voter::ACCESS_DENIED,
+            $voter->vote($this->tokenFor($host), $event, [EventVoter::SAVE]),
+        );
+    }
+
+    public function testHostCannotSaveArchivedEvent(): void
+    {
+        $host = $this->makeUser([]);
+        $event = $this->makeEvent(host: $host);
+        $event->setStartDate(new \DateTime('+1 day'));
+        $event->setArchived(true);
+        $voter = $this->makeVoter();
+
+        self::assertSame(
+            Voter::ACCESS_DENIED,
+            $voter->vote($this->tokenFor($host), $event, [EventVoter::SAVE]),
+        );
+    }
+
+    public function testHostCanSaveUpcomingEvent(): void
+    {
+        $host = $this->makeUser([]);
+        $event = $this->makeEvent(host: $host);
+        $event->setStartDate(new \DateTime('+1 day'));
+        $voter = $this->makeVoter();
+
+        self::assertSame(
+            Voter::ACCESS_GRANTED,
+            $voter->vote($this->tokenFor($host), $event, [EventVoter::SAVE]),
+        );
+    }
+
+    public function testHypeGrantedForUpcomingEvent(): void
+    {
+        $event = $this->makeEvent(host: $this->makeUser([]));
+        $event->setStartDate(new \DateTime('+1 day'));
+        $voter = $this->makeVoter();
+
+        self::assertSame(
+            Voter::ACCESS_GRANTED,
+            $voter->vote($this->tokenFor($this->makeUser([])), $event, [EventVoter::HYPE]),
+        );
+    }
+
+    public function testHypeDeniedForStartedEvent(): void
+    {
+        $event = $this->makeEvent(host: $this->makeUser([]));
+        $event->setStartDate(new \DateTime('-1 hour'));
+        $voter = $this->makeVoter();
+
+        self::assertSame(
+            Voter::ACCESS_DENIED,
+            $voter->vote($this->tokenFor($this->makeUser([])), $event, [EventVoter::HYPE]),
+        );
+    }
+
+    public function testHypeDeniedForAnonymousUser(): void
+    {
+        $event = $this->makeEvent(host: $this->makeUser([]));
+        $event->setStartDate(new \DateTime('+1 day'));
+        $voter = $this->makeVoter();
+
+        self::assertSame(
+            Voter::ACCESS_DENIED,
+            $voter->vote($this->tokenFor(null), $event, [EventVoter::HYPE]),
+        );
+    }
+
     private function makeVoter(?\App\Repository\TeamMemberRepository $teamMemberRepo = null): EventVoter
     {
         $repo = $this->createMock(ParticipationRepository::class);

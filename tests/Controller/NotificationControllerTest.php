@@ -87,6 +87,41 @@ final class NotificationControllerTest extends WebTestCase
         self::assertNull($em->getRepository(Notification::class)->find($nId));
     }
 
+    public function testClearAllUpdatesDropdownInPlaceWithoutRedirect(): void
+    {
+        $client = static::createClient();
+        $em = static::getContainer()->get(EntityManagerInterface::class);
+        $this->resetSchema($em);
+
+        $user = $this->makeUser($em, ['ROLE_USER']);
+        $team = $this->makeTeam($em);
+        $event = $this->makeEvent($em, $team, $this->makeUser($em, ['ROLE_USER']));
+        $em->flush();
+
+        $n = new Notification($user, NotificationType::TeamNewEvent);
+        $n->setActorTeam($team);
+        $n->setTargetEvent($event);
+        $em->persist($n);
+        $em->flush();
+
+        $client->loginUser($user);
+
+        $crawler = $client->request('GET', '/notifications/dropdown');
+        self::assertResponseIsSuccessful();
+        $form = $crawler->filter('form[action$="/notifications/clear-all"]')->form();
+        $client->submit($form);
+
+        self::assertResponseIsSuccessful();
+        $content = (string) $client->getResponse()->getContent();
+        // Must update the dropdown frame in place, not navigate to the bare partial.
+        self::assertStringContainsString('action="replace"', $content);
+        self::assertStringContainsString('notification-dropdown-frame', $content);
+        self::assertStringNotContainsString('action="redirect"', $content);
+
+        $em->clear();
+        self::assertSame(0, $em->getRepository(Notification::class)->count(['recipient' => $user]));
+    }
+
     public function testCannotDeleteOthersNotification(): void
     {
         $client = static::createClient();

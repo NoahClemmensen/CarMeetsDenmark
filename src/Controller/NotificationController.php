@@ -85,11 +85,8 @@ class NotificationController extends AbstractController
         $service->clearAll($user);
 
         return $turbo
-            ->addRedirect(
-                $this->generateUrl('app_notification_dropdown'),
-                'Notifications cleared.',
-                ToastTypes::success->name,
-            )
+            ->replace('notification-dropdown-frame', 'notification/_dropdown.html.twig', ['notifications' => []])
+            ->addToast('Notifications cleared.', ToastTypes::success->name)
             ->makeResponse();
     }
 }

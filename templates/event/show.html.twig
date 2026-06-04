@@ -4,7 +4,8 @@
 
 {% block title %}{{ event.name }}{% endblock %}
 
-{% block back_url %}{{ path('app_event_index') }}{% endblock %}
+{% block back_url %}{{ path('app_team_show', {uuid: event.team.uuid}) }}{% endblock %}
+{% block back_label %}Back to {{ event.team.name }}{% endblock %}
 
 {% block header %}{% endblock %}
 
@@ -29,13 +30,15 @@
                     {% endif %}
                 </div>
                 <div class="flex items-center gap-2 shrink-0">
-                    {% include '_hype_button.html.twig' with {
-                        count: event.hypeCount,
-                        isHyped: app.user ? eventReactions.isHypedBy(event, app.user) : false,
-                        formAction: path('app_event_hype', {uuid: event.uuid}),
-                        csrfTokenName: 'hype-event-' ~ event.uuid,
-                        targetId: 'event-hype-' ~ event.uuid,
-                    } only %}
+                    {% if is_granted('HYPE', event) %}
+                        {% include '_hype_button.html.twig' with {
+                            count: event.hypeCount,
+                            isHyped: app.user ? eventReactions.isHypedBy(event, app.user) : false,
+                            formAction: path('app_event_hype', {uuid: event.uuid}),
+                            csrfTokenName: 'hype-event-' ~ event.uuid,
+                            targetId: 'event-hype-' ~ event.uuid,
+                        } only %}
+                    {% endif %}
                     <button type="button"
                             class="btn-secondary-sm"
                             data-controller="modal-trigger"
@@ -87,7 +90,7 @@
             {% endif %}
         </div>
 
-        {# Participants — counts now; full list comes later #}
+        {# Participants, counts now; full list comes later #}
         <div class="card p-6 mb-3">
             <p class="text-xs font-semibold uppercase tracking-wider text-secondary-text mb-2">Participants</p>
             {% include 'event/_participation_counts.html.twig' %}

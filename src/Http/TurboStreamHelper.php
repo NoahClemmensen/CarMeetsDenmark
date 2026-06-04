@@ -92,7 +92,7 @@ class TurboStreamHelper implements ResetInterface
 
     /**
      * Emit a `copy-to-clipboard` turbo-stream instructing the client to write
-     * $value into the system clipboard. Pure side effect — no DOM update.
+     * $value into the system clipboard. Pure side effect, no DOM update.
      *
      * Paired with the `copy-to-clipboard` custom action registered in
      * assets/turbo-actions/copy_to_clipboard.js.

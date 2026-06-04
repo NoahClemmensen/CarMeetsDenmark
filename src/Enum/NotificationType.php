@@ -9,4 +9,5 @@ enum NotificationType: string
     case TeamNewEvent = 'team_new_event';
     case UserRsvpGoing = 'user_rsvp_going';
     case UserNewPost = 'user_new_post';
+    case EventStarted = 'event_started';
 }

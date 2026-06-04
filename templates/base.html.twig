@@ -24,6 +24,9 @@
 {% set backUrl %}{% block back_url %}{% endblock %}{% endset %}
 {% set backUrl = backUrl|trim %}
 
+{% set backLabel %}{% block back_label %}{% endblock %}{% endset %}
+{% set backLabel = backLabel|trim ?: 'Back' %}
+
 {% if app.user %}
     {% import 'user/_macros.html.twig' as userMacros %}
     {# === Mobile topbar (visible <lg) === #}
@@ -95,7 +98,7 @@
 
     {# === Desktop === #}
     <div class="app-layout">
-        {# Sidebar — desktop only #}
+        {# Sidebar, desktop only #}
         <aside class="sidebar-card hidden lg:flex">
             <div class="sidebar-header">
                 <a href="{{ path('app_discover') }}" class="sidebar-logo">
@@ -216,8 +219,16 @@
                 </div>
             </header>
 
-            {# Main content area — top/bottom padding on mobile to clear the fixed bars #}
+            {# Main content area, top/bottom padding on mobile to clear the fixed bars #}
             <main class="content-card">
+                {# Desktop back link, mobile uses the topbar chevron instead #}
+                {% if backUrl %}
+                    <a href="{{ backUrl }}"
+                       class="hidden lg:inline-flex items-center gap-1.5 text-sm font-medium text-secondary-text hover:text-primary-text transition-colors no-underline mb-4">
+                        {{ icons.chevronLeft({size: 18}) }}
+                        <span>{{ backLabel }}</span>
+                    </a>
+                {% endif %}
                 {% for message in app.flashes('success') %}
                     <div class="alert-success" role="alert">{{ message }}</div>
                 {% endfor %}

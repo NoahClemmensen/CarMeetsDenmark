@@ -17,6 +17,10 @@
                 <div class="w-9 h-9 rounded-full flex items-center justify-center bg-emerald-500/10 text-emerald-600">
                     {{ icons.person({size: 16}) }}
                 </div>
+            {% elseif notification.type.value == 'event_started' %}
+                <div class="w-9 h-9 rounded-full flex items-center justify-center bg-primary/10 text-primary">
+                    {{ icons.location({size: 16}) }}
+                </div>
             {% else %}
                 <div class="w-9 h-9 rounded-full flex items-center justify-center bg-amber-500/10 text-amber-600">
                     {{ icons.location({size: 16}) }}
@@ -34,6 +38,9 @@
                     <strong class="font-semibold">{{ notification.actorUser.name|default(notification.actorUser.email) }}</strong>
                     <span class="text-secondary-text">is going to</span>
                     <span class="font-medium">{{ notification.targetEvent.name }}</span>
+                {% elseif notification.type.value == 'event_started' %}
+                    <span class="font-medium">{{ notification.targetEvent.name }}</span>
+                    <span class="text-secondary-text">is happening now</span>
                 {% else %}
                     <strong class="font-semibold">{{ notification.actorUser.name|default(notification.actorUser.email) }}</strong>
                     <span class="text-secondary-text">posted in</span>

@@ -4,7 +4,8 @@
 
 {% block title %}{{ event ? 'Edit ' ~ event.name : 'New event' }}{% endblock %}
 
-{% block back_url %}{{ event ? path('app_event_show', {uuid: event.uuid}) : path('app_event_index') }}{% endblock %}
+{% block back_url %}{% if event %}{{ path('app_event_show', {uuid: event.uuid}) }}{% elseif team is defined and team %}{{ path('app_team_show', {uuid: team.uuid}) }}{% else %}{{ path('app_event_index') }}{% endif %}{% endblock %}
+{% block back_label %}{% if event %}Back to event{% elseif team is defined and team %}Back to team{% else %}Back to events{% endif %}{% endblock %}
 
 {% block header %}{% endblock %}
 

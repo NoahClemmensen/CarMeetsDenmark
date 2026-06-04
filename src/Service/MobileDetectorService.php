@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
  * Best-effort User-Agent sniff to detect mobile clients.
  *
  * Intended for *coarse* routing decisions like "redirect mobile users
- * to the app download page", NOT for layout — use CSS media queries
+ * to the app download page", NOT for layout. Use CSS media queries
  * for that.
  */
 readonly class MobileDetectorService

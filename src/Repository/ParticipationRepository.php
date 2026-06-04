@@ -48,4 +48,29 @@ class ParticipationRepository extends ServiceEntityRepository
 
         return $counts;
     }
+
+    /**
+     * Distinct users who hold one of the given statuses for the event.
+     *
+     * @param ParticipationStatus[] $statuses
+     * @return User[]
+     */
+    public function findAttendeeUsers(Event $event, array $statuses): array
+    {
+        if ($statuses === []) {
+            return [];
+        }
+
+        $participations = $this->createQueryBuilder('p')
+            ->addSelect('u')
+            ->join('p.user', 'u')
+            ->andWhere('p.event = :event')
+            ->andWhere('p.status IN (:statuses)')
+            ->setParameter('event', $event)
+            ->setParameter('statuses', array_map(static fn (ParticipationStatus $s) => $s->value, $statuses))
+            ->getQuery()
+            ->getResult();
+
+        return array_map(static fn (Participation $p) => $p->getUser(), $participations);
+    }
 }

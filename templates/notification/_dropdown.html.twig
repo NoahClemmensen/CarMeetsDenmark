@@ -8,8 +8,7 @@
             <h3 class="text-[0.7rem] font-bold uppercase tracking-[0.12em] text-primary-text">Notifications</h3>
             {% if notifications is not empty %}
                 <form method="post"
-                      action="{{ path('app_notification_clear_all') }}"
-                      data-turbo-frame="notification-dropdown-frame">
+                      action="{{ path('app_notification_clear_all') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token('notification-clear-all') }}">
                     <button type="submit"
                             class="text-[0.7rem] font-semibold uppercase tracking-wider text-secondary-text hover:text-error transition-colors">

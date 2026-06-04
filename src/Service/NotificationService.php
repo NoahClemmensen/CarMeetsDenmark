@@ -9,8 +9,10 @@ use App\Entity\Notification;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Enum\NotificationType;
+use App\Enum\ParticipationStatus;
 use App\Repository\FollowRepository;
 use App\Repository\NotificationRepository;
+use App\Repository\ParticipationRepository;
 use App\Repository\TeamMemberRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -21,7 +23,39 @@ class NotificationService
         private readonly NotificationRepository $notificationRepository,
         private readonly FollowRepository $followRepository,
         private readonly TeamMemberRepository $teamMemberRepository,
+        private readonly ParticipationRepository $participationRepository,
     ) {
+    }
+
+    public function notifyEventStarted(Event $event): void
+    {
+        $recipients = [];
+
+        $host = $event->getHost();
+        if ($host !== null) {
+            $recipients[$host->getId()] = $host;
+        }
+
+        $attendees = $this->participationRepository->findAttendeeUsers(
+            $event,
+            [ParticipationStatus::Going, ParticipationStatus::Maybe],
+        );
+        foreach ($attendees as $attendee) {
+            $recipients[$attendee->getId()] = $attendee;
+        }
+
+        if ($recipients === []) {
+            return;
+        }
+
+        foreach ($recipients as $recipient) {
+            $n = new Notification($recipient, NotificationType::EventStarted);
+            $n->setTargetEvent($event);
+            $n->setActorTeam($event->getTeam());
+            $this->em->persist($n);
+        }
+
+        $this->em->flush();
     }
 
     public function notifyTeamNewEvent(Event $event): void

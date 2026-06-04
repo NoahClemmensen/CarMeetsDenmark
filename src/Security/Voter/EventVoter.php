@@ -19,6 +19,7 @@ class EventVoter extends Voter
     public const string CREATE = 'CREATE';
     public const string INTERACT = 'INTERACT';
     public const string POST_TO_FEED = 'POST_TO_FEED';
+    public const string HYPE = 'HYPE';
 
     private const array SUPPORTED_ATTRIBUTES = [
         self::VIEW,
@@ -27,6 +28,7 @@ class EventVoter extends Voter
         self::INTERACT,
         self::CREATE,
         self::POST_TO_FEED,
+        self::HYPE,
     ];
 
     private const array FEED_ELIGIBLE_ROLES = ['ROLE_PHOTOGRAPHER', 'ROLE_INFLUENCER'];
@@ -71,10 +73,17 @@ class EventVoter extends Voter
 
         return match ($attribute) {
             self::VIEW, self::INTERACT => true,
-            self::SAVE, self::DELETE => $user instanceof User && $subject->getHost() === $user,
+            self::SAVE => $user instanceof User && $subject->getHost() === $user && $this->isActionable($subject),
+            self::DELETE => $user instanceof User && $subject->getHost() === $user,
+            self::HYPE => $user instanceof User && $this->isActionable($subject),
             self::POST_TO_FEED => $this->canPostToFeed($subject, $user instanceof User ? $user : null),
             default => false,
         };
+    }
+
+    private function isActionable(Event $event): bool
+    {
+        return !$event->isDeleted() && !$event->isArchived() && !$event->hasStarted();
     }
 
     protected function canPostToFeed(Event $event, ?User $user): bool

@@ -53,7 +53,7 @@ class UserSetupType extends AbstractType
                 'label' => false,
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'A few words about yourself — what you drive, what you love about car meets...',
+                    'placeholder' => 'A few words about yourself: what you drive, what you love about car meets...',
                     'rows' => 3,
                 ],
             ])

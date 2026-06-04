@@ -23,13 +23,13 @@
          data-heatmap-csrf-value="{{ csrf_token('activity-ping') }}"
          data-heatmap-active-value="{{ hasActive ? 'true' : 'false' }}">
 
-        {# Header #}
-        <div class="flex items-end justify-between gap-4 mb-4">
+        {# Header hidden on mobile, the topbar already shows the title #}
+        <div class="hidden lg:flex items-end justify-between gap-4 mb-4">
             <div>
                 <h2 class="text-2xl font-semibold m-0">Hotspots</h2>
                 <p class="text-secondary-text mt-1 mb-0">See where the activity is right now</p>
             </div>
-            {# Activity indicator — desktop only; on mobile it moves to the toolbar below the map #}
+            {# Activity indicator, desktop only; on mobile it moves to the toolbar below the map #}
             <span class="hidden lg:inline-flex shrink-0 items-center gap-2 rounded-button bg-neutral px-3 py-1.5 text-sm font-medium">
                 <span class="relative flex h-2.5 w-2.5">
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-b opacity-75"></span>
@@ -45,7 +45,7 @@
             {# relative z-0 contains Leaflet's internal panes (z-index 200–1000) to this stacking context so they don't paint over the header notification dropdown #}
             <div data-heatmap-target="map" class="relative z-0 h-[calc(100dvh_-_22rem)] min-h-[18rem] w-full bg-neutral lg:h-[70vh] lg:min-h-[420px]"></div>
 
-            {# Ping FAB — desktop only (floats over the map). Content + active/inactive colours set by the Stimulus controller. #}
+            {# Ping FAB, desktop only (floats over the map). Content + active/inactive colours set by the Stimulus controller. #}
             <div class="hidden lg:block absolute right-4 bottom-4 z-[500]">
                 <button type="button"
                         data-heatmap-target="button"
@@ -55,7 +55,7 @@
             </div>
         </div>
 
-        {# Mobile toolbar — activity indicator + ping button live below the map, outside it #}
+        {# Mobile toolbar: activity indicator + ping button live below the map, outside it #}
         <div class="lg:hidden flex items-center justify-between gap-3 mt-3">
             <span class="inline-flex items-center gap-2 rounded-button bg-neutral px-3 py-2 text-sm font-medium">
                 <span class="relative flex h-2.5 w-2.5">

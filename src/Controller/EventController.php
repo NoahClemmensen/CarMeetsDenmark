@@ -16,6 +16,7 @@ use App\Repository\EventRepository;
 use App\Repository\ParticipationRepository;
 use App\Security\Voter\EventVoter;
 use App\Service\EventService;
+use App\Service\EventTimeConverter;
 use App\Service\ParticipationService;
 use App\Service\ReactionService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -141,7 +142,7 @@ class EventController extends AbstractController
         if ($event === null) {
             throw $this->createNotFoundException();
         }
-        $this->denyAccessUnlessGranted(EventVoter::VIEW, $event);
+        $this->denyAccessUnlessGranted(EventVoter::HYPE, $event);
 
         if (!$this->isCsrfTokenValid('hype-event-' . $event->getUuid(), (string) $request->request->get('_token'))) {
             throw $this->createAccessDeniedException('Invalid CSRF token.');
@@ -240,8 +241,14 @@ class EventController extends AbstractController
 
         $dto = $this->hydrateDtoFromEvent($event);
 
-        $form = $this->createForm(EventType::class, $dto);
+        $form = $this->createForm(EventType::class, $dto, ['is_new' => $event === null]);
         $form->handleRequest($request);
+
+        // Resolve the timezone before validation so the "not in past" guard can
+        // interpret the entered local time correctly.
+        if ($form->isSubmitted() && ($dto->timezone ?? '') === '') {
+            $dto->timezone = $user->getTimezone() ?: 'UTC';
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UploadedFile|null $bannerFile */
@@ -307,10 +314,16 @@ class EventController extends AbstractController
     {
         $dto = new SaveEventDTO();
         if ($event !== null) {
+            $tz = $event->getTimezone() ?: 'UTC';
             $dto->name = $event->getName() ?? '';
             $dto->description = $event->getDescription();
-            $dto->startDate = $event->getStartDate();
-            $dto->endDate = $event->getEndDate();
+            // Stored UTC -> local wall-clock so the form shows the time the host entered.
+            $dto->startDate = $event->getStartDate() !== null
+                ? EventTimeConverter::utcToWallClock($event->getStartDate(), $tz)
+                : null;
+            $dto->endDate = $event->getEndDate() !== null
+                ? EventTimeConverter::utcToWallClock($event->getEndDate(), $tz)
+                : null;
             $dto->location = $event->getLocation() ?? '';
             $dto->timezone = $event->getTimezone();
             $dto->repeatFrequency = $event->getRepeatFrequency();

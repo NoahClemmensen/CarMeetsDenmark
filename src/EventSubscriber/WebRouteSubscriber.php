@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  * after submission.
  *
  * Bypass list: paths under /setup, /login, /logout, /register, /verify are
- * never redirected — otherwise the gate would loop on itself or block the
+ * never redirected. Otherwise the gate would loop on itself or block the
  * verify-email and login flows.
  *
  * Priority 6 on KernelEvents::REQUEST runs after the firewall (priority 8)

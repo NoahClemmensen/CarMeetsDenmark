@@ -1,0 +1,7 @@
+workers:
+    # Runs the Symfony Scheduler so the every-5-minutes event lifecycle pass
+    # (notify started events, archive finished ones, roll repeats forward) fires
+    # automatically while `symfony serve` is running.
+    messenger_consume_scheduler:
+        cmd: ['symfony', 'console', 'messenger:consume', 'scheduler_default']
+        watch: ['config', 'src', 'vendor']
