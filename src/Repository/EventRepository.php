@@ -78,4 +78,39 @@ class EventRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    /**
+     * Events whose start time has passed but which have not yet sent their
+     * "happening now" notification. Excludes deleted/archived events.
+     *
+     * @return Event[]
+     */
+    public function findPendingStartNotification(\DateTimeImmutable $now): array
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.isDeleted = false')
+            ->andWhere('e.archived = false')
+            ->andWhere('e.startNotifiedAt IS NULL')
+            ->andWhere('e.startDate <= :now')
+            ->setParameter('now', $now)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Events that are over and should be archived: endDate has passed, or
+     * (when no endDate is set) startDate has passed. Excludes deleted/archived.
+     *
+     * @return Event[]
+     */
+    public function findArchivable(\DateTimeImmutable $now): array
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.isDeleted = false')
+            ->andWhere('e.archived = false')
+            ->andWhere('(e.endDate IS NOT NULL AND e.endDate <= :now) OR (e.endDate IS NULL AND e.startDate <= :now)')
+            ->setParameter('now', $now)
+            ->getQuery()
+            ->getResult();
+    }
 }

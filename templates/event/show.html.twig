@@ -30,13 +30,15 @@
                     {% endif %}
                 </div>
                 <div class="flex items-center gap-2 shrink-0">
-                    {% include '_hype_button.html.twig' with {
-                        count: event.hypeCount,
-                        isHyped: app.user ? eventReactions.isHypedBy(event, app.user) : false,
-                        formAction: path('app_event_hype', {uuid: event.uuid}),
-                        csrfTokenName: 'hype-event-' ~ event.uuid,
-                        targetId: 'event-hype-' ~ event.uuid,
-                    } only %}
+                    {% if is_granted('HYPE', event) %}
+                        {% include '_hype_button.html.twig' with {
+                            count: event.hypeCount,
+                            isHyped: app.user ? eventReactions.isHypedBy(event, app.user) : false,
+                            formAction: path('app_event_hype', {uuid: event.uuid}),
+                            csrfTokenName: 'hype-event-' ~ event.uuid,
+                            targetId: 'event-hype-' ~ event.uuid,
+                        } only %}
+                    {% endif %}
                     <button type="button"
                             class="btn-secondary-sm"
                             data-controller="modal-trigger"

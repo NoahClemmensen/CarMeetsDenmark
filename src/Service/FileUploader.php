@@ -31,4 +31,25 @@ class FileUploader
     {
         @unlink($directory.'/'.$filename);
     }
+
+    /**
+     * Duplicates an existing file in the same directory under a fresh unique
+     * name and returns that name. If the source file is missing, the original
+     * filename is returned unchanged (caller keeps the reference).
+     */
+    public function copy(string $directory, string $filename): string
+    {
+        $source = $directory.'/'.$filename;
+        if (!is_file($source)) {
+            return $filename;
+        }
+
+        $extension = pathinfo($filename, PATHINFO_EXTENSION);
+        $base = $this->slugger->slug(pathinfo($filename, PATHINFO_FILENAME));
+        $newName = $base.'-'.uniqid().($extension !== '' ? '.'.$extension : '');
+
+        copy($source, $directory.'/'.$newName);
+
+        return $newName;
+    }
 }

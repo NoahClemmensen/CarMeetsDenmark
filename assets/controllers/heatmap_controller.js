@@ -180,7 +180,7 @@ export default class extends Controller {
             if (this.activeValue) {
                 btn.classList.remove('bg-primary-text', 'hover:bg-black');
                 btn.classList.add('bg-gradient-to-r', 'from-accent-d', 'to-error');
-                btn.innerHTML = `${this.dotIcon()}<span>You're live</span><span class="opacity-80 font-normal">· Remove</span>`;
+                btn.innerHTML = `${this.dotIcon()}<span>Pinged</span><span class="opacity-80 font-normal">· Remove</span>`;
             } else {
                 btn.classList.remove('bg-gradient-to-r', 'from-accent-d', 'to-error');
                 btn.classList.add('bg-primary-text', 'hover:bg-black');

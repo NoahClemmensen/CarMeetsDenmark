@@ -93,6 +93,16 @@ class EventType extends AbstractType
         $resolver->setDefaults([
             'attr' => ['data-controller' => 'timezone-detect'],
             'data_class' => SaveEventDTO::class,
+            'is_new' => false,
+            'validation_groups' => static function (\Symfony\Component\Form\FormInterface $form): array {
+                $groups = ['Default'];
+                if ($form->getConfig()->getOption('is_new') === true) {
+                    $groups[] = 'create';
+                }
+
+                return $groups;
+            },
         ]);
+        $resolver->setAllowedTypes('is_new', 'bool');
     }
 }

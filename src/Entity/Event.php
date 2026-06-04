@@ -83,6 +83,9 @@ class Event
     #[ORM\Column(type: 'boolean')]
     private bool $archived = false;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $startNotifiedAt = null;
+
     /** @var Collection<int, Post> */
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: Post::class)]
     private Collection $posts;
@@ -276,6 +279,23 @@ class Event
         $this->archived = $archived;
 
         return $this;
+    }
+
+    public function getStartNotifiedAt(): ?int
+    {
+        return $this->startNotifiedAt;
+    }
+
+    public function setStartNotifiedAt(?int $startNotifiedAt): static
+    {
+        $this->startNotifiedAt = $startNotifiedAt;
+
+        return $this;
+    }
+
+    public function hasStarted(): bool
+    {
+        return $this->startDate !== null && $this->startDate <= new \DateTimeImmutable();
     }
 
     /** @return Collection<int, Post> */

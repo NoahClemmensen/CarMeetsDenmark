@@ -36,13 +36,17 @@ class EventService
             $event->setTeam($team);
         }
 
+        // The host enters local wall-clock time; store it as UTC using the
+        // event's timezone so all "now" comparisons stay timezone-safe.
+        $timezone = ($dto->timezone ?? '') !== '' ? $dto->timezone : ($author->getTimezone() ?: 'UTC');
+
         $event->setName($dto->name);
         $event->setDescription($dto->description);
-        $event->setStartDate($dto->startDate);
-        $event->setEndDate($dto->endDate);
+        $event->setStartDate(EventTimeConverter::wallClockToUtc($dto->startDate, $timezone));
+        $event->setEndDate($dto->endDate !== null ? EventTimeConverter::wallClockToUtc($dto->endDate, $timezone) : null);
         $event->setLocation($dto->location);
         $event->setPrivate($dto->private);
-        $event->setTimezone($dto->timezone ?? $author->getTimezone());
+        $event->setTimezone($timezone);
         $event->setRepeatFrequency($dto->repeatFrequency);
         $event->setRepeatAmount($dto->repeatAmount);
 
