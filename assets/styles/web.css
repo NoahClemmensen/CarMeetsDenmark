@@ -18,6 +18,7 @@
 @import './web/_error.css';
 @import './web/_color-indicator.css';
 @import './web/_segmented-control.css';
+@import './web/_event-card.css';
 
 /* FONTS */
 @font-face {

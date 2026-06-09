@@ -1,0 +1,38 @@
+{% import 'event/_macros.html.twig' as eventMacros %}
+
+{# Wrapper id must be re-rendered here: the filter-form posts back and Turbo
+   replaces this whole element, so the partial has to recreate #discover-results
+   or subsequent searches would target a missing node. #}
+<div id="discover-results" class="results-region">
+<div class="results-bar">
+    <span class="results-info">
+        {{ pagination.total }} event{{ pagination.total == 1 ? '' : 's' }}
+        {%- if search %} matching “{{ search }}”{% endif %}
+    </span>
+</div>
+
+{% if events is empty %}
+    <div class="card p-8 text-center text-secondary-text border border-neutral-dark">
+        {% if search %}
+            No events match “{{ search }}”.
+        {% else %}
+            No upcoming events to discover right now. Check back soon!
+        {% endif %}
+    </div>
+{% else %}
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {% for event in events %}
+            {{ eventMacros.event_card(event, goingCounts[event.id]|default(0)) }}
+        {% endfor %}
+    </div>
+
+    {% if pagination.totalPages > 1 %}
+        <div class="mt-6 flex justify-center">
+            {% include '_pagination.html.twig' with {
+                pagination: pagination,
+                filterFormId: 'discover-filter-form',
+            } only %}
+        </div>
+    {% endif %}
+{% endif %}
+</div>

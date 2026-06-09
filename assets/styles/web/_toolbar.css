@@ -99,4 +99,13 @@
     .pagination-ellipsis {
         @apply px-2 py-1.5 text-sm text-secondary-text;
     }
+
+    /* Dimmed while the filter-form is fetching a new page of results. */
+    .results-region {
+        @apply transition-opacity duration-200;
+    }
+
+    .results-region.loading {
+        @apply opacity-50 pointer-events-none;
+    }
 }

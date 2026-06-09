@@ -1,0 +1,61 @@
+@layer components {
+    /* Compact event card used in Discover and the My events lists. */
+    .event-card {
+        @apply block bg-neutral-light rounded-container border border-neutral-dark overflow-hidden no-underline transition-all duration-200;
+    }
+
+    .event-card:hover {
+        @apply border-primary;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .event-card:focus-visible {
+        @apply outline-none border-primary;
+        box-shadow: 0 0 0 2px white, 0 0 0 4px theme('colors.primary');
+    }
+
+    .event-card__media {
+        @apply relative;
+    }
+
+    .event-card__img {
+        @apply w-full h-36 object-cover bg-neutral;
+    }
+
+    .event-card__badge {
+        @apply absolute top-2 left-2 text-xs font-medium px-2 py-0.5 rounded-button bg-black/60 text-white;
+    }
+
+    .event-card__body {
+        @apply p-4 flex flex-col gap-2;
+    }
+
+    .event-card__title {
+        @apply text-base font-semibold text-primary-text m-0 leading-snug line-clamp-2;
+    }
+
+    .event-card__meta {
+        @apply flex flex-col gap-1 text-sm text-secondary-text;
+    }
+
+    .event-card__date {
+        @apply font-medium text-primary-text;
+    }
+
+    .event-card__loc {
+        @apply inline-flex items-center gap-1 min-w-0;
+    }
+
+    .event-card__stats {
+        @apply flex items-center gap-3 pt-1;
+    }
+
+    .event-card__stat {
+        @apply inline-flex items-center gap-1 text-sm font-medium text-secondary-text;
+    }
+
+    .event-card__stat--hype {
+        @apply text-warning;
+    }
+}

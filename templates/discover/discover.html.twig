@@ -1,13 +1,51 @@
 {% extends 'base.html.twig' %}
+{% import '_icons.html.twig' as icons %}
 
 {% block title %}Discover{% endblock %}
 
-{% block header %}{% endblock %}
-
 {% block body %}
-    <div class="w-full max-w-md">
-        <div class="card p-8">
-            <p>Discover</p>
-        </div>
+    <div class="w-full max-w-5xl">
+        <form id="discover-filter-form"
+              action="{{ path('app_discover') }}"
+              method="post"
+              class="toolbar"
+              data-controller="filter-form"
+              data-filter-form-targets-value='["discover-results"]'>
+            {# Carries the current page; reset to 1 on sort/search, set by pagination buttons. #}
+            <input type="hidden" name="page" value="{{ pagination.page }}" data-filter-form-target="page">
+
+            <div class="flex items-center justify-between gap-3">
+                <h2 class="hidden lg:block text-2xl font-semibold m-0">Discover</h2>
+
+                {# Single full-width row on mobile (search flexes, sort stays compact);
+                   inline to the right of the title on desktop. #}
+                <div class="flex items-center gap-2 lg:gap-3 w-full lg:w-auto">
+                    <div class="relative flex-1 min-w-0 lg:w-64 lg:flex-none">
+                        <span class="toolbar-search-icon">{{ icons.search({size: 16}) }}</span>
+                        <input type="search"
+                               name="q"
+                               value="{{ search }}"
+                               placeholder="Search events…"
+                               class="toolbar-search-input"
+                               autocomplete="off"
+                               data-filter-form-target="search"
+                               data-action="input->filter-form#debouncedSubmit keydown->filter-form#searchKeydown">
+                    </div>
+
+                    <label class="filter-label shrink-0 hidden lg:block" for="discover-sort">Sort by</label>
+                    <select id="discover-sort"
+                            name="sort"
+                            class="filter-select shrink-0"
+                            data-filter-form-target="autoSubmit"
+                            data-action="change->filter-form#submit">
+                        <option value="soonest" {{ sort == 'soonest' ? 'selected' }}>Soonest</option>
+                        <option value="hype" {{ sort == 'hype' ? 'selected' }}>Most hyped</option>
+                        <option value="attendees" {{ sort == 'attendees' ? 'selected' }}>Most attendees</option>
+                    </select>
+                </div>
+            </div>
+
+            {% include 'discover/_results.html.twig' %}
+        </form>
     </div>
 {% endblock %}
