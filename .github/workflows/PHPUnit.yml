@@ -22,21 +22,33 @@ jobs:
 
     env:
       APP_ENV: test
-      DATABASE_URL: "mysql://root:root@mysql:3306/carmeetsdenmark_test?serverVersion=8.4"
+      # The job runs directly on the runner, so the mysql service is reached via
+      # its mapped port on 127.0.0.1 — the "mysql" service hostname only resolves
+      # for container-based jobs. The dbname here is "carmeetsdenmark" because the
+      # when@test config in doctrine.yaml appends a "_test" suffix, yielding
+      # "carmeetsdenmark_test" (matching MYSQL_DATABASE above).
+      DATABASE_URL: "mysql://root:root@127.0.0.1:3306/carmeetsdenmark?serverVersion=8.4&charset=utf8mb4"
 
     steps:
       - uses: actions/checkout@v4
 
-      - uses: php-actions/composer@v6
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          php_version: "8.4"
-          args: --no-scripts
+          php-version: "8.4"
+          extensions: pdo_mysql, intl
+          coverage: none
 
-      - uses: php-actions/phpunit@v4
-        with:
-          php_version: "8.4"
-          php_extensions: pdo_mysql
-          configuration: phpunit.xml
-        env:
-          APP_ENV: test
-          DATABASE_URL: "mysql://root:root@mysql:3306/carmeetsdenmark_test?serverVersion=8.4"
+      - name: Install dependencies
+        run: composer install --no-scripts --no-interaction --no-progress --prefer-dist
+
+      # The migrations are incremental and assume a pre-existing dev database,
+      # so they don't build the full schema on an empty CI database. Create the
+      # schema directly from the current entity metadata instead.
+      - name: Create database and schema
+        run: |
+          php bin/console doctrine:database:create --if-not-exists
+          php bin/console doctrine:schema:create
+
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit --configuration phpunit.xml
