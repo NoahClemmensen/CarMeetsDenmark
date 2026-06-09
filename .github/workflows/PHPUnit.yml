@@ -42,6 +42,12 @@ jobs:
       - name: Install dependencies
         run: composer install --no-scripts --no-interaction --no-progress --prefer-dist
 
+      # assets/vendor is gitignored, so the importmap JS assets aren't checked
+      # out in CI. base.html.twig renders importmap('web'), which fails without
+      # them — download them before booting the app.
+      - name: Install importmap assets
+        run: php bin/console importmap:install
+
       # The migrations are incremental and assume a pre-existing dev database,
       # so they don't build the full schema on an empty CI database. Create the
       # schema directly from the current entity metadata instead.
