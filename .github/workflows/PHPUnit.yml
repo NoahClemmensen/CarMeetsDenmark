@@ -5,9 +5,38 @@ on: [push]
 jobs:
   phpunit:
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: carmeetsdenmark_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      APP_ENV: test
+      DATABASE_URL: "mysql://root:root@mysql:3306/carmeetsdenmark_test?serverVersion=8.4"
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: php-actions/composer@v6
+        with:
+          php_version: "8.4"
+          args: --no-scripts
+
       - uses: php-actions/phpunit@v4
         with:
+          php_version: "8.4"
+          php_extensions: pdo_mysql
           configuration: phpunit.xml
+        env:
+          APP_ENV: test
+          DATABASE_URL: "mysql://root:root@mysql:3306/carmeetsdenmark_test?serverVersion=8.4"
