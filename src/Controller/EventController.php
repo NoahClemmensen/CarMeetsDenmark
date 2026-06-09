@@ -40,10 +40,26 @@ class EventController extends AbstractController
     #[Route('', name: 'app_event_index', methods: ['GET'])]
     public function index(#[CurrentUser] ?User $user = null): Response
     {
-        $events = $this->eventRepository->findVisibleTo($user);
+        $now = new \DateTimeImmutable();
+
+        $attendingEvents = $user !== null
+            ? $this->eventRepository->findUpcomingAttendingFor($user, $now)
+            : [];
+
+        $attendingIds = array_map(static fn (Event $e) => $e->getId(), $attendingEvents);
+
+        $teamEvents = $user !== null
+            ? $this->eventRepository->findUpcomingForUserTeams($user, $attendingIds, $now)
+            : [];
+
+        $goingCounts = $this->eventRepository->goingCountsForEvents(
+            array_merge($attendingEvents, $teamEvents),
+        );
 
         return $this->render('event/index.html.twig', [
-            'events' => $events,
+            'attendingEvents' => $attendingEvents,
+            'teamEvents' => $teamEvents,
+            'goingCounts' => $goingCounts,
         ]);
     }
 

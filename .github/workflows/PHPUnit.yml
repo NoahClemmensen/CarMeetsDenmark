@@ -1,0 +1,60 @@
+name: PHPUnit
+
+on: [pull_request]
+
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: carmeetsdenmark_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      APP_ENV: test
+      # The job runs directly on the runner, so the mysql service is reached via
+      # its mapped port on 127.0.0.1 — the "mysql" service hostname only resolves
+      # for container-based jobs. The dbname here is "carmeetsdenmark" because the
+      # when@test config in doctrine.yaml appends a "_test" suffix, yielding
+      # "carmeetsdenmark_test" (matching MYSQL_DATABASE above).
+      DATABASE_URL: "mysql://root:root@127.0.0.1:3306/carmeetsdenmark?serverVersion=8.4&charset=utf8mb4"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions: pdo_mysql, intl
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-scripts --no-interaction --no-progress --prefer-dist
+
+      # assets/vendor is gitignored, so the importmap JS assets aren't checked
+      # out in CI. base.html.twig renders importmap('web'), which fails without
+      # them — download them before booting the app.
+      - name: Install importmap assets
+        run: php bin/console importmap:install
+
+      # The migrations are incremental and assume a pre-existing dev database,
+      # so they don't build the full schema on an empty CI database. Create the
+      # schema directly from the current entity metadata instead.
+      - name: Create database and schema
+        run: |
+          php bin/console doctrine:database:create --if-not-exists
+          php bin/console doctrine:schema:create
+
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit --configuration phpunit.xml

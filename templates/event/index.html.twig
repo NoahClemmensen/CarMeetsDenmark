@@ -3,37 +3,42 @@
 
 {% block title %}Events{% endblock %}
 
-{% block header %}{% endblock %}
-
 {% block body %}
-    <div class="w-full max-w-2xl">
-        {# Title hidden on mobile, the topbar already shows it #}
-        <div class="hidden lg:flex items-center justify-between mb-4">
-            <h2 class="text-2xl font-semibold m-0">Your events</h2>
-        </div>
+    <div class="w-full max-w-5xl flex flex-col gap-8">
+        {# === Attending === #}
+        <section>
+            <h2 class="text-2xl font-semibold mb-4">Attending</h2>
 
-        {% if events is empty %}
-            <div class="card p-8 text-center text-secondary-text">
-                No events yet.
-            </div>
-        {% else %}
-            <div class="flex flex-col gap-3">
-                {% for event in events %}
-                    <div class="card p-4 flex items-center gap-4">
-                        <img src="{{ eventMacros.banner_url(event) }}"
-                             alt="{{ event.name }}"
-                             class="w-20 h-20 object-cover rounded-container flex-shrink-0">
+            {% if attendingEvents is empty %}
+                <div class="card p-8 text-center text-secondary-text border border-neutral-dark">
+                    You’re not attending any upcoming events.
+                    <a href="{{ path('app_discover') }}" class="text-primary font-medium hover:underline">Discover some →</a>
+                </div>
+            {% else %}
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {% for event in attendingEvents %}
+                        {{ eventMacros.event_card(event, goingCounts[event.id]|default(0)) }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </section>
 
-                        <div class="flex-1 min-w-0">
-                            <a href="{{ path('app_event_show', {uuid: event.uuid}) }}"
-                               class="font-semibold text-primary-text hover:underline truncate block">
-                                {{ event.name }}
-                            </a>
-                            <p class="text-sm text-secondary-text truncate">{{ event.description }}</p>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
+        {# === From your teams === #}
+        <section>
+            <h2 class="text-xl font-semibold mb-1">From your teams</h2>
+            <p class="text-sm text-secondary-text mt-0 mb-4">Upcoming events from teams you’re in.</p>
+
+            {% if teamEvents is empty %}
+                <div class="card p-8 text-center text-secondary-text border border-neutral-dark">
+                    None of your teams have upcoming events.
+                </div>
+            {% else %}
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {% for event in teamEvents %}
+                        {{ eventMacros.event_card(event, goingCounts[event.id]|default(0)) }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </section>
     </div>
 {% endblock %}
