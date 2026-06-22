@@ -11,7 +11,7 @@ import { showToast } from '../utilities/toast.js';
  * Heat tuning: each ping contributes a small intensity, so an isolated ping
  * reads green and only clusters of overlapping pings build up to red.
  */
-const PING_INTENSITY = 0.5;
+const PING_INTENSITY = 1;
 const HEAT_OPTIONS = {
     radius: 35,
     blur: 30,

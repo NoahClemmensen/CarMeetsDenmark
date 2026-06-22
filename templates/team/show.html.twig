@@ -41,13 +41,11 @@
                         <button type="submit" class="btn-text text-error">Leave team</button>
                     </form>
                 {% endif %}
-                {% if app.user %}
-                    {{ include('follow/_button.html.twig', {
-                        action: path('app_follow_team_toggle', {teamUuid: team.uuid}),
-                        targetUuid: team.uuid,
-                        isFollowing: isFollowing,
-                    }) }}
-                {% endif %}
+                {{ include('follow/_button.html.twig', {
+                    action: path('app_follow_team_toggle', {teamUuid: team.uuid}),
+                    targetUuid: team.uuid,
+                    isFollowing: isFollowing,
+                }) }}
             </div>
         </div>
 

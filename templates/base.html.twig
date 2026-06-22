@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Car Meets Denmark{% endblock %}</title>
+    <title>{% block title %}Spoked{% endblock %}</title>
     <link rel="icon" href="{{ asset('wheel.png') }}">
 
     {# Tailwind CSS for web platform #}
@@ -15,7 +15,10 @@
     {% block stylesheets %}{% endblock %}
     {% block head %}{% endblock %}
 </head>
-<body class="h-full bg-neutral-light text-primary-text font-inter" data-controller="turbo-error-handler">
+<body class="h-full bg-neutral-light text-primary-text font-inter"
+      data-controller="turbo-error-handler login-prompt"
+      data-login-prompt-login-url-value="{{ path('app_login') }}"
+      data-login-prompt-register-url-value="{{ path('app_register') }}">
 {% import '_icons.html.twig' as icons %}
 
 {% set pageTitle %}{% block page_title %}{% endblock %}{% endset %}
@@ -27,9 +30,8 @@
 {% set backLabel %}{% block back_label %}{% endblock %}{% endset %}
 {% set backLabel = backLabel|trim ?: 'Back' %}
 
-{% if app.user %}
-    {% import 'user/_macros.html.twig' as userMacros %}
-    {# === Mobile topbar (visible <lg) === #}
+{% import 'user/_macros.html.twig' as userMacros %}
+{# === Mobile topbar (visible <lg) === #}
     <header class="mobile-topbar">
         {% if backUrl %}
             <a href="{{ backUrl }}" class="inline-flex items-center justify-center w-9 h-9 -ml-2 text-primary-text" aria-label="Back">
@@ -39,33 +41,37 @@
         <h1 class=" {{ backUrl ? 'text-center' : 'text-left' }}">
             {{ pageTitle }}
         </h1>
-        {% set unreadCount = unread_notification_count() %}
-        <button type="button"
-                class="relative inline-flex items-center justify-center w-9 h-9 mr-1 text-primary-text"
-                data-controller="notification-bell"
-                data-action="click->notification-bell#toggle"
-                data-notification-bell-url-value="{{ path('app_notification_dropdown') }}"
-                aria-label="Notifications">
-            {{ icons.bell({size: 22}) }}
-            {% if unreadCount > 0 %}
-                <span class="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] rounded-full bg-error text-white text-xs font-semibold flex items-center justify-center px-1"
-                      data-notification-bell-target="badge">
-                    {{ unreadCount > 99 ? '99+' : unreadCount }}
-                </span>
-            {% endif %}
-        </button>
-        <a href="{{ path('app_user_show', {uuid: app.user.uuid}) }}" class="user-avatar !w-9 !h-9 overflow-hidden" aria-label="Your profile">
-            {% if app.user.avatarFilename %}
-                <img src="{{ userMacros.avatar_url(app.user) }}" alt="{{ app.user.name|default('') }}" class="w-full h-full object-cover">
-            {% else %}
-                {{ app.user.name|slice(0,1)|upper }}{{ app.user.name|split(' ')|last|slice(0,1)|upper }}
-            {% endif %}
-        </a>
+        {% if app.user %}
+            {% set unreadCount = unread_notification_count() %}
+            <button type="button"
+                    class="relative inline-flex items-center justify-center w-9 h-9 mr-1 text-primary-text"
+                    data-controller="notification-bell"
+                    data-action="click->notification-bell#toggle"
+                    data-notification-bell-url-value="{{ path('app_notification_dropdown') }}"
+                    aria-label="Notifications">
+                {{ icons.bell({size: 22}) }}
+                {% if unreadCount > 0 %}
+                    <span class="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] rounded-full bg-error text-white text-xs font-semibold flex items-center justify-center px-1"
+                          data-notification-bell-target="badge">
+                        {{ unreadCount > 99 ? '99+' : unreadCount }}
+                    </span>
+                {% endif %}
+            </button>
+            <a href="{{ path('app_user_show', {uuid: app.user.uuid}) }}" class="user-avatar !w-9 !h-9 overflow-hidden" aria-label="Your profile">
+                {% if app.user.avatarFilename %}
+                    <img src="{{ userMacros.avatar_url(app.user) }}" alt="{{ app.user.name|default('') }}" class="w-full h-full object-cover">
+                {% else %}
+                    {{ app.user.name|slice(0,1)|upper }}{{ app.user.name|split(' ')|last|slice(0,1)|upper }}
+                {% endif %}
+            </a>
+        {% else %}
+            <a href="{{ path('app_login') }}" class="btn-cta-sm shrink-0" data-turbo="false">Log in</a>
+        {% endif %}
     </header>
 
     {# === Mobile bottom nav (visible <lg) === #}
     <nav class="mobile-bottombar lg:hidden fixed bottom-0 inset-x-0 z-30 bg-black text-white" aria-label="Primary">
-        <div class="grid grid-cols-4 h-16">
+        <div class="grid {{ app.user ? 'grid-cols-4' : 'grid-cols-3' }} h-16">
             {% set isActive = app.request.attributes.get('_route') == 'app_discover' %}
             <a href="{{ path('app_discover') }}" class="mobile-bottombar-link relative flex flex-col items-center justify-center gap-1 {{ isActive ? 'is-active' : '' }}">
                 {{ icons.dashboard({size: 22}) }}
@@ -73,12 +79,14 @@
                 <span class="mobile-bottombar-indicator absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-8 bg-primary {{ isActive ? '' : 'opacity-0' }}" aria-hidden="true"></span>
             </a>
 
-            {% set isActive = app.request.attributes.get('_route') == 'app_event_index' %}
-            <a href="{{ path('app_event_index') }}" class="mobile-bottombar-link relative flex flex-col items-center justify-center gap-1 {{ isActive ? 'is-active' : '' }}">
-                {{ icons.location({size: 22}) }}
-                <span class="text-xs">Your events</span>
-                <span class="mobile-bottombar-indicator absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-8 bg-primary {{ isActive ? '' : 'opacity-0' }}" aria-hidden="true"></span>
-            </a>
+            {% if app.user %}
+                {% set isActive = app.request.attributes.get('_route') == 'app_event_index' %}
+                <a href="{{ path('app_event_index') }}" class="mobile-bottombar-link relative flex flex-col items-center justify-center gap-1 {{ isActive ? 'is-active' : '' }}">
+                    {{ icons.location({size: 22}) }}
+                    <span class="text-xs">Your events</span>
+                    <span class="mobile-bottombar-indicator absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-8 bg-primary {{ isActive ? '' : 'opacity-0' }}" aria-hidden="true"></span>
+                </a>
+            {% endif %}
 
             {% set isActive = app.request.attributes.get('_route') starts with 'app_team_' %}
             <a href="{{ path('app_team_index') }}" class="mobile-bottombar-link relative flex flex-col items-center justify-center gap-1 {{ isActive ? 'is-active' : '' }}">
@@ -102,8 +110,8 @@
         <aside class="sidebar-card hidden lg:flex">
             <div class="sidebar-header">
                 <a href="{{ path('app_discover') }}" class="sidebar-logo">
-                    <img src="{{ asset('wheel.png') }}" alt="Carmeets Denmark">
-                    Carmeets Denmark
+                    <img src="{{ asset('wheel.png') }}" alt="Spoked">
+                    Spoked
                 </a>
             </div>
 
@@ -116,12 +124,14 @@
                         {{ icons.dashboard() }}
                         <span>Discover</span>
                     </a>
-                    {% set isActive = app.request.attributes.get('_route') == 'app_event_index' %}
-                    <a href="{{ path('app_event_index') }}"
-                       class="sidebar-link {{ isActive ? 'active' : '' }}">
-                        {{ icons.location() }}
-                        <span>Events</span>
-                    </a>
+                    {% if app.user %}
+                        {% set isActive = app.request.attributes.get('_route') == 'app_event_index' %}
+                        <a href="{{ path('app_event_index') }}"
+                           class="sidebar-link {{ isActive ? 'active' : '' }}">
+                            {{ icons.location() }}
+                            <span>Events</span>
+                        </a>
+                    {% endif %}
                     {% set isActive = app.request.attributes.get('_route') starts with 'app_team_' %}
                     <a href="{{ path('app_team_index') }}"
                        class="sidebar-link {{ isActive ? 'active' : '' }}">
@@ -152,22 +162,34 @@
                 <div class="sidebar-spacer"></div>
 
                 {# Bottom section #}
-                <div class="sidebar-section">
-                    {% set isActive = app.request.attributes.get('_route') == 'app_user_show' %}
-                    <a href="{{ path('app_user_show', {uuid: app.user.uuid}) }}"
-                       class="sidebar-link {{ isActive ? 'active' : '' }}">
-                        {{ icons.person() }}
-                        <span>Profile</span>
-                    </a>
-                    <a href="{{ path('app_settings') }}" class="sidebar-link {{ app.request.attributes.get('_route') == 'app_settings' ? 'active' : '' }}" data-turbo="false">
-                        {{ icons.settings() }}
-                        <span>Settings</span>
-                    </a>
-                    <a href="{{ path('app_logout') }}" class="sidebar-link" data-turbo="false">
-                        {{ icons.logout() }}
-                        <span>Logout</span>
-                    </a>
-                </div>
+                {% if app.user %}
+                    <div class="sidebar-section">
+                        {% set isActive = app.request.attributes.get('_route') == 'app_user_show' %}
+                        <a href="{{ path('app_user_show', {uuid: app.user.uuid}) }}"
+                           class="sidebar-link {{ isActive ? 'active' : '' }}">
+                            {{ icons.person() }}
+                            <span>Profile</span>
+                        </a>
+                        <a href="{{ path('app_settings') }}" class="sidebar-link {{ app.request.attributes.get('_route') == 'app_settings' ? 'active' : '' }}" data-turbo="false">
+                            {{ icons.settings() }}
+                            <span>Settings</span>
+                        </a>
+                        <a href="{{ path('app_logout') }}" class="sidebar-link" data-turbo="false">
+                            {{ icons.logout() }}
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                {% else %}
+                    {# Guest CTA: turns the freed space into a signup driver #}
+                    <div class="sidebar-section">
+                        <div class="card p-4 text-center">
+                            <p class="text-sm font-semibold text-primary-text m-0">Join the community</p>
+                            <p class="text-xs text-secondary-text mt-1 mb-3">See and share meets, follow teams and people for free.</p>
+                            <a href="{{ path('app_register') }}" class="btn-cta w-full justify-center" data-turbo="false">Sign up</a>
+                            <a href="{{ path('app_login') }}" class="btn-secondary-sm w-full justify-center mt-2" data-turbo="false">Log in</a>
+                        </div>
+                    </div>
+                {% endif %}
             </nav>
         </aside>
 
@@ -187,34 +209,41 @@
                         {% endif %}
                     </div>
                     <div class="topbar-right">
-                        {% set unreadCount = unread_notification_count() %}
-                        <button type="button"
-                                class="relative inline-flex items-center justify-center w-10 h-10 mr-2 text-primary-text"
-                                data-controller="notification-bell"
-                                data-action="click->notification-bell#toggle"
-                                data-notification-bell-url-value="{{ path('app_notification_dropdown') }}"
-                                aria-label="Notifications">
-                            {{ icons.bell({size: 22}) }}
-                            {% if unreadCount > 0 %}
-                                <span class="absolute top-1 right-1 min-w-[18px] h-[18px] rounded-full bg-error text-white text-xs font-semibold flex items-center justify-center px-1"
-                                      data-notification-bell-target="badge">
-                                    {{ unreadCount > 99 ? '99+' : unreadCount }}
-                                </span>
-                            {% endif %}
-                        </button>
-                        <div class="user-info">
-                            <a href="{{ path('app_user_show', {uuid: app.user.uuid}) }}" class="user-avatar overflow-hidden" aria-label="Your profile">
-                                {% if app.user.avatarFilename %}
-                                    <img src="{{ userMacros.avatar_url(app.user) }}" alt="{{ app.user.name|default('') }}" class="w-full h-full object-cover">
-                                {% else %}
-                                    {{ app.user.name|slice(0,1)|upper }}{{ app.user.name|split(' ')|last|slice(0,1)|upper }}
+                        {% if app.user %}
+                            {% set unreadCount = unread_notification_count() %}
+                            <button type="button"
+                                    class="relative inline-flex items-center justify-center w-10 h-10 mr-2 text-primary-text"
+                                    data-controller="notification-bell"
+                                    data-action="click->notification-bell#toggle"
+                                    data-notification-bell-url-value="{{ path('app_notification_dropdown') }}"
+                                    aria-label="Notifications">
+                                {{ icons.bell({size: 22}) }}
+                                {% if unreadCount > 0 %}
+                                    <span class="absolute top-1 right-1 min-w-[18px] h-[18px] rounded-full bg-error text-white text-xs font-semibold flex items-center justify-center px-1"
+                                          data-notification-bell-target="badge">
+                                        {{ unreadCount > 99 ? '99+' : unreadCount }}
+                                    </span>
                                 {% endif %}
-                            </a>
-                            <div class="user-details">
-                                <div class="user-name">{{ app.user.name }}</div>
-                                <div class="user-email">{{ app.user.email }}</div>
+                            </button>
+                            <div class="user-info">
+                                <a href="{{ path('app_user_show', {uuid: app.user.uuid}) }}" class="user-avatar overflow-hidden" aria-label="Your profile">
+                                    {% if app.user.avatarFilename %}
+                                        <img src="{{ userMacros.avatar_url(app.user) }}" alt="{{ app.user.name|default('') }}" class="w-full h-full object-cover">
+                                    {% else %}
+                                        {{ app.user.name|slice(0,1)|upper }}{{ app.user.name|split(' ')|last|slice(0,1)|upper }}
+                                    {% endif %}
+                                </a>
+                                <div class="user-details">
+                                    <div class="user-name">{{ app.user.name }}</div>
+                                    <div class="user-email">{{ app.user.email }}</div>
+                                </div>
                             </div>
-                        </div>
+                        {% else %}
+                            <div class="flex items-center gap-2">
+                                <a href="{{ path('app_login') }}" class="btn-secondary-sm" data-turbo="false">Log in</a>
+                                <a href="{{ path('app_register') }}" class="btn-cta-sm" data-turbo="false">Sign up</a>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </header>
@@ -244,12 +273,6 @@
     <div id="toast-container" data-turbo-permanent></div>
 
     <twig:Modal:Shell/>
-{% else %}
-    {# Non-authenticated layout (login pages) #}
-    <main class="min-h-full flex items-center justify-center py-12 px-4 bg-neutral">
-        {{ block('body') }}
-    </main>
-{% endif %}
 
 {% block javascripts %}
     {{ importmap('web') }}

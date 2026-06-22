@@ -25,15 +25,20 @@ final class HeatmapControllerTest extends WebTestCase
         return \App\Kernel::class;
     }
 
-    public function testAnonymousIsBlocked(): void
+    public function testAnonymousCanViewButNotPing(): void
     {
         $client = static::createClient();
         $em = static::getContainer()->get(EntityManagerInterface::class);
         $this->resetSchema($em);
 
-        $client->request('GET', '/heatmap/points');
-        self::assertContains($client->getResponse()->getStatusCode(), [302, 401, 403]);
+        // Guests may view the read-only heatmap and its points...
+        $client->request('GET', '/heatmap');
+        self::assertResponseIsSuccessful();
 
+        $client->request('GET', '/heatmap/points');
+        self::assertResponseIsSuccessful();
+
+        // ...but dropping a pin is an interaction and stays login-only.
         $client->request('POST', '/heatmap/ping', ['_token' => 'x', 'lat' => '55.0', 'lng' => '12.0']);
         self::assertContains($client->getResponse()->getStatusCode(), [302, 401, 403]);
     }

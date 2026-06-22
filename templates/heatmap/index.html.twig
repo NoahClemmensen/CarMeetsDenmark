@@ -47,11 +47,20 @@
 
             {# Ping FAB, desktop only (floats over the map). Content + active/inactive colours set by the Stimulus controller. #}
             <div class="hidden lg:block absolute right-4 bottom-4 z-[500]">
-                <button type="button"
-                        data-heatmap-target="button"
-                        data-action="heatmap#toggle"
-                        class="relative inline-flex items-center gap-2 rounded-button px-5 py-3 font-semibold text-white shadow-lg transition-colors disabled:opacity-60">
-                </button>
+                {% if app.user %}
+                    <button type="button"
+                            data-heatmap-target="button"
+                            data-action="heatmap#toggle"
+                            class="relative inline-flex items-center gap-2 rounded-button px-5 py-3 font-semibold text-white shadow-lg transition-colors disabled:opacity-60">
+                    </button>
+                {% else %}
+                    <button type="button"
+                            data-action="login-prompt#open"
+                            data-login-prompt-message="Log in or sign up to drop your pin on the map."
+                            class="relative inline-flex items-center gap-2 rounded-button px-5 py-3 font-semibold text-white shadow-lg transition-colors bg-primary-text hover:bg-black">
+                        Drop a pin
+                    </button>
+                {% endif %}
             </div>
         </div>
 
@@ -64,11 +73,20 @@
                 </span>
                 <span data-heatmap-target="count">{{ activeCount }}</span>&nbsp;active now
             </span>
-            <button type="button"
-                    data-heatmap-target="button"
-                    data-action="heatmap#toggle"
-                    class="inline-flex items-center justify-center gap-2 rounded-button px-4 py-2.5 text-sm font-semibold text-white shadow transition-colors disabled:opacity-60">
-            </button>
+            {% if app.user %}
+                <button type="button"
+                        data-heatmap-target="button"
+                        data-action="heatmap#toggle"
+                        class="inline-flex items-center justify-center gap-2 rounded-button px-4 py-2.5 text-sm font-semibold text-white shadow transition-colors disabled:opacity-60">
+                </button>
+            {% else %}
+                <button type="button"
+                        data-action="login-prompt#open"
+                        data-login-prompt-message="Log in or sign up to drop your pin on the map."
+                        class="inline-flex items-center justify-center gap-2 rounded-button px-4 py-2.5 text-sm font-semibold text-white shadow transition-colors bg-primary-text hover:bg-black">
+                    Drop a pin
+                </button>
+            {% endif %}
         </div>
 
         <p class="text-xs text-secondary-text mt-3">

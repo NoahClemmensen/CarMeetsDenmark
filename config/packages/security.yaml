@@ -42,6 +42,22 @@ security:
         - { path: /verify/email, roles: PUBLIC_ACCESS }
         - { path: ^/login$, roles: PUBLIC_ACCESS }
         - { path: ^/login/, roles: PUBLIC_ACCESS }
+
+        # --- Public (guest) read-only surfaces ---
+        # Guests may browse public content but never mutate it. These rules open
+        # only the GET view routes; every interaction is a POST and therefore
+        # still falls through to the ROLE_USER catch-all below. Sensitive GET
+        # routes that share a prefix (e.g. the event/team create forms) are
+        # re-locked above the broad rule, and are additionally protected by their
+        # own controller voters as defence in depth.
+        - { path: ^/$, roles: PUBLIC_ACCESS }
+        - { path: ^/discover, roles: PUBLIC_ACCESS }
+        - { path: ^/event/save, roles: ROLE_USER }
+        - { path: ^/event/, methods: [GET], roles: PUBLIC_ACCESS }
+        - { path: ^/teams, methods: [GET], roles: PUBLIC_ACCESS }
+        - { path: ^/user/, methods: [GET], roles: PUBLIC_ACCESS }
+        - { path: ^/heatmap, methods: [GET], roles: PUBLIC_ACCESS }
+
         - { path: ^/, roles: ROLE_USER }
 
 when@test:

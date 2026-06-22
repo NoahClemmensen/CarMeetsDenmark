@@ -30,7 +30,9 @@
                     {% endif %}
                 </div>
                 <div class="flex items-center gap-2 shrink-0">
-                    {% if is_granted('HYPE', event) %}
+                    {# Guests see the hype control on upcoming events; clicking opens the login prompt. #}
+                    {% set showHype = is_granted('HYPE', event) or (app.user is null and not event.hasStarted and not event.archived and not event.deleted) %}
+                    {% if showHype %}
                         {% include '_hype_button.html.twig' with {
                             count: event.hypeCount,
                             isHyped: app.user ? eventReactions.isHypedBy(event, app.user) : false,
