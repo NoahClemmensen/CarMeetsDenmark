@@ -1,4 +1,4 @@
-# Car Meets Denmark
+# Spoked
 
 Web platform for the Danish car-meet community. Symfony 8 + PHP 8.4 + Hotwire (Turbo + Stimulus) + Tailwind, served from AssetMapper.
 
