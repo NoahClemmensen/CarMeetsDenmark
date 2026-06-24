@@ -23,16 +23,16 @@
                     {% if post.author %}
                         <a href="{{ path('app_user_show', {uuid: post.author.uuid}) }}" class="hover:underline">{{ post.author.name|default(post.author.email) }}</a>
                     {% else %}
-                        Deleted user
+                        {{ 'common.deleted_user'|trans }}
                     {% endif %}
                     {% if isHostPost %}
-                        <span class="ml-1 inline-flex items-center px-1.5 py-0.5 rounded-element bg-primary-container text-primary text-[10px] font-bold uppercase tracking-wide">Host</span>
+                        <span class="ml-1 inline-flex items-center px-1.5 py-0.5 rounded-element bg-primary-container text-primary text-[10px] font-bold uppercase tracking-wide">{{ 'event.feed.host_badge'|trans }}</span>
                     {% endif %}
                 </p>
                 <p class="text-xs text-secondary-text">
                     {{ post.createdAt|date('M j · H:i') }}
-                    {% if post.editedAt %} · <span title="Edited {{ post.editedAt|date('M j H:i') }}">edited</span>{% endif %}
-                    {% if post.isPinned %} · <span class="inline-flex items-center gap-1">{{ icons.pin({size: 10}) }} Pinned</span>{% endif %}
+                    {% if post.editedAt %} · <span title="{{ 'event.feed.edited_at'|trans({'%date%': post.editedAt|date('M j H:i')}) }}">{{ 'event.feed.edited'|trans }}</span>{% endif %}
+                    {% if post.isPinned %} · <span class="inline-flex items-center gap-1">{{ icons.pin({size: 10}) }} {{ 'event.feed.pinned'|trans }}</span>{% endif %}
                 </p>
             </div>
         </div>

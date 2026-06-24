@@ -5,14 +5,14 @@
          style="max-height: min(28rem, calc(100vh - 5rem));">
 
         <header class="flex items-center justify-between px-4 py-3 border-b border-neutral bg-white">
-            <h3 class="text-[0.7rem] font-bold uppercase tracking-[0.12em] text-primary-text">Notifications</h3>
+            <h3 class="text-[0.7rem] font-bold uppercase tracking-[0.12em] text-primary-text">{{ 'nav.notifications'|trans }}</h3>
             {% if notifications is not empty %}
                 <form method="post"
                       action="{{ path('app_notification_clear_all') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token('notification-clear-all') }}">
                     <button type="submit"
                             class="text-[0.7rem] font-semibold uppercase tracking-wider text-secondary-text hover:text-error transition-colors">
-                        Clear all
+                        {{ 'notification.clear_all'|trans }}
                     </button>
                 </form>
             {% endif %}
@@ -23,8 +23,8 @@
                 <div class="w-12 h-12 rounded-full bg-neutral-light flex items-center justify-center text-secondary-text mb-3">
                     {{ icons.bell({size: 22}) }}
                 </div>
-                <p class="text-sm font-semibold text-primary-text">All caught up</p>
-                <p class="text-xs text-secondary-text mt-1">You have no new notifications.</p>
+                <p class="text-sm font-semibold text-primary-text">{{ 'notification.empty_title'|trans }}</p>
+                <p class="text-xs text-secondary-text mt-1">{{ 'notification.empty_subtitle'|trans }}</p>
             </div>
         {% else %}
             <ul class="flex-1 overflow-y-auto divide-y divide-neutral">

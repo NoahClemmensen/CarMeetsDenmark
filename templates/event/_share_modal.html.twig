@@ -1,7 +1,7 @@
 {% extends 'components/Modal/ContentShell.html.twig' %}
 
 {% block header %}
-    <twig:Modal:Header title="Share event" />
+    <twig:Modal:Header title="{{ 'event.share.title'|trans }}" />
 {% endblock %}
 
 {% block body %}
@@ -9,7 +9,7 @@
 
         {# URL + copy button #}
         <div class="w-full" data-controller="share">
-            <label class="form-label">Link</label>
+            <label class="form-label">{{ 'event.share.link'|trans }}</label>
             <div class="flex gap-2">
                 <input type="text"
                        class="form-input flex-1"
@@ -21,7 +21,7 @@
                         class="btn-secondary"
                         data-action="click->share#copy"
                         data-share-target="button">
-                    Copy
+                    {{ 'common.copy'|trans }}
                 </button>
             </div>
         </div>
@@ -31,7 +31,7 @@
              data-controller="qr-code"
              data-qr-code-data-value="{{ shareUrl }}">
             <div data-qr-code-target="container"></div>
-            <p class="text-xs text-secondary-text">Scan to open on mobile</p>
+            <p class="text-xs text-secondary-text">{{ 'event.share.scan'|trans }}</p>
         </div>
 
     </div>
@@ -39,6 +39,6 @@
 
 {% block footer %}
     <div class="modal-footer">
-        <button type="button" class="btn-grey" data-action="click->modal#hide">Close</button>
+        <button type="button" class="btn-grey" data-action="click->modal#hide">{{ 'common.close'|trans }}</button>
     </div>
 {% endblock %}

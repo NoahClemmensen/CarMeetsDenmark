@@ -1,21 +1,21 @@
 {% extends 'base.html.twig' %}
 {% import 'team/_macros.html.twig' as teamMacros %}
 
-{% block title %}Teams{% endblock %}
+{% block title %}{{ 'nav.teams'|trans }}{% endblock %}
 
 {% block body %}
     <div class="w-full max-w-3xl">
         <div class="flex items-center justify-between mb-4">
             {# Title hidden on mobile, the topbar already shows it #}
-            <h2 class="hidden lg:block text-2xl font-semibold m-0">Teams</h2>
+            <h2 class="hidden lg:block text-2xl font-semibold m-0">{{ 'nav.teams'|trans }}</h2>
             {% if app.user %}
-                <a class="btn-cta" href="{{ path('app_team_save') }}">Create team</a>
+                <a class="btn-cta" href="{{ path('app_team_save') }}">{{ 'team.create'|trans }}</a>
             {% endif %}
         </div>
 
         {% if teams is empty %}
             <div class="card p-8 text-center text-secondary-text">
-                No teams yet.
+                {{ 'team.empty'|trans }}
             </div>
         {% else %}
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -26,7 +26,7 @@
                             <img src="{{ teamMacros.profile_picture_url(team) }}" alt="" class="w-10 h-10 rounded-full object-cover bg-white">
                             <div>
                                 <div class="font-semibold">{{ team.name }}</div>
-                                <div class="text-sm text-secondary-text">{{ team.members|length }} members</div>
+                                <div class="text-sm text-secondary-text">{{ 'team.members_count'|trans({'%count%': team.members|length}) }}</div>
                             </div>
                         </div>
                     </a>

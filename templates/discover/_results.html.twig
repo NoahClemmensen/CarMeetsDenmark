@@ -6,17 +6,17 @@
 <div id="discover-results" class="results-region">
 <div class="results-bar">
     <span class="results-info">
-        {{ pagination.total }} event{{ pagination.total == 1 ? '' : 's' }}
-        {%- if search %} matching “{{ search }}”{% endif %}
+        {{ 'discover.results_count'|trans({'%count%': pagination.total}) }}
+        {%- if search %} {{ 'discover.matching'|trans({'%query%': search}) }}{% endif %}
     </span>
 </div>
 
 {% if events is empty %}
     <div class="card p-8 text-center text-secondary-text border border-neutral-dark">
         {% if search %}
-            No events match “{{ search }}”.
+            {{ 'discover.empty_search'|trans({'%query%': search}) }}
         {% else %}
-            No upcoming events to discover right now. Check back soon!
+            {{ 'discover.empty'|trans }}
         {% endif %}
     </div>
 {% else %}

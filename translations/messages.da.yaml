@@ -1,0 +1,371 @@
+common:
+    here: her
+    cancel: Annuller
+    remove: Fjern
+    apply: Anvend
+    optional: Valgfri
+    close: Luk
+    dialog: Dialog
+    dismiss: Luk
+    copied: Kopieret!
+    copy: Kopier
+    delete: Slet
+    edit: Rediger
+    change: Skift
+    save: Gem
+    save_changes: Gem ændringer
+    load_more: Indlæs mere
+    deleted_user: Slettet bruger
+    email: Email
+    website: Hjemmeside
+
+nav:
+    discover: Opdag
+    events: Events
+    your_events: Dine events
+    teams: Teams
+    profile: Profil
+    settings: Indstillinger
+    logout: Log ud
+    back: Tilbage
+    notifications: Notifikationer
+    your_profile: Din profil
+    support: Support
+    pours: Pours
+    support_mode_aria: Support-tilstand aktiv – viser alle pours
+    primary_aria: Primær
+    guest_cta:
+        title: Tilslut dig Spoked
+        subtitle: Se og del træf, følg teams og personer gratis.
+
+auth:
+    welcome_heading: Velkommen til Spoked
+    email_label: Emailadresse
+    password_label: Adgangskode
+    log_in: Log ind
+    sign_up: Tilmeld dig
+    login:
+        title: Log ind
+        subtitle: Log ind eller lav en konto for at starte
+        password_placeholder: Din adgangskode
+        submit: Log ind
+        no_account_prefix: "Har du ikke en konto? Lav en"
+
+registration:
+    title: Registrer
+    subtitle: Lav en konto for at starte
+    submit: Registrer
+    have_account_prefix: Har du allerede en konto? Log ind
+    email:
+        heading: Hej! Bekræft venligst din email!
+        body_intro: "Bekræft venligst din email ved at trykke på det følgende link:"
+        confirm_link: Bekræft min email
+        expire_prefix: Dette link udløber om
+        cheers: Cheers!
+    verify:
+        invalid_link: Ugyldigt verifikationslink.
+        success: Din emailadresse er blevet bekræftet.
+
+profile:
+    about_you: Om dig
+    avatar_alt: Profilbillede
+    avatar:
+        change: Skift billede
+        upload: Upload billede
+    socials:
+        label: Dine socialer
+        description: Instagram, YouTube, Facebook, hjemmeside
+    creator:
+        label: Er du en fotograf eller influencer?
+        hint: Vælg kun hvis du aktivt arbejder som fotograf eller influencer.
+
+setup:
+    welcome: Velkommen
+    heading: Sæt din profil op
+    subtitle: Det tager mindre end et minut. Du kan altid ændre det senere.
+    submit: Kom i gang
+    completed: Success! Du er nu klar til at bruge Spoked.
+    creator:
+        description: De fleste springer dette over
+
+settings:
+    title: Indstillinger
+    heading: Indstillinger
+    subtitle: Opdater din profil
+    save: Gem ændringer
+    saved: Indstillinger gemt.
+    password_updated: Adgangskode opdateret.
+    language:
+        label: Sprog
+    creator:
+        description: Fotograf eller influencer
+    change_password:
+        label: Skift adgangskode
+        description: Opdater din kontoadgangskode
+    password_modal:
+        title: Skift adgangskode
+        update: Opdater adgangskode
+    avatar:
+        adjust_title: Juster profilbillede
+        adjust_hint: Træk og zoom for at justere dit profilbillede.
+        crop_preview_alt: Beskåret profilbillede
+        zoom: Zoom
+
+pagination:
+    previous: Forrige side
+    next: Næste side
+
+discover:
+    search_placeholder: Søg events…
+    sort_by: Sorter efter
+    sort:
+        soonest: Snarest
+        hype: Mest hyped
+        attendees: Flest deltagere
+    results_count: "{0}%count% events|{1}%count% event|]1,Inf[%count% events"
+    matching: "matchende “%query%”"
+    empty_search: "Ingen events matcher “%query%”."
+    empty: Ingen kommende events at opdage lige nu. Kom tilbage senere!
+
+heatmap:
+    title: Hotspots
+    subtitle: Se hvor der er aktivitet lige nu
+    active_now: aktive nu
+    drop_pin: Læg et pin
+    pinned: Pinged
+    remove: Fjern
+    location_denied: Tillad lokation for at lægge et pin på kortet.
+    rate_limit: Du har lagt for mange pins. Prøv igen senere.
+    error: Noget gik galt. Prøv igen.
+    login_prompt: Log ind eller lav en konto for at lægge dit pin på kortet.
+    anonymous_note: Din pin er anonym og forsvinder automatisk efter 3 timer. Kun den samlede aktivitet vises.
+
+errors:
+    content_load: Indholdet kunne ikke indlæses.
+    network: Der opstod en netværksfejl. Prøv venligst igen.
+
+lightbox:
+    previous: Forrige
+    next: Næste
+
+login_prompt:
+    title: Log ind for at fortsætte
+    default_message: Log ind eller lav en konto for at deltage i fællesskabet og interagere med events, teams og personer.
+
+clipboard:
+    copy_failed: Kunne ikke kopiere linket til udklipsholderen. Brug Kopier-knappen.
+
+hype:
+    count_title: "%count% hyped"
+    remove: Fjern hype
+    add: Hype dette
+    login_prompt: Log ind eller lav en konto for at hype dette.
+    login_aria: Log ind for at hype
+
+event:
+    members_only: Kun for medlemmer
+    private: Privat
+    hype: Hype
+    going: Deltager
+    until: indtil
+    saved: Event gemt.
+    deleted: Event slettet.
+    back_to_team: "Tilbage til %team%"
+    index:
+        title: Events
+        attending: Deltager
+        attending_empty: Du deltager ikke i nogen kommende events.
+        discover_some: Opdag nogle →
+        from_teams: Fra dine teams
+        from_teams_subtitle: Kommende events fra teams du er med i.
+        teams_empty: Ingen af dine teams har kommende events.
+    participants:
+        label: Deltagere
+    participation:
+        empty: Ingen har svaret endnu. Vær den første.
+        going_count: deltager
+        maybe_count: måske
+        cant_go_count: kan ikke
+        login_prompt: Log ind eller lav en konto for at svare på dette event.
+        status:
+            going: Deltager
+            maybe: Måske
+            cant_go: Kan ikke
+    delete:
+        title: Slet event?
+        button: Slet event
+        body_prefix: Dette vil permanent fjerne
+        body_suffix: . Denne handling kan ikke fortrydes.
+    share:
+        title: Del event
+        link: Link
+        scan: Scan for at åbne på mobilen
+    save:
+        new_title: Nyt event
+        edit_title: "Rediger %name%"
+        back_to_event: Tilbage til event
+        back_to_team: Tilbage til team
+        back_to_events: Tilbage til events
+        creating_for: Opretter event for
+        banner_preview_alt: Forhåndsvisning af banner
+        description_label: Beskrivelse
+        repeats: Gentager
+        ends: Slutter
+        timezone: Tidszone
+        create: Opret event
+    feed:
+        title: Feed
+        empty: Ingen opslag endnu.
+        empty_can_post: Vær den første til at lave et opslag på dette feed.
+        composer_placeholder: Del noget om dette event…
+        rsvp_to_post: Svar <strong>deltager</strong> eller <strong>måske</strong> på dette event for at lave opslag.
+        host_badge: Vært
+        edited: ændret
+        edited_at: "Ændret %date%"
+        pinned: Fastgjort
+        post_actions: Opslagshandlinger
+        pin: Fastgør opslag
+        unpin: Fjern fastgørelse
+        edit_text: Rediger tekst
+    post:
+        new_title: Nyt opslag
+        edit_title: Rediger opslag
+        delete_title: Slet opslag?
+        delete_body: Dette vil permanent fjerne opslaget. Denne handling kan ikke fortrydes.
+        submit: Slå op
+        body_label: Tekst
+        body_placeholder: Del noget om dette event...
+        youtube_title: YouTube-video
+        posted: Slået op!
+        updated: Opslag opdateret.
+        deleted: Opslag slettet.
+        body_too_long: Teksten er for lang.
+        pinned_toast: Fastgjort.
+        unpinned_toast: Fastgørelse fjernet.
+
+team:
+    create: Lav team
+    empty: Ingen teams endnu.
+    edit: Rediger team
+    leave: Forlad team
+    leave_confirm: Forlad dette team?
+    saved: Team gemt.
+    deleted: Team slettet.
+    left: Du har forladt teamet.
+    member_removed: Medlem fjernet.
+    owner: Ejer
+    no_members: Ingen medlemmer endnu.
+    members_heading: Medlemmer
+    members_count: "{0}%count% medlemmer|{1}%count% medlem|]1,Inf[%count% medlemmer"
+    upcoming_events: Kommende events
+    past_events: Tidligere events
+    no_upcoming_events: Ingen kommende events.
+    no_past_events: Ingen tidligere events.
+    back_to_teams: Tilbage til teams
+    remove_member: Fjern medlem
+    remove_member_confirm: Fjern dette medlem?
+    delete:
+        title: Slet team?
+        button: Slet team
+        body_prefix: Dette vil slette
+        body_suffix: ", alle dets events og fjerne alle medlemmer. Dette kan ikke fortrydes."
+    invite:
+        title: "Inviter til %name%"
+        button: Inviter medlemmer
+        submit: Tilføj til team
+        email_required: Email er påkrævet.
+        no_user: Ingen bruger fundet med denne email.
+        member_added: Medlem tilføjet.
+    save:
+        new_title: Nyt team
+        edit_title: "Rediger %name%"
+        back_to_team: Tilbage til team
+        banner: Banner
+        profile_picture: Profilbillede
+
+user:
+    fallback_name: Bruger
+    edit_profile: Rediger profil
+    posts_heading: Opslag
+
+follow:
+    follow: Følg
+    following: Følger
+    login_prompt: Log ind eller lav en konto for at følge.
+
+notification:
+    clear_all: Ryd alle
+    empty_title: Ingen notifikationer
+    empty_subtitle: Du har ingen nye notifikationer.
+    delete: Slet notifikation
+    load_error: Kunne ikke indlæse notifikationer.
+    cleared: Notifikationer ryddet.
+    added: tilføjede
+    is_going_to: deltager i
+    is_happening_now: sker nu
+    posted_in: skrev i
+
+form:
+    phone: Telefon
+    role:
+        photographer: Fotograf
+        influencer: Influencer
+    frequency:
+        daily: Dagligt
+        weekly: Ugentligt
+        monthly: Månedligt
+        yearly: Årligt
+    event:
+        banner_image: Bannerbillede
+        remove_banner: Fjern nuværende banner
+        starts: Starter
+        location: Lokation
+        location_placeholder: f.eks. Amager Strandpark, København
+        description_placeholder: "Et par ord om træffet. Hvad kan man forvente, hvem er det for, og hvad skal man tage med..."
+        private: Privat event (ikke synligt offentligt)
+        ends: Slutter
+        frequency: Hyppighed
+        frequency_none: Gentages ikke
+        every: Hver
+        timezone: Tidszone
+    team:
+        banner_image: Bannerbillede
+        remove_banner: Fjern nuværende banner
+        profile_picture: Profilbillede
+        remove_profile_picture: Fjern nuværende profilbillede
+        description: Beskrivelse
+    password:
+        current: Nuværende adgangskode
+        current_placeholder: Indtast din nuværende adgangskode
+        new: Ny adgangskode
+        new_placeholder: Indtast en ny adgangskode
+        repeat: Gentag ny adgangskode
+        repeat_placeholder: Gentag din nye adgangskode
+    registration:
+        password: Adgangskode
+        password_placeholder: Indtast en adgangskode
+        confirm_password: Bekræft adgangskode
+        confirm_password_placeholder: Bekræft din adgangskode
+    post:
+        link: Link (valgfrit)
+        embed: YouTube- eller Instagram-URL (valgfrit)
+        images: Billeder (op til 4)
+    profile:
+        avatar: Profilbillede
+        remove_avatar: Fjern nuværende profilbillede
+        name: Dit navn
+        name_placeholder: f.eks. Jonas Andersen
+        description_placeholder: "Et par ord om dig selv: hvad du kører, og hvad du elsker ved biltræf..."
+        instagram: Instagram
+        instagram_placeholder: instagram.com/dinprofil
+        youtube: YouTube
+        youtube_placeholder: youtube.com/@dinkanal
+        facebook: Facebook
+        facebook_placeholder: facebook.com/dinprofil
+        website: Hjemmeside
+        website_placeholder: dinhjemmeside.dk
+        role_default: Standard
+
+# Service-thrown error messages, resolved by their English text (messages domain).
+'Cannot remove the owner of a team.': Du kan ikke fjerne ejeren af et team.
+'Owner cannot leave their own team; delete it instead.': Ejeren kan ikke forlade sit eget team; slet det i stedet.

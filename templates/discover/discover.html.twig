@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% import '_icons.html.twig' as icons %}
 
-{% block title %}Discover{% endblock %}
+{% block title %}{{ 'nav.discover'|trans }}{% endblock %}
 
 {% block body %}
     <div class="w-full max-w-5xl">
@@ -15,7 +15,7 @@
             <input type="hidden" name="page" value="{{ pagination.page }}" data-filter-form-target="page">
 
             <div class="flex items-center justify-between gap-3">
-                <h2 class="hidden lg:block text-2xl font-semibold m-0">Discover</h2>
+                <h2 class="hidden lg:block text-2xl font-semibold m-0">{{ 'nav.discover'|trans }}</h2>
 
                 {# Single full-width row on mobile (search flexes, sort stays compact);
                    inline to the right of the title on desktop. #}
@@ -25,22 +25,22 @@
                         <input type="search"
                                name="q"
                                value="{{ search }}"
-                               placeholder="Search events…"
+                               placeholder="{{ 'discover.search_placeholder'|trans }}"
                                class="toolbar-search-input"
                                autocomplete="off"
                                data-filter-form-target="search"
                                data-action="input->filter-form#debouncedSubmit keydown->filter-form#searchKeydown">
                     </div>
 
-                    <label class="filter-label shrink-0 hidden lg:block" for="discover-sort">Sort by</label>
+                    <label class="filter-label shrink-0 hidden lg:block" for="discover-sort">{{ 'discover.sort_by'|trans }}</label>
                     <select id="discover-sort"
                             name="sort"
                             class="filter-select shrink-0"
                             data-filter-form-target="autoSubmit"
                             data-action="change->filter-form#submit">
-                        <option value="soonest" {{ sort == 'soonest' ? 'selected' }}>Soonest</option>
-                        <option value="hype" {{ sort == 'hype' ? 'selected' }}>Most hyped</option>
-                        <option value="attendees" {{ sort == 'attendees' ? 'selected' }}>Most attendees</option>
+                        <option value="soonest" {{ sort == 'soonest' ? 'selected' }}>{{ 'discover.sort.soonest'|trans }}</option>
+                        <option value="hype" {{ sort == 'hype' ? 'selected' }}>{{ 'discover.sort.hype'|trans }}</option>
+                        <option value="attendees" {{ sort == 'attendees' ? 'selected' }}>{{ 'discover.sort.attendees'|trans }}</option>
                     </select>
                 </div>
             </div>

@@ -1,25 +1,25 @@
 {% extends 'components/Modal/ContentShell.html.twig' %}
 
 {% block header %}
-    <twig:Modal:Header title="Delete event?" />
+    <twig:Modal:Header title="{{ 'event.delete.title'|trans }}" />
 {% endblock %}
 
 {% block body %}
     <div class="px-6 py-4">
         <p class="text-sm text-primary-text">
-            This will permanently remove <strong>{{ event.name }}</strong>. This action cannot be undone.
+            {{ 'event.delete.body_prefix'|trans }} <strong>{{ event.name }}</strong>{{ 'event.delete.body_suffix'|trans }}
         </p>
     </div>
 {% endblock %}
 
 {% block footer %}
     <div class="modal-footer">
-        <button type="button" class="btn-grey" data-action="click->modal#hide">Cancel</button>
+        <button type="button" class="btn-grey" data-action="click->modal#hide">{{ 'common.cancel'|trans }}</button>
         <form method="POST"
               action="{{ path('app_event_delete', {uuid: event.uuid}) }}"
               class="inline">
             <input type="hidden" name="_token" value="{{ csrf_token('delete-event-' ~ event.uuid) }}">
-            <button type="submit" class="btn-danger">Delete</button>
+            <button type="submit" class="btn-danger">{{ 'common.delete'|trans }}</button>
         </form>
     </div>
 {% endblock %}

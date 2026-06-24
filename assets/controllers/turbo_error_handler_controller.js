@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
+import { t } from '../utilities/i18n.js';
 
 export default class extends Controller {
     connect() {
@@ -19,13 +20,13 @@ export default class extends Controller {
         const frame = event.target;
         if (frame.closest('#app-modal')) {
             event.preventDefault();
-            this.showErrorToast('The requested content could not be loaded.');
+            this.showErrorToast(t('errors.content_load'));
         }
     }
 
     handleFetchError(event) {
         event.preventDefault();
-        this.showErrorToast('A network error occurred. Please try again.');
+        this.showErrorToast(t('errors.network'));
     }
 
     showErrorToast(message) {
@@ -43,7 +44,7 @@ export default class extends Controller {
             '<div class="toast__content"><span class="toast__message">' +
             this.escapeHtml(message) +
             '</span></div>' +
-            '<button type="button" class="toast__close" data-action="click->toast#dismiss" aria-label="Dismiss">&times;</button>';
+            '<button type="button" class="toast__close" data-action="click->toast#dismiss" aria-label="' + this.escapeHtml(t('common.dismiss')) + '">&times;</button>';
 
         container.prepend(toast);
     }

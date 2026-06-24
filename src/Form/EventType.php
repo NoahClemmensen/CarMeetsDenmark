@@ -17,14 +17,19 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class EventType extends AbstractType
 {
+    public function __construct(private readonly TranslatorInterface $translator)
+    {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('imageFile', FileType::class, [
-                'label' => 'Banner image',
+                'label' => 'form.event.banner_image',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
@@ -36,7 +41,7 @@ class EventType extends AbstractType
                 ],
             ])
             ->add('removeImage', CheckboxType::class, [
-                'label' => 'Remove current banner',
+                'label' => 'form.event.remove_banner',
                 'mapped' => false,
                 'required' => false,
             ])
@@ -45,41 +50,41 @@ class EventType extends AbstractType
                 'label' => false,
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'A few words about the meet. What to expect, who it\'s for, anything to bring...',
+                    'placeholder' => $this->translator->trans('form.event.description_placeholder'),
                     'rows' => 3,
                 ],
             ])
             ->add('startDate', DateTimeType::class, [
-                'label' => 'Starts',
+                'label' => 'form.event.starts',
                 'widget' => 'single_text',
             ])
             ->add('location', TextType::class, [
-                'label' => 'Location',
-                'attr' => ['placeholder' => 'e.g. Amager Strandpark, Copenhagen'],
+                'label' => 'form.event.location',
+                'attr' => ['placeholder' => $this->translator->trans('form.event.location_placeholder')],
             ])
             ->add('private', CheckboxType::class, [
-                'label' => 'Private event (not listed publicly)',
+                'label' => 'form.event.private',
                 'required' => false,
             ])
             ->add('endDate', DateTimeType::class, [
-                'label' => 'Ends',
+                'label' => 'form.event.ends',
                 'required' => false,
                 'widget' => 'single_text',
             ])
             ->add('repeatFrequency', EnumType::class, [
                 'class' => EventRepeatFrequency::class,
-                'label' => 'Frequency',
+                'label' => 'form.event.frequency',
                 'required' => false,
-                'placeholder' => 'Doesn\'t repeat',
-                'choice_label' => fn (EventRepeatFrequency $f) => $f->label(),
+                'placeholder' => 'form.event.frequency_none',
+                'choice_label' => fn (EventRepeatFrequency $f) => $this->translator->trans($f->label()),
             ])
             ->add('repeatAmount', IntegerType::class, [
-                'label' => 'Every',
+                'label' => 'form.event.every',
                 'required' => false,
                 'attr' => ['min' => 1, 'placeholder' => '1'],
             ])
             ->add('timezone', TextType::class, [
-                'label' => 'Timezone',
+                'label' => 'form.event.timezone',
                 'required' => false,
                 'attr' => [
                     'placeholder' => 'Europe/Copenhagen',

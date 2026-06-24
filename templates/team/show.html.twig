@@ -3,7 +3,7 @@
 
 {% block title %}{{ team.name }}{% endblock %}
 {% block back_url %}{{ path('app_team_index') }}{% endblock %}
-{% block back_label %}Back to teams{% endblock %}
+{% block back_label %}{{ 'team.back_to_teams'|trans }}{% endblock %}
 
 {% block body %}
     <div class="w-full max-w-3xl">
@@ -13,32 +13,32 @@
                 <img src="{{ teamMacros.profile_picture_url(team) }}" alt="" class="w-20 h-20 rounded-full object-cover -mt-12 border-4 border-white bg-white">
                 <div class="flex-1">
                     <h1 class="text-2xl font-semibold">{{ team.name }}</h1>
-                    <div class="text-sm text-secondary-text mb-2">{{ members|length }} members</div>
+                    <div class="text-sm text-secondary-text mb-2">{{ 'team.members_count'|trans({'%count%': members|length}) }}</div>
                     <p class="text-primary-text whitespace-pre-line">{{ team.description }}</p>
                 </div>
             </div>
             <div class="px-6 pb-6 flex flex-wrap gap-2">
                 {% if is_granted('TEAM_EDIT', team) %}
-                    <a class="btn-secondary-sm" href="{{ path('app_team_save', {uuid: team.uuid}) }}">Edit team</a>
+                    <a class="btn-secondary-sm" href="{{ path('app_team_save', {uuid: team.uuid}) }}">{{ 'team.edit'|trans }}</a>
                     <button type="button"
                             class="btn-secondary-sm"
                             data-controller="modal-trigger"
                             data-action="click->modal-trigger#open"
                             data-modal-trigger-url-value="{{ path('app_team_invite_modal', {uuid: team.uuid}) }}">
-                        Invite members
+                        {{ 'team.invite.button'|trans }}
                     </button>
                     <button type="button"
                             class="btn-text text-error"
                             data-controller="modal-trigger"
                             data-action="click->modal-trigger#open"
                             data-modal-trigger-url-value="{{ path('app_team_delete_confirm', {uuid: team.uuid}) }}">
-                        Delete team
+                        {{ 'team.delete.button'|trans }}
                     </button>
                 {% elseif is_granted('TEAM_LEAVE', team) %}
                     <form method="post" action="{{ path('app_team_leave', {uuid: team.uuid}) }}"
-                          onsubmit="return confirm('Leave this team?');">
+                          onsubmit="return confirm('{{ 'team.leave_confirm'|trans }}');">
                         <input type="hidden" name="_token" value="{{ csrf_token('team-leave-' ~ team.uuid) }}">
-                        <button type="submit" class="btn-text text-error">Leave team</button>
+                        <button type="submit" class="btn-text text-error">{{ 'team.leave'|trans }}</button>
                     </form>
                 {% endif %}
                 {{ include('follow/_button.html.twig', {
@@ -50,23 +50,23 @@
         </div>
 
         <section class="card p-6 mb-4">
-            <h2 class="font-semibold mb-3">Members</h2>
+            <h2 class="font-semibold mb-3">{{ 'team.members_heading'|trans }}</h2>
             {{ include('team/_member_list.html.twig', {team: team, members: members}) }}
         </section>
 
         <section class="card p-6 mb-4">
             <div class="flex items-center justify-between mb-3">
-                <h2 class="font-semibold">Upcoming events</h2>
+                <h2 class="font-semibold">{{ 'team.upcoming_events'|trans }}</h2>
                 {% if viewerMembership %}
-                    <a class="btn-cta" href="{{ path('app_event_save') }}?team={{ team.uuid }}">Create event</a>
+                    <a class="btn-cta" href="{{ path('app_event_save') }}?team={{ team.uuid }}">{{ 'event.save.create'|trans }}</a>
                 {% endif %}
             </div>
-            {{ include('team/_event_list.html.twig', {events: upcomingEvents, emptyMessage: 'No upcoming events.'}) }}
+            {{ include('team/_event_list.html.twig', {events: upcomingEvents, emptyMessage: 'team.no_upcoming_events'|trans}) }}
         </section>
 
         <section class="card p-6">
-            <h2 class="font-semibold mb-3">Past events</h2>
-            {{ include('team/_event_list.html.twig', {events: pastEvents, emptyMessage: 'No past events.'}) }}
+            <h2 class="font-semibold mb-3">{{ 'team.past_events'|trans }}</h2>
+            {{ include('team/_event_list.html.twig', {events: pastEvents, emptyMessage: 'team.no_past_events'|trans}) }}
         </section>
     </div>
 {% endblock %}

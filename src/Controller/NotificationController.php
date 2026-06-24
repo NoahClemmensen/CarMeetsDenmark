@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/notifications')]
 #[IsGranted('ROLE_USER')]
@@ -78,6 +79,7 @@ class NotificationController extends AbstractController
         Request $request,
         NotificationService $service,
         TurboStreamHelper $turbo,
+        TranslatorInterface $translator,
     ): Response {
         if (!$this->isCsrfTokenValid('notification-clear-all', (string) $request->request->get('_token'))) {
             throw $this->createAccessDeniedException('Invalid CSRF token.');
@@ -86,7 +88,7 @@ class NotificationController extends AbstractController
 
         return $turbo
             ->replace('notification-dropdown-frame', 'notification/_dropdown.html.twig', ['notifications' => []])
-            ->addToast('Notifications cleared.', ToastTypes::success->name)
+            ->addToast($translator->trans('notification.cleared'), ToastTypes::success->name)
             ->makeResponse();
     }
 }

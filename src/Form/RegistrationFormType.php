@@ -14,9 +14,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RegistrationFormType extends AbstractType
 {
+    public function __construct(private readonly TranslatorInterface $translator)
+    {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -29,16 +34,16 @@ class RegistrationFormType extends AbstractType
                 'type' => PasswordType::class,
                 'required' => true,
                 'first_options' => [
-                    'label' => 'Password',
+                    'label' => 'form.registration.password',
                     'attr' => [
-                        'placeholder' => 'Enter a password',
+                        'placeholder' => $this->translator->trans('form.registration.password_placeholder'),
                         'autocomplete' => 'new-password',
                     ]
                 ],
                 'second_options' => [
-                    'label' => 'Confirm Password',
+                    'label' => 'form.registration.confirm_password',
                     'attr' => [
-                        'placeholder' => 'Confirm your password',
+                        'placeholder' => $this->translator->trans('form.registration.confirm_password_placeholder'),
                         'autocomplete' => 'new-password',
                         'class' => 'form-group mb-0',
                     ]

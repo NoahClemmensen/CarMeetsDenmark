@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
+import { t } from '../utilities/i18n.js';
 
 /**
  * Guest "log in to continue" prompt.
@@ -33,12 +34,12 @@ export default class extends Controller {
         }
 
         const message = event?.currentTarget?.dataset?.loginPromptMessage
-            ?? 'Log in or sign up to join the community and interact with events, teams and people.';
+            ?? t('login_prompt.default_message');
 
         if (modal.hasHeaderTarget) {
             modal.headerTarget.innerHTML =
-                '<h2 id="modal-title" class="modal-title">Log in to continue</h2>' +
-                '<button type="button" class="modal-close" data-action="click->modal#hide" aria-label="Close">&times;</button>';
+                '<h2 id="modal-title" class="modal-title">' + t('login_prompt.title') + '</h2>' +
+                '<button type="button" class="modal-close" data-action="click->modal#hide" aria-label="' + t('common.close') + '">&times;</button>';
         }
         if (modal.hasBodyTarget) {
             modal.bodyTarget.innerHTML =
@@ -47,8 +48,8 @@ export default class extends Controller {
         if (modal.hasFooterTarget) {
             modal.footerTarget.innerHTML =
                 '<div class="modal-footer">' +
-                '<a class="btn-secondary" href="' + this.registerUrlValue + '">Sign up</a>' +
-                '<a class="btn-cta" href="' + this.loginUrlValue + '">Log in</a>' +
+                '<a class="btn-secondary" href="' + this.registerUrlValue + '">' + t('auth.sign_up') + '</a>' +
+                '<a class="btn-cta" href="' + this.loginUrlValue + '">' + t('auth.log_in') + '</a>' +
                 '</div>';
         }
 

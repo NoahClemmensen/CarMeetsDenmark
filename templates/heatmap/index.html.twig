@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 {% import '_icons.html.twig' as icons %}
 
-{% block title %}Hotspots{% endblock %}
-{% block page_title %}Hotspots{% endblock %}
+{% block title %}{{ 'heatmap.title'|trans }}{% endblock %}
+{% block page_title %}{{ 'heatmap.title'|trans }}{% endblock %}
 
 {% block stylesheets %}
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -26,8 +26,8 @@
         {# Header hidden on mobile, the topbar already shows the title #}
         <div class="hidden lg:flex items-end justify-between gap-4 mb-4">
             <div>
-                <h2 class="text-2xl font-semibold m-0">Hotspots</h2>
-                <p class="text-secondary-text mt-1 mb-0">See where the activity is right now</p>
+                <h2 class="text-2xl font-semibold m-0">{{ 'heatmap.title'|trans }}</h2>
+                <p class="text-secondary-text mt-1 mb-0">{{ 'heatmap.subtitle'|trans }}</p>
             </div>
             {# Activity indicator, desktop only; on mobile it moves to the toolbar below the map #}
             <span class="hidden lg:inline-flex shrink-0 items-center gap-2 rounded-button bg-neutral px-3 py-1.5 text-sm font-medium">
@@ -35,7 +35,7 @@
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-b opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent-b"></span>
                 </span>
-                <span data-heatmap-target="count">{{ activeCount }}</span>&nbsp;active now
+                <span data-heatmap-target="count">{{ activeCount }}</span>&nbsp;{{ 'heatmap.active_now'|trans }}
             </span>
         </div>
 
@@ -56,9 +56,9 @@
                 {% else %}
                     <button type="button"
                             data-action="login-prompt#open"
-                            data-login-prompt-message="Log in or sign up to drop your pin on the map."
+                            data-login-prompt-message="{{ 'heatmap.login_prompt'|trans }}"
                             class="relative inline-flex items-center gap-2 rounded-button px-5 py-3 font-semibold text-white shadow-lg transition-colors bg-primary-text hover:bg-black">
-                        Drop a pin
+                        {{ 'heatmap.drop_pin'|trans }}
                     </button>
                 {% endif %}
             </div>
@@ -71,7 +71,7 @@
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-b opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent-b"></span>
                 </span>
-                <span data-heatmap-target="count">{{ activeCount }}</span>&nbsp;active now
+                <span data-heatmap-target="count">{{ activeCount }}</span>&nbsp;{{ 'heatmap.active_now'|trans }}
             </span>
             {% if app.user %}
                 <button type="button"
@@ -82,15 +82,15 @@
             {% else %}
                 <button type="button"
                         data-action="login-prompt#open"
-                        data-login-prompt-message="Log in or sign up to drop your pin on the map."
+                        data-login-prompt-message="{{ 'heatmap.login_prompt'|trans }}"
                         class="inline-flex items-center justify-center gap-2 rounded-button px-4 py-2.5 text-sm font-semibold text-white shadow transition-colors bg-primary-text hover:bg-black">
-                    Drop a pin
+                    {{ 'heatmap.drop_pin'|trans }}
                 </button>
             {% endif %}
         </div>
 
         <p class="text-xs text-secondary-text mt-3">
-            Your pin is anonymous and disappears automatically after 3 hours. Only the combined activity is shown.
+            {{ 'heatmap.anonymous_note'|trans }}
         </p>
     </div>
 {% endblock %}

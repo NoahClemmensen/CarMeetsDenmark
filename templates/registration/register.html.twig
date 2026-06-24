@@ -1,13 +1,13 @@
 {% extends 'base_public.html.twig' %}
 
-{% block title %}Register - Spoked{% endblock %}
+{% block title %}{{ 'registration.title'|trans }} - Spoked{% endblock %}
 
 {% block body %}
     <div class="h-full w-full flex justify-center items-center">
         <div class="card p-8 max-w-md">
             <div class="text-center mb-8">
-                <h1 class="text-2xl font-semibold text-on-surface mb-2">Welcome to Spoked</h1>
-                <p class="text-on-surface-var">Create an account to get started</p>
+                <h1 class="text-2xl font-semibold text-on-surface mb-2">{{ 'auth.welcome_heading'|trans }}</h1>
+                <p class="text-on-surface-var">{{ 'registration.subtitle'|trans }}</p>
             </div>
 
             {% for message in app.flashes('verify_email_error') %}
@@ -27,12 +27,12 @@
             {{ form_errors(registrationForm) }}
 
             <button type="submit" class="btn-cta w-full justify-center">
-                Register
+                {{ 'registration.submit'|trans }}
             </button>
             {{ form_end(registrationForm) }}
 
             <p class="text-sm text-on-surface-var text-center mt-6">
-                Already have an account? Sign in <a href="{{ path('app_login') }}" class="underline">here</a>.
+                {{ 'registration.have_account_prefix'|trans }} <a href="{{ path('app_login') }}" class="underline">{{ 'common.here'|trans }}</a>.
             </p>
         </div>
     </div>

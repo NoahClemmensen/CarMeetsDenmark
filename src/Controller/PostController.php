@@ -23,6 +23,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PostController extends AbstractController
 {
@@ -44,6 +45,7 @@ class PostController extends AbstractController
         PostService $postService,
         PostReactionRepository $postReactions,
         TurboStreamHelper $turbo,
+        TranslatorInterface $translator,
     ): Response {
         $event = $this->eventRepository->findOneBy(['uuid' => $uuid, 'isDeleted' => false]);
         if ($event === null) {
@@ -77,7 +79,7 @@ class PostController extends AbstractController
                 'isHypedByCurrent' => false,
             ])
             ->hideModal()
-            ->addToast('Posted!', ToastTypes::success->name)
+            ->addToast($translator->trans('event.post.posted'), ToastTypes::success->name)
             ->makeResponse();
     }
 
@@ -160,6 +162,7 @@ class PostController extends AbstractController
         Request $request,
         PostService $postService,
         TurboStreamHelper $turbo,
+        TranslatorInterface $translator,
     ): Response {
         $post = $this->postRepository->findByUuid($uuid);
         if ($post === null) {
@@ -173,7 +176,7 @@ class PostController extends AbstractController
 
         $body = (string) $request->request->get('body');
         if (mb_strlen($body) > 2000) {
-            return $turbo->addToast('Body too long.', ToastTypes::error->name)
+            return $turbo->addToast($translator->trans('event.post.body_too_long'), ToastTypes::error->name)
                 ->setCode(Response::HTTP_UNPROCESSABLE_ENTITY)
                 ->makeResponse();
         }
@@ -188,7 +191,7 @@ class PostController extends AbstractController
                 'isHypedByCurrent' => false,
             ])
             ->hideModal()
-            ->addToast('Post updated.', ToastTypes::success->name)
+            ->addToast($translator->trans('event.post.updated'), ToastTypes::success->name)
             ->makeResponse();
     }
 
@@ -214,6 +217,7 @@ class PostController extends AbstractController
         Request $request,
         PostService $postService,
         TurboStreamHelper $turbo,
+        TranslatorInterface $translator,
     ): Response {
         $post = $this->postRepository->findByUuid($uuid);
         if ($post === null) {
@@ -230,7 +234,7 @@ class PostController extends AbstractController
         return $turbo
             ->remove('feed-post-' . $post->getUuid())
             ->hideModal()
-            ->addToast('Post deleted.', ToastTypes::success->name)
+            ->addToast($translator->trans('event.post.deleted'), ToastTypes::success->name)
             ->makeResponse();
     }
 
@@ -242,6 +246,7 @@ class PostController extends AbstractController
         PostService $postService,
         PostReactionRepository $postReactions,
         TurboStreamHelper $turbo,
+        TranslatorInterface $translator,
         #[CurrentUser] ?User $user = null,
     ): Response {
         $post = $this->postRepository->findByUuid($uuid);
@@ -268,7 +273,7 @@ class PostController extends AbstractController
                 'posts' => $posts,
                 'hypedPostIds' => $hypedPostIds,
             ])
-            ->addToast($nowPinned ? 'Pinned.' : 'Unpinned.', ToastTypes::success->name)
+            ->addToast($translator->trans($nowPinned ? 'event.post.pinned_toast' : 'event.post.unpinned_toast'), ToastTypes::success->name)
             ->makeResponse();
     }
 

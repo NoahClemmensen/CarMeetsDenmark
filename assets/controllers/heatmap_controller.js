@@ -1,5 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 import { showToast } from '../utilities/toast.js';
+import { t } from '../utilities/i18n.js';
 
 /**
  * Drives the Hotspots page: a Leaflet map with a Leaflet.heat overlay plus the
@@ -114,7 +115,7 @@ export default class extends Controller {
                 this.map.setView([position.coords.latitude, position.coords.longitude], 12);
             }
         } catch (e) {
-            showToast('Allow location access to drop a pin.', 'warning');
+            showToast(t('heatmap.location_denied'), 'warning');
         } finally {
             this.setBusy(false);
         }
@@ -137,11 +138,11 @@ export default class extends Controller {
             });
 
             if (response.status === 429) {
-                showToast('You\'ve dropped too many pins. Try again later.', 'warning');
+                showToast(t('heatmap.rate_limit'), 'warning');
                 return;
             }
             if (!response.ok) {
-                showToast('Something went wrong. Try again.', 'error');
+                showToast(t('heatmap.error'), 'error');
                 return;
             }
 
@@ -149,7 +150,7 @@ export default class extends Controller {
             this.activeValue = Boolean(data.active);
             this.refresh();
         } catch (e) {
-            showToast('Something went wrong. Try again.', 'error');
+            showToast(t('heatmap.error'), 'error');
         } finally {
             this.setBusy(false);
         }
@@ -180,11 +181,11 @@ export default class extends Controller {
             if (this.activeValue) {
                 btn.classList.remove('bg-primary-text', 'hover:bg-black');
                 btn.classList.add('bg-gradient-to-r', 'from-accent-d', 'to-error');
-                btn.innerHTML = `${this.dotIcon()}<span>Pinged</span><span class="opacity-80 font-normal">· Remove</span>`;
+                btn.innerHTML = `${this.dotIcon()}<span>${t('heatmap.pinned')}</span><span class="opacity-80 font-normal">· ${t('heatmap.remove')}</span>`;
             } else {
                 btn.classList.remove('bg-gradient-to-r', 'from-accent-d', 'to-error');
                 btn.classList.add('bg-primary-text', 'hover:bg-black');
-                btn.innerHTML = `${this.pinIcon()}<span>Drop a pin</span>`;
+                btn.innerHTML = `${this.pinIcon()}<span>${t('heatmap.drop_pin')}</span>`;
             }
         });
     }

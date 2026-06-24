@@ -1,0 +1,367 @@
+common:
+    here: here
+    cancel: Cancel
+    remove: Remove
+    apply: Apply
+    optional: optional
+    close: Close
+    dialog: Dialog
+    dismiss: Dismiss
+    copied: Copied!
+    copy: Copy
+    delete: Delete
+    edit: Edit
+    change: Change
+    save: Save
+    save_changes: Save changes
+    load_more: Load more
+    deleted_user: Deleted user
+    email: Email
+    website: Website
+
+nav:
+    discover: Discover
+    events: Events
+    your_events: Your events
+    teams: Teams
+    profile: Profile
+    settings: Settings
+    logout: Logout
+    back: Back
+    notifications: Notifications
+    your_profile: Your profile
+    support: Support
+    pours: Pours
+    support_mode_aria: Support mode active - viewing all pours
+    primary_aria: Primary
+    guest_cta:
+        title: Join the community
+        subtitle: See and share meets, follow teams and people for free.
+
+auth:
+    welcome_heading: Welcome to Spoked
+    email_label: Email address
+    password_label: Password
+    log_in: Log in
+    sign_up: Sign up
+    login:
+        title: Login
+        subtitle: Sign in or create an account to get started
+        password_placeholder: Your password
+        submit: Continue
+        no_account_prefix: "Don't have an account? Make one"
+
+registration:
+    title: Register
+    subtitle: Create an account to get started
+    submit: Register
+    have_account_prefix: Already have an account? Sign in
+    email:
+        heading: Hi! Please confirm your email!
+        body_intro: "Please confirm your email address by clicking the following link:"
+        confirm_link: Confirm my Email
+        expire_prefix: This link will expire in
+        cheers: Cheers!
+    verify:
+        invalid_link: Invalid verification link.
+        success: Your email address has been verified.
+
+profile:
+    about_you: About you
+    avatar_alt: Profile picture
+    avatar:
+        change: Change picture
+        upload: Upload picture
+    socials:
+        label: Your socials
+        description: Instagram, YouTube, Facebook, website
+    creator:
+        label: Are you a creator?
+        hint: Select only if you're actively working as a photographer or influencer.
+
+setup:
+    welcome: Welcome
+    heading: Set up your profile
+    subtitle: Takes less than a minute. Most fields are optional.
+    submit: Let's go
+    completed: Successfully completed your profile
+    creator:
+        description: Most people skip this
+
+settings:
+    title: Settings
+    heading: Settings
+    subtitle: Update your profile
+    save: Save changes
+    saved: Settings saved.
+    password_updated: Password updated.
+    language:
+        label: Language
+    creator:
+        description: Photographer or influencer
+    change_password:
+        label: Change password
+        description: Update your account password
+    password_modal:
+        title: Change password
+        update: Update password
+    avatar:
+        adjust_title: Adjust profile picture
+        adjust_hint: Drag to reposition, slide to resize.
+        crop_preview_alt: Crop preview
+        zoom: Zoom
+
+pagination:
+    previous: Previous page
+    next: Next page
+
+discover:
+    search_placeholder: Search events…
+    sort_by: Sort by
+    sort:
+        soonest: Soonest
+        hype: Most hyped
+        attendees: Most attendees
+    results_count: "{0}%count% events|{1}%count% event|]1,Inf[%count% events"
+    matching: "matching “%query%”"
+    empty_search: "No events match “%query%”."
+    empty: No upcoming events to discover right now. Check back soon!
+
+heatmap:
+    title: Hotspots
+    subtitle: See where the activity is right now
+    active_now: active now
+    drop_pin: Drop a pin
+    pinned: Pinged
+    remove: Remove
+    location_denied: Allow location access to drop a pin.
+    rate_limit: You've dropped too many pins. Try again later.
+    error: Something went wrong. Try again.
+    login_prompt: Log in or sign up to drop your pin on the map.
+    anonymous_note: Your pin is anonymous and disappears automatically after 3 hours. Only the combined activity is shown.
+
+errors:
+    content_load: The requested content could not be loaded.
+    network: A network error occurred. Please try again.
+
+lightbox:
+    previous: Previous
+    next: Next
+
+login_prompt:
+    title: Log in to continue
+    default_message: Log in or sign up to join the community and interact with events, teams and people.
+
+clipboard:
+    copy_failed: Could not copy link to clipboard. Use the Copy button.
+
+hype:
+    count_title: "%count% hyped"
+    remove: Remove hype
+    add: Hype this
+    login_prompt: Log in or sign up to hype this.
+    login_aria: Log in to hype
+
+event:
+    members_only: Members only
+    private: Private
+    hype: Hype
+    going: Going
+    until: until
+    saved: Event saved.
+    deleted: Event deleted.
+    back_to_team: "Back to %team%"
+    index:
+        title: Events
+        attending: Attending
+        attending_empty: You’re not attending any upcoming events.
+        discover_some: Discover some →
+        from_teams: From your teams
+        from_teams_subtitle: Upcoming events from teams you’re in.
+        teams_empty: None of your teams have upcoming events.
+    participants:
+        label: Participants
+    participation:
+        empty: No one's RSVP'd yet. Be the first.
+        going_count: going
+        maybe_count: maybe
+        cant_go_count: can't go
+        login_prompt: Log in or sign up to RSVP to this event.
+        status:
+            going: Going
+            maybe: Maybe
+            cant_go: Can't go
+    delete:
+        title: Delete event?
+        button: Delete event
+        body_prefix: This will permanently remove
+        body_suffix: . This action cannot be undone.
+    share:
+        title: Share event
+        link: Link
+        scan: Scan to open on mobile
+    save:
+        new_title: New event
+        edit_title: "Edit %name%"
+        back_to_event: Back to event
+        back_to_team: Back to team
+        back_to_events: Back to events
+        creating_for: Creating event for
+        banner_preview_alt: Banner preview
+        description_label: Description
+        repeats: Repeats
+        ends: Ends
+        timezone: Timezone
+        create: Create event
+    feed:
+        title: Feed
+        empty: No posts yet.
+        empty_can_post: Be the first to post on this feed.
+        composer_placeholder: Share something about this event…
+        rsvp_to_post: RSVP <strong>going</strong> or <strong>maybe</strong> to this event to post on the feed.
+        host_badge: Host
+        edited: edited
+        edited_at: "Edited %date%"
+        pinned: Pinned
+        post_actions: Post actions
+        pin: Pin post
+        unpin: Unpin post
+        edit_text: Edit text
+    post:
+        new_title: New post
+        edit_title: Edit post
+        delete_title: Delete post?
+        delete_body: This will permanently remove the post. This action cannot be undone.
+        submit: Post
+        body_label: Body
+        body_placeholder: Share something about this event...
+        youtube_title: YouTube video
+        posted: Posted!
+        updated: Post updated.
+        deleted: Post deleted.
+        body_too_long: Body too long.
+        pinned_toast: Pinned.
+        unpinned_toast: Unpinned.
+
+team:
+    create: Create team
+    empty: No teams yet.
+    edit: Edit team
+    leave: Leave team
+    leave_confirm: Leave this team?
+    saved: Team saved.
+    deleted: Team deleted.
+    left: You left the team.
+    member_removed: Member removed.
+    owner: Owner
+    no_members: No members yet.
+    members_heading: Members
+    members_count: "{0}%count% members|{1}%count% member|]1,Inf[%count% members"
+    upcoming_events: Upcoming events
+    past_events: Past events
+    no_upcoming_events: No upcoming events.
+    no_past_events: No past events.
+    back_to_teams: Back to teams
+    remove_member: Remove member
+    remove_member_confirm: Remove this member?
+    delete:
+        title: Delete team?
+        button: Delete team
+        body_prefix: This will delete
+        body_suffix: ", all of its events, and remove every member. This cannot be undone."
+    invite:
+        title: "Invite to %name%"
+        button: Invite members
+        submit: Add to team
+        email_required: Email is required.
+        no_user: No user found with that email.
+        member_added: Member added.
+    save:
+        new_title: New team
+        edit_title: "Edit %name%"
+        back_to_team: Back to team
+        banner: Banner
+        profile_picture: Profile picture
+
+user:
+    fallback_name: User
+    edit_profile: Edit profile
+    posts_heading: Posts
+
+follow:
+    follow: Follow
+    following: Following
+    login_prompt: Log in or sign up to follow.
+
+notification:
+    clear_all: Clear all
+    empty_title: All caught up
+    empty_subtitle: You have no new notifications.
+    delete: Delete notification
+    load_error: Could not load notifications.
+    cleared: Notifications cleared.
+    added: added
+    is_going_to: is going to
+    is_happening_now: is happening now
+    posted_in: posted in
+
+form:
+    phone: Phone
+    role:
+        photographer: Photographer
+        influencer: Influencer
+    frequency:
+        daily: Daily
+        weekly: Weekly
+        monthly: Monthly
+        yearly: Yearly
+    event:
+        banner_image: Banner image
+        remove_banner: Remove current banner
+        starts: Starts
+        location: Location
+        location_placeholder: e.g. Amager Strandpark, Copenhagen
+        description_placeholder: "A few words about the meet. What to expect, who it's for, anything to bring..."
+        private: Private event (not listed publicly)
+        ends: Ends
+        frequency: Frequency
+        frequency_none: Doesn't repeat
+        every: Every
+        timezone: Timezone
+    team:
+        banner_image: Banner image
+        remove_banner: Remove current banner
+        profile_picture: Profile picture
+        remove_profile_picture: Remove current profile picture
+        description: Description
+    password:
+        current: Current password
+        current_placeholder: Enter your current password
+        new: New password
+        new_placeholder: Enter a new password
+        repeat: Repeat new password
+        repeat_placeholder: Repeat your new password
+    registration:
+        password: Password
+        password_placeholder: Enter a password
+        confirm_password: Confirm Password
+        confirm_password_placeholder: Confirm your password
+    post:
+        link: Link (optional)
+        embed: YouTube or Instagram URL (optional)
+        images: Images (up to 4)
+    profile:
+        avatar: Profile picture
+        remove_avatar: Remove current profile picture
+        name: Your name
+        name_placeholder: e.g. Jonas Andersen
+        description_placeholder: "A few words about yourself: what you drive, what you love about car meets..."
+        instagram: Instagram
+        instagram_placeholder: instagram.com/yourprofile
+        youtube: YouTube
+        youtube_placeholder: youtube.com/@yourchannel
+        facebook: Facebook
+        facebook_placeholder: facebook.com/yourprofile
+        website: Website
+        website_placeholder: yourwebsite.com
+        role_default: Default

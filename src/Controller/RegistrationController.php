@@ -66,7 +66,7 @@ class RegistrationController extends AbstractController
         $user = $id ? $userRepository->find($id) : null;
 
         if (!$user) {
-            $this->addFlash('verify_email_error', 'Invalid verification link.');
+            $this->addFlash('verify_email_error', $translator->trans('registration.verify.invalid_link'));
             return $this->redirectToRoute('app_register');
         }
 
@@ -77,7 +77,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_register');
         }
 
-        $this->addFlash('success', 'Your email address has been verified.');
+        $this->addFlash('success', $translator->trans('registration.verify.success'));
 
         return $this->redirectToRoute('app_login');
     }

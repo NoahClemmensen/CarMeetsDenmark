@@ -1,7 +1,7 @@
 {% extends 'components/Modal/ContentShell.html.twig' %}
 
 {% block header %}
-    <twig:Modal:Header title="Invite to {{ team.name }}" />
+    <twig:Modal:Header title="{{ 'team.invite.title'|trans({'%name%': team.name}) }}" />
 {% endblock %}
 
 {% block body %}
@@ -9,7 +9,7 @@
           method="POST"
           action="{{ path('app_team_invite', {uuid: team.uuid}) }}"
           class="px-6 py-4 flex flex-col gap-3">
-        <label class="form-label" for="team-invite-email">Email</label>
+        <label class="form-label" for="team-invite-email">{{ 'common.email'|trans }}</label>
         <input id="team-invite-email"
                type="email"
                name="email"
@@ -22,7 +22,7 @@
 
 {% block footer %}
     <div class="modal-footer">
-        <button type="button" class="btn-grey" data-action="click->modal#hide">Cancel</button>
-        <button type="submit" form="team-invite-form" class="btn-cta">Add to team</button>
+        <button type="button" class="btn-grey" data-action="click->modal#hide">{{ 'common.cancel'|trans }}</button>
+        <button type="submit" form="team-invite-form" class="btn-cta">{{ 'team.invite.submit'|trans }}</button>
     </div>
 {% endblock %}

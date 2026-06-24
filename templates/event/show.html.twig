@@ -5,7 +5,7 @@
 {% block title %}{{ event.name }}{% endblock %}
 
 {% block back_url %}{{ path('app_team_show', {uuid: event.team.uuid}) }}{% endblock %}
-{% block back_label %}Back to {{ event.team.name }}{% endblock %}
+{% block back_label %}{{ 'event.back_to_team'|trans({'%team%': event.team.name}) }}{% endblock %}
 
 {% block header %}{% endblock %}
 
@@ -26,7 +26,7 @@
                 <div class="min-w-0">
                     <h1 class="text-2xl font-bold text-primary-text leading-tight break-words">{{ event.name }}</h1>
                     {% if event.private %}
-                        <span class="badge-grey mt-2 inline-flex">Private</span>
+                        <span class="badge-grey mt-2 inline-flex">{{ 'event.private'|trans }}</span>
                     {% endif %}
                 </div>
                 <div class="flex items-center gap-2 shrink-0">
@@ -46,11 +46,11 @@
                             data-controller="modal-trigger"
                             data-action="click->modal-trigger#open"
                             data-modal-trigger-url-value="{{ path('app_event_share', {uuid: event.uuid}) }}"
-                            aria-label="Share event">
+                            aria-label="{{ 'event.share.title'|trans }}">
                         {{ icons.share({size: 14}) }}
                     </button>
                     {% if canEdit %}
-                        <a class="btn-secondary-sm" href="{{ path('app_event_save', {uuid: event.uuid}) }}">Edit</a>
+                        <a class="btn-secondary-sm" href="{{ path('app_event_save', {uuid: event.uuid}) }}">{{ 'common.edit'|trans }}</a>
                     {% endif %}
                     {% if canDelete %}
                         <button type="button"
@@ -58,7 +58,7 @@
                                 data-controller="modal-trigger"
                                 data-action="click->modal-trigger#open"
                                 data-modal-trigger-url-value="{{ path('app_event_delete_confirm', {uuid: event.uuid}) }}"
-                                aria-label="Delete event">
+                                aria-label="{{ 'event.delete.title'|trans }}">
                             {{ icons.trashcan({size: 14}) }}
                         </button>
                     {% endif %}
@@ -76,7 +76,7 @@
                     <div class="min-w-0">
                         <p>{{ event.startDate|date('l, F j · H:i', tz) }}</p>
                         {% if event.endDate %}
-                            <p class="text-secondary-text">until {{ event.endDate|date('l, F j · H:i', tz) }}</p>
+                            <p class="text-secondary-text">{{ 'event.until'|trans }} {{ event.endDate|date('l, F j · H:i', tz) }}</p>
                         {% endif %}
                     </div>
                 </div>
@@ -94,7 +94,7 @@
 
         {# Participants, counts now; full list comes later #}
         <div class="card p-6 mb-3">
-            <p class="text-xs font-semibold uppercase tracking-wider text-secondary-text mb-2">Participants</p>
+            <p class="text-xs font-semibold uppercase tracking-wider text-secondary-text mb-2">{{ 'event.participants.label'|trans }}</p>
             {% include 'event/_participation_counts.html.twig' %}
         </div>
 

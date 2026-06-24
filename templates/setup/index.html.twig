@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Set up your profile – Spoked{% endblock %}
+{% block title %}{{ 'setup.heading'|trans }} – Spoked{% endblock %}
 
 {% block body %}
 {% import '_icons.html.twig' as icons %}
@@ -34,9 +34,9 @@
 
     {# ── Header ── #}
     <div class="setup-animate mb-6">
-        <p class="setup-section-label text-primary mb-2">Welcome</p>
-        <h1 class="text-2xl font-bold text-primary-text leading-tight mb-1">Set up your profile</h1>
-        <p class="text-sm text-secondary-text">Takes less than a minute. Most fields are optional.</p>
+        <p class="setup-section-label text-primary mb-2">{{ 'setup.welcome'|trans }}</p>
+        <h1 class="text-2xl font-bold text-primary-text leading-tight mb-1">{{ 'setup.heading'|trans }}</h1>
+        <p class="text-sm text-secondary-text">{{ 'setup.subtitle'|trans }}</p>
     </div>
 
     {# ── Card 1: The basics ── #}
@@ -45,8 +45,8 @@
 
         <div class="mt-4">
             <label for="{{ form.description.vars.id }}" class="form-label flex items-center gap-2 mb-1">
-                About you
-                <span class="setup-optional-badge bg-neutral text-secondary-text">optional</span>
+                {{ 'profile.about_you'|trans }}
+                <span class="setup-optional-badge bg-neutral text-secondary-text">{{ 'common.optional'|trans }}</span>
             </label>
             {{ form_widget(form.description) }}
             {{ form_errors(form.description) }}
@@ -63,8 +63,8 @@
                     aria-expanded="false"
                     class="accordion-trigger w-full flex items-center justify-between px-6 py-4 text-left">
                 <div>
-                    <p class="setup-section-label text-secondary-text">Your socials</p>
-                    <p class="text-xs text-secondary-text font-normal normal-case tracking-normal mt-0.5">Instagram, YouTube, Facebook, website</p>
+                    <p class="setup-section-label text-secondary-text">{{ 'profile.socials.label'|trans }}</p>
+                    <p class="text-xs text-secondary-text font-normal normal-case tracking-normal mt-0.5">{{ 'profile.socials.description'|trans }}</p>
                 </div>
                 <span data-accordion-target="icon" class="shrink-0">{{ icons.chevronDown({class: 'text-secondary-text', size: 16}) }}</span>
             </button>
@@ -87,14 +87,14 @@
                     aria-expanded="false"
                     class="accordion-trigger w-full flex items-center justify-between px-6 py-4 text-left">
                 <div>
-                    <p class="setup-section-label text-secondary-text">Are you a creator?</p>
-                    <p class="text-xs text-secondary-text font-normal normal-case tracking-normal mt-0.5">Most people skip this</p>
+                    <p class="setup-section-label text-secondary-text">{{ 'profile.creator.label'|trans }}</p>
+                    <p class="text-xs text-secondary-text font-normal normal-case tracking-normal mt-0.5">{{ 'setup.creator.description'|trans }}</p>
                 </div>
                 <span data-accordion-target="icon" class="shrink-0">{{ icons.chevronDown({class: 'text-secondary-text', size: 16}) }}</span>
             </button>
             <div data-accordion-target="panel">
                 <div class="px-6 pb-5">
-                    <p class="text-xs text-secondary-text mb-3">Select only if you're actively working as a photographer or influencer.</p>
+                    <p class="text-xs text-secondary-text mb-3">{{ 'profile.creator.hint'|trans }}</p>
                     {{ form_widget(form.role) }}
                     {{ form_errors(form.role) }}
                 </div>
@@ -108,7 +108,7 @@
     {# ── Submit ── #}
     <div class="setup-animate">
         <button type="submit" class="btn-cta w-full justify-center">
-            Let's go
+            {{ 'setup.submit'|trans }}
         </button>
     </div>
 

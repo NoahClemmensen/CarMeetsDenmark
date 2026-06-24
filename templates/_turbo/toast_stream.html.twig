@@ -12,7 +12,7 @@
                 <span class="toast__message">{{ message }}</span>
             </div>
             {% if dismissable|default(true) %}
-                <button type="button" class="toast__close" data-action="click->toast#dismiss" aria-label="Dismiss">&times;</button>
+                <button type="button" class="toast__close" data-action="click->toast#dismiss" aria-label="{{ 'common.dismiss'|trans }}">&times;</button>
             {% endif %}
         </div>
     </template>

@@ -10,32 +10,37 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ChangePasswordType extends AbstractType
 {
+    public function __construct(private readonly TranslatorInterface $translator)
+    {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('currentPassword', PasswordType::class, [
-                'label' => 'Current password',
+                'label' => 'form.password.current',
                 'attr' => [
-                    'placeholder' => 'Enter your current password',
+                    'placeholder' => $this->translator->trans('form.password.current_placeholder'),
                     'autocomplete' => 'current-password',
                 ],
             ])
             ->add('newPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => [
-                    'label' => 'New password',
+                    'label' => 'form.password.new',
                     'attr' => [
-                        'placeholder' => 'Enter a new password',
+                        'placeholder' => $this->translator->trans('form.password.new_placeholder'),
                         'autocomplete' => 'new-password',
                     ],
                 ],
                 'second_options' => [
-                    'label' => 'Repeat new password',
+                    'label' => 'form.password.repeat',
                     'attr' => [
-                        'placeholder' => 'Repeat your new password',
+                        'placeholder' => $this->translator->trans('form.password.repeat_placeholder'),
                         'autocomplete' => 'new-password',
                     ],
                 ],

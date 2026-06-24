@@ -1,4 +1,8 @@
-{% set statuses = {'going': 'Going', 'maybe': 'Maybe', 'declined': "Can't go"} %}
+{% set statuses = {
+    'going': 'event.participation.status.going'|trans,
+    'maybe': 'event.participation.status.maybe'|trans,
+    'declined': 'event.participation.status.cant_go'|trans,
+} %}
 
 <div id="event-participation-{{ event.uuid }}" class="segmented-track">
     {% for value, label in statuses %}
@@ -16,7 +20,7 @@
         {% else %}
             <button type="button"
                     data-action="login-prompt#open"
-                    data-login-prompt-message="Log in or sign up to RSVP to this event."
+                    data-login-prompt-message="{{ 'event.participation.login_prompt'|trans }}"
                     class="segmented-option">
                 {{ label }}
             </button>

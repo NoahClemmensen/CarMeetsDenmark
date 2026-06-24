@@ -2,10 +2,10 @@
 {% import 'event/_macros.html.twig' as eventMacros %}
 {% import '_icons.html.twig' as icons %}
 
-{% block title %}{{ event ? 'Edit ' ~ event.name : 'New event' }}{% endblock %}
+{% block title %}{{ event ? 'event.save.edit_title'|trans({'%name%': event.name}) : 'event.save.new_title'|trans }}{% endblock %}
 
 {% block back_url %}{% if event %}{{ path('app_event_show', {uuid: event.uuid}) }}{% elseif team is defined and team %}{{ path('app_team_show', {uuid: team.uuid}) }}{% else %}{{ path('app_event_index') }}{% endif %}{% endblock %}
-{% block back_label %}{% if event %}Back to event{% elseif team is defined and team %}Back to team{% else %}Back to events{% endif %}{% endblock %}
+{% block back_label %}{% if event %}{{ 'event.save.back_to_event'|trans }}{% elseif team is defined and team %}{{ 'event.save.back_to_team'|trans }}{% else %}{{ 'event.save.back_to_events'|trans }}{% endif %}{% endblock %}
 
 {% block header %}{% endblock %}
 
@@ -24,7 +24,7 @@
         {{ form_start(form) }}
         {% if team is defined and team %}
             <div class="mb-3 text-sm text-secondary-text">
-                Creating event for <a class="font-medium text-primary-text hover:underline" href="{{ path('app_team_show', {uuid: team.uuid}) }}">{{ team.name }}</a>
+                {{ 'event.save.creating_for'|trans }} <a class="font-medium text-primary-text hover:underline" href="{{ path('app_team_show', {uuid: team.uuid}) }}">{{ team.name }}</a>
             </div>
         {% endif %}
         {% set hasSavedBanner = event and event.imageFilename %}
@@ -33,7 +33,7 @@
              data-has-saved-banner="{{ hasSavedBanner ? 'true' : 'false' }}">
             <img data-event-banner-editor-target="image"
                  src="{{ eventMacros.banner_url(event) }}"
-                 alt="{{ event ? event.name : 'Banner preview' }}"
+                 alt="{{ event ? event.name : 'event.save.banner_preview_alt'|trans }}"
                  class="event-banner-editor__image">
 
             <div class="event-banner-editor__overlay">
@@ -45,7 +45,7 @@
                         <polyline points="17 8 12 3 7 8"/>
                         <line x1="12" y1="3" x2="12" y2="15"/>
                     </svg>
-                    <span>Change</span>
+                    <span>{{ 'common.change'|trans }}</span>
                 </label>
 
                 <button type="button"
@@ -53,7 +53,7 @@
                         data-event-banner-editor-target="removeBtn"
                         class="event-banner-editor__btn{% if not hasSavedBanner %} hidden{% endif %}">
                     {{ icons.trashcan({size: 14}) }}
-                    <span>Remove</span>
+                    <span>{{ 'common.remove'|trans }}</span>
                 </button>
             </div>
 
@@ -80,8 +80,8 @@
 
             <div class="mt-4">
                 <label for="{{ form.description.vars.id }}" class="form-label flex items-center gap-2 mb-1">
-                    Description
-                    <span class="setup-optional-badge bg-neutral text-secondary-text">optional</span>
+                    {{ 'event.save.description_label'|trans }}
+                    <span class="setup-optional-badge bg-neutral text-secondary-text">{{ 'common.optional'|trans }}</span>
                 </label>
                 {{ form_widget(form.description) }}
                 {{ form_errors(form.description) }}
@@ -106,7 +106,7 @@
                         data-action="click->accordion#toggle"
                         aria-expanded="false"
                         class="accordion-trigger w-full flex items-center justify-between px-6 py-4 text-left">
-                    <p class="setup-section-label text-secondary-text">Repeats</p>
+                    <p class="setup-section-label text-secondary-text">{{ 'event.save.repeats'|trans }}</p>
                     <span data-accordion-target="icon" class="shrink-0">{{ icons.chevronDown({class: 'text-secondary-text', size: 16}) }}</span>
                 </button>
                 <div data-accordion-target="panel">
@@ -131,7 +131,7 @@
                         data-action="click->accordion#toggle"
                         aria-expanded="false"
                         class="accordion-trigger w-full flex items-center justify-between px-6 py-4 text-left">
-                    <p class="setup-section-label text-secondary-text">Ends</p>
+                    <p class="setup-section-label text-secondary-text">{{ 'event.save.ends'|trans }}</p>
                     <span data-accordion-target="icon" class="shrink-0">{{ icons.chevronDown({class: 'text-secondary-text', size: 16}) }}</span>
                 </button>
                 <div data-accordion-target="panel">
@@ -150,7 +150,7 @@
                         data-action="click->accordion#toggle"
                         aria-expanded="false"
                         class="accordion-trigger w-full flex items-center justify-between px-6 py-4 text-left">
-                    <p class="setup-section-label text-secondary-text">Timezone</p>
+                    <p class="setup-section-label text-secondary-text">{{ 'event.save.timezone'|trans }}</p>
                     <span data-accordion-target="icon" class="shrink-0">{{ icons.chevronDown({class: 'text-secondary-text', size: 16}) }}</span>
                 </button>
                 <div data-accordion-target="panel">
@@ -166,7 +166,7 @@
         {{ form_errors(form) }}
 
         <button type="submit" class="btn-cta w-full justify-center">
-            {{ event ? 'Save changes' : 'Create event' }}
+            {{ event ? 'common.save_changes'|trans : 'event.save.create'|trans }}
         </button>
 
         {{ form_widget(form._token) }}
@@ -178,7 +178,7 @@
                     data-controller="modal-trigger"
                     data-action="click->modal-trigger#open"
                     data-modal-trigger-url-value="{{ path('app_event_delete_confirm', {uuid: event.uuid}) }}">
-                Delete event
+                {{ 'event.delete.button'|trans }}
             </button>
         {% endif %}
     </div>

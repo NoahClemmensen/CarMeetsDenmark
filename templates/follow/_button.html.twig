@@ -3,15 +3,15 @@
         <form method="post" action="{{ action }}" class="inline">
             <input type="hidden" name="_token" value="{{ csrf_token('follow-' ~ targetUuid) }}">
             <button type="submit" class="{{ isFollowing ? 'btn-cta-sm' : 'btn-secondary-sm' }}">
-                {{ isFollowing ? 'Following' : 'Follow' }}
+                {{ isFollowing ? 'follow.following'|trans : 'follow.follow'|trans }}
             </button>
         </form>
     {% else %}
         <button type="button"
                 data-action="login-prompt#open"
-                data-login-prompt-message="Log in or sign up to follow."
+                data-login-prompt-message="{{ 'follow.login_prompt'|trans }}"
                 class="btn-secondary-sm">
-            Follow
+            {{ 'follow.follow'|trans }}
         </button>
     {% endif %}
 </turbo-frame>

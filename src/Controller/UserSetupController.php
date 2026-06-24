@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * One-shot profile-completion form, shown the first time a user logs in.
@@ -42,6 +43,7 @@ class UserSetupController extends AbstractController
         UserService         $userService,
         TurboStreamHelper   $turboStreamHelper,
         Security            $security,
+        TranslatorInterface $translator,
     ): Response {
         $session = $request->getSession();
 
@@ -74,7 +76,7 @@ class UserSetupController extends AbstractController
             return $turboStreamHelper
                 ->addRedirect(
                     $target,
-                    'Successfully completed your profile',
+                    $translator->trans('setup.completed'),
                     ToastTypes::success->name
                 )
                 ->makeResponse();
