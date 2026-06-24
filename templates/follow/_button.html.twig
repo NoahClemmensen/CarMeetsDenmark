@@ -1,8 +1,17 @@
 <turbo-frame id="follow-{{ targetUuid }}">
-    <form method="post" action="{{ action }}" class="inline">
-        <input type="hidden" name="_token" value="{{ csrf_token('follow-' ~ targetUuid) }}">
-        <button type="submit" class="{{ isFollowing ? 'btn-cta-sm' : 'btn-secondary-sm' }}">
-            {{ isFollowing ? 'Following' : 'Follow' }}
+    {% if app.user %}
+        <form method="post" action="{{ action }}" class="inline">
+            <input type="hidden" name="_token" value="{{ csrf_token('follow-' ~ targetUuid) }}">
+            <button type="submit" class="{{ isFollowing ? 'btn-cta-sm' : 'btn-secondary-sm' }}">
+                {{ isFollowing ? 'Following' : 'Follow' }}
+            </button>
+        </form>
+    {% else %}
+        <button type="button"
+                data-action="login-prompt#open"
+                data-login-prompt-message="Log in or sign up to follow."
+                class="btn-secondary-sm">
+            Follow
         </button>
-    </form>
+    {% endif %}
 </turbo-frame>

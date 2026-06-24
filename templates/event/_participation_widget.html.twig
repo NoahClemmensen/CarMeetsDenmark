@@ -3,14 +3,23 @@
 <div id="event-participation-{{ event.uuid }}" class="segmented-track">
     {% for value, label in statuses %}
         {% set isActive = currentUserStatus and currentUserStatus.value == value %}
-        <form method="POST"
-              action="{{ path('app_event_participate', {uuid: event.uuid, status: value}) }}"
-              class="contents">
-            <input type="hidden" name="_token" value="{{ csrf_token('participate-' ~ event.uuid) }}">
-            <button type="submit"
-                    class="segmented-option{{ isActive ? ' segmented-option--active' : '' }}">
+        {% if app.user %}
+            <form method="POST"
+                  action="{{ path('app_event_participate', {uuid: event.uuid, status: value}) }}"
+                  class="contents">
+                <input type="hidden" name="_token" value="{{ csrf_token('participate-' ~ event.uuid) }}">
+                <button type="submit"
+                        class="segmented-option{{ isActive ? ' segmented-option--active' : '' }}">
+                    {{ label }}
+                </button>
+            </form>
+        {% else %}
+            <button type="button"
+                    data-action="login-prompt#open"
+                    data-login-prompt-message="Log in or sign up to RSVP to this event."
+                    class="segmented-option">
                 {{ label }}
             </button>
-        </form>
+        {% endif %}
     {% endfor %}
 </div>

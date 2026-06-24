@@ -1,24 +1,21 @@
-FROM php:8.4
+###############################################################################
+# Stage 1 – Build (install deps, compile assets, then throw this layer away)
+###############################################################################
+FROM php:8.4-alpine AS builder
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
+RUN apk add --no-cache \
     git \
     curl \
     libpng-dev \
-    libonig-dev \
+    oniguruma-dev \
     libxml2-dev \
     libzip-dev \
-    libicu-dev \
-    libfreetype6-dev \
-    libjpeg62-turbo-dev \
+    icu-dev \
+    freetype-dev \
+    libjpeg-turbo-dev \
     zip \
-    unzip \
-    nodejs \
-    npm \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    unzip
 
-# Install PHP extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
     docker-php-ext-install \
     pdo \
@@ -32,20 +29,47 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
     intl \
     opcache
 
-# Install Composer (only once)
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Install Symfony CLI
-RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | bash && \
-    apt-get install -y symfony-cli
+ENV APP_ENV=prod
 
 WORKDIR /var/www
 COPY . .
 
-RUN composer install
+RUN composer install --no-dev --optimize-autoloader
 
 RUN php bin/console tailwind:build
 RUN php bin/console asset-map:compile
+
+###############################################################################
+# Stage 2 – Runtime (only what is needed to serve the app)
+###############################################################################
+FROM php:8.4-alpine
+
+# Runtime libraries only (no -dev headers or compilers)
+RUN apk add --no-cache \
+    curl \
+    libpng \
+    oniguruma \
+    libxml2 \
+    libzip \
+    icu-libs \
+    freetype \
+    libjpeg-turbo \
+    bash
+
+# Reuse compiled extensions from the builder
+COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
+COPY --from=builder /usr/local/etc/php/conf.d/   /usr/local/etc/php/conf.d/
+
+# Install Symfony CLI
+RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.alpine.sh' | bash && \
+    apk add --no-cache symfony-cli
+
+WORKDIR /var/www
+
+# Copy the built application (vendor is already --no-dev)
+COPY --from=builder /var/www .
 
 # Pre-warm the cache as www-data so no runtime writes are needed
 RUN APP_ENV=prod php bin/console cache:warmup

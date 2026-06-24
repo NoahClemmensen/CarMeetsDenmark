@@ -17,20 +17,22 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/heatmap')]
-#[IsGranted('ROLE_USER')]
 class HeatmapController extends AbstractController
 {
     /**
      * The Hotspots page: a live activity heatmap with the ping button.
+     *
+     * Viewable by guests (read-only): the map and combined activity are public,
+     * but only authenticated users can drop a pin (see {@see self::toggle()}).
      */
     #[Route('', name: 'app_heatmap_index', methods: ['GET'])]
     public function index(
-        #[CurrentUser] User $user,
         ActivityPingService $pingService,
         ActivityPingRepository $pingRepository,
+        #[CurrentUser] ?User $user = null,
     ): Response {
         return $this->render('heatmap/index.html.twig', [
-            'hasActive' => $pingService->hasActivePing($user),
+            'hasActive' => $user !== null && $pingService->hasActivePing($user),
             'activeCount' => $pingRepository->countActive(),
         ]);
     }
@@ -40,6 +42,7 @@ class HeatmapController extends AbstractController
      * otherwise creates a new one at the posted coordinates.
      */
     #[Route('/ping', name: 'app_heatmap_ping_toggle', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
     public function toggle(
         #[CurrentUser] User $user,
         Request $request,

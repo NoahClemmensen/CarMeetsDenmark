@@ -72,7 +72,8 @@ class EventVoter extends Voter
         }
 
         return match ($attribute) {
-            self::VIEW, self::INTERACT => true,
+            self::VIEW => true,
+            self::INTERACT => $user instanceof User,
             self::SAVE => $user instanceof User && $subject->getHost() === $user && $this->isActionable($subject),
             self::DELETE => $user instanceof User && $subject->getHost() === $user,
             self::HYPE => $user instanceof User && $this->isActionable($subject),

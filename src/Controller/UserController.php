@@ -14,10 +14,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/user')]
-#[IsGranted('ROLE_USER')]
 class UserController extends AbstractController
 {
     private const string UUID_REQUIREMENT = '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}';
@@ -33,18 +31,22 @@ class UserController extends AbstractController
     public function show(
         string $uuid,
         PostReactionRepository $postReactions,
-        #[CurrentUser] User $viewer,
         \App\Service\FollowService $followService,
+        #[CurrentUser] ?User $viewer = null,
     ): Response {
         $profileUser = $this->userRepository->findOneBy(['uuid' => $uuid, 'isDeleted' => false]);
         if ($profileUser === null) {
             throw $this->createNotFoundException();
         }
 
-        $isFollowing = $viewer->getId() !== $profileUser->getId() && $followService->isFollowingUser($viewer, $profileUser);
+        $isFollowing = $viewer !== null
+            && $viewer->getId() !== $profileUser->getId()
+            && $followService->isFollowingUser($viewer, $profileUser);
 
         $posts = $this->postRepository->findByAuthorVisibleTo($profileUser, $viewer, self::POSTS_PAGE_SIZE);
-        $hypedPostIds = $postReactions->findPostIdsHypedBy($viewer, array_map(fn (Post $p) => $p->getId(), $posts));
+        $hypedPostIds = $viewer !== null
+            ? $postReactions->findPostIdsHypedBy($viewer, array_map(fn (Post $p) => $p->getId(), $posts))
+            : [];
 
         return $this->render('user/show.html.twig', [
             'profileUser' => $profileUser,
@@ -60,7 +62,7 @@ class UserController extends AbstractController
         string $uuid,
         Request $request,
         PostReactionRepository $postReactions,
-        #[CurrentUser] User $viewer,
+        #[CurrentUser] ?User $viewer = null,
     ): Response {
         $profileUser = $this->userRepository->findOneBy(['uuid' => $uuid, 'isDeleted' => false]);
         if ($profileUser === null) {
@@ -71,7 +73,9 @@ class UserController extends AbstractController
         $before = $before > 0 ? $before : null;
 
         $posts = $this->postRepository->findByAuthorVisibleTo($profileUser, $viewer, self::POSTS_PAGE_SIZE, $before);
-        $hypedPostIds = $postReactions->findPostIdsHypedBy($viewer, array_map(fn (Post $p) => $p->getId(), $posts));
+        $hypedPostIds = $viewer !== null
+            ? $postReactions->findPostIdsHypedBy($viewer, array_map(fn (Post $p) => $p->getId(), $posts))
+            : [];
 
         return $this->render('user/_page.html.twig', [
             'profileUser' => $profileUser,

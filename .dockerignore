@@ -1,0 +1,47 @@
+# Version control & CI
+.git
+.github
+.gitignore
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# Tests
+tests
+phpunit.xml
+phpunit.dist.xml
+bin/phpunit
+
+# Dev environment files
+.env.local
+.env.dev
+.env.test
+.env.test.local
+.symfony.local.yaml
+
+# Documentation
+*.md
+
+# Local dev cache/logs
+var
+
+# Node (Tailwind is built in Docker, but node_modules aren't needed)
+node_modules
+
+# Docker config (not needed inside the image)
+docker/mysql
+docker/mailpit
+docker/docker-compose.yml
+docker/docker-stack.yml
+
+# Composer dev tool
+composer.phar
+
+# Uploaded user content (mounted as volume)
+public/uploads
+
+# Misc
+deploy.sh

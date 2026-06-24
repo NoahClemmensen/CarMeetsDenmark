@@ -17,9 +17,13 @@
             </button>
         </form>
     {% else %}
-        <span class="{{ baseClasses }} {{ isHyped ? hypedClasses : restClasses }}" title="Log in to hype">
+        <button type="button"
+                data-action="login-prompt#open"
+                data-login-prompt-message="Log in or sign up to hype this."
+                aria-label="Log in to hype"
+                class="{{ baseClasses }} active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400/60 {{ isHyped ? hypedClasses : restClasses }}">
             {{ icons.flame({size: 12, class: isHyped ? 'drop-shadow-[0_0_4px_rgba(255,255,255,0.55)]' : ''}) }}
             <span class="tabular-nums {{ isHyped ? 'font-bold' : '' }}">{{ count }}</span>
-        </span>
+        </button>
     {% endif %}
 </span>

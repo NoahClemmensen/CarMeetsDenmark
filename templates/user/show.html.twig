@@ -28,7 +28,7 @@
                         {% if app.user and app.user.uuid == profileUser.uuid %}
                             <a href="{{ path('app_settings') }}" class="btn-secondary-sm shrink-0" aria-label="Edit profile">Edit</a>
                         {% endif %}
-                        {% if app.user and app.user.uuid != profileUser.uuid %}
+                        {% if app.user is null or app.user.uuid != profileUser.uuid %}
                             {{ include('follow/_button.html.twig', {
                                 action: path('app_follow_user_toggle', {userUuid: profileUser.uuid}),
                                 targetUuid: profileUser.uuid,
