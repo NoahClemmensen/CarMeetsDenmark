@@ -3,6 +3,8 @@
 ###############################################################################
 FROM php:8.4-alpine AS builder
 
+ENV APP_ENV=prod
+
 RUN apk add --no-cache \
     git \
     curl \
@@ -31,10 +33,11 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-ENV APP_ENV=prod
-
 WORKDIR /var/www
 COPY . .
+
+# Ensure .env never boots in dev mode
+RUN sed -i 's/APP_ENV=dev/APP_ENV=prod/' .env
 
 RUN composer install --no-dev --optimize-autoloader
 
@@ -45,6 +48,8 @@ RUN php bin/console asset-map:compile
 # Stage 2 – Runtime (only what is needed to serve the app)
 ###############################################################################
 FROM php:8.4-alpine
+
+ENV APP_ENV=prod
 
 # Runtime libraries only (no -dev headers or compilers)
 RUN apk add --no-cache \
@@ -72,7 +77,7 @@ WORKDIR /var/www
 COPY --from=builder /var/www .
 
 # Pre-warm the cache as www-data so no runtime writes are needed
-RUN APP_ENV=prod php bin/console cache:warmup
+RUN php bin/console cache:warmup
 
 # Create the runtime-writable dirs so the named volumes mount onto existing,
 # owned paths instead of being created lazily as root.
