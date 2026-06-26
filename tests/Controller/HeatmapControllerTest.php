@@ -128,6 +128,72 @@ final class HeatmapControllerTest extends WebTestCase
         self::assertEqualsWithDelta(12.5683, $data['points'][0][1], 0.0001);
     }
 
+    public function testPointsFiltersToBoundsAndReturnsCount(): void
+    {
+        $client = static::createClient();
+        $container = static::getContainer();
+        $em = $container->get(EntityManagerInterface::class);
+        $this->resetSchema($em);
+
+        $service = $container->get(ActivityPingService::class);
+        $copenhagen = $this->makeUser($em, ['ROLE_USER']);
+        $aarhus = $this->makeUser($em, ['ROLE_USER']);
+        $em->flush();
+        // Copenhagen (inside the box) and Aarhus (outside it).
+        $service->createPing($copenhagen, 55.6761, 12.5683);
+        $service->createPing($aarhus, 56.1629, 10.2039);
+
+        $client->request('GET', '/heatmap/points?minLat=55.5&maxLat=55.8&minLng=12.4&maxLng=12.7');
+
+        self::assertResponseIsSuccessful();
+        $data = json_decode((string) $client->getResponse()->getContent(), true);
+        self::assertCount(1, $data['points']);
+        self::assertSame(1, $data['count']);
+        self::assertEqualsWithDelta(55.6761, $data['points'][0][0], 0.0001);
+    }
+
+    public function testPointsFallsBackToAllWhenBoundsInvalid(): void
+    {
+        $client = static::createClient();
+        $container = static::getContainer();
+        $em = $container->get(EntityManagerInterface::class);
+        $this->resetSchema($em);
+
+        $service = $container->get(ActivityPingService::class);
+        $copenhagen = $this->makeUser($em, ['ROLE_USER']);
+        $aarhus = $this->makeUser($em, ['ROLE_USER']);
+        $em->flush();
+        $service->createPing($copenhagen, 55.6761, 12.5683);
+        $service->createPing($aarhus, 56.1629, 10.2039);
+
+        // minLat > maxLat is nonsensical: ignore bounds, return every active ping.
+        $client->request('GET', '/heatmap/points?minLat=80&maxLat=10&minLng=12.4&maxLng=12.7');
+
+        self::assertResponseIsSuccessful();
+        $data = json_decode((string) $client->getResponse()->getContent(), true);
+        self::assertCount(2, $data['points']);
+        self::assertSame(2, $data['count']);
+    }
+
+    public function testPointsWithoutBoundsReturnsAllWithCount(): void
+    {
+        $client = static::createClient();
+        $container = static::getContainer();
+        $em = $container->get(EntityManagerInterface::class);
+        $this->resetSchema($em);
+
+        $user = $this->makeUser($em, ['ROLE_USER']);
+        $em->flush();
+        $container->get(ActivityPingService::class)->createPing($user, 55.6761, 12.5683);
+
+        $client->request('GET', '/heatmap/points');
+
+        self::assertResponseIsSuccessful();
+        $data = json_decode((string) $client->getResponse()->getContent(), true);
+        self::assertCount(1, $data['points']);
+        self::assertSame(1, $data['count']);
+    }
+
     public function testPointsIsEmptyWhenNoPings(): void
     {
         $client = static::createClient();

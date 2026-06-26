@@ -130,7 +130,11 @@ discover:
 heatmap:
     title: Hotspots
     subtitle: Se hvor der er aktivitet lige nu
-    active_now: aktive nu
+    active_in_area: aktive i dette område
+    zoom_in_hint: Zoom ind for at se lokal aktivitet
+    refreshed_just_now: opdateret lige nu
+    refreshed_seconds: "opdateret for %count%s siden"
+    refreshed_minutes: "opdateret for %count%m siden"
     drop_pin: Læg et pin
     pinned: Pinged
     remove: Fjern

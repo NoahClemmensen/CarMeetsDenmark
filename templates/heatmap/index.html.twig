@@ -29,14 +29,19 @@
                 <h2 class="text-2xl font-semibold m-0">{{ 'heatmap.title'|trans }}</h2>
                 <p class="text-secondary-text mt-1 mb-0">{{ 'heatmap.subtitle'|trans }}</p>
             </div>
-            {# Activity indicator, desktop only; on mobile it moves to the toolbar below the map #}
-            <span class="hidden lg:inline-flex shrink-0 items-center gap-2 rounded-button bg-neutral px-3 py-1.5 text-sm font-medium">
-                <span class="relative flex h-2.5 w-2.5">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-b opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent-b"></span>
+            {# Activity indicator, desktop only; on mobile it moves to the toolbar below the map.
+               Count + label track the visible viewport; the controller swaps them for a
+               "zoom in" hint when zoomed out too far. Placeholder is shown until JS fetches. #}
+            <div class="hidden lg:flex flex-col items-end gap-1 shrink-0">
+                <span class="inline-flex items-center gap-2 rounded-button bg-neutral px-3 py-1.5 text-sm font-medium">
+                    <span class="relative flex h-2.5 w-2.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-b opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent-b"></span>
+                    </span>
+                    <span><span data-heatmap-target="count">…</span>&nbsp;<span data-heatmap-target="label">{{ 'heatmap.active_in_area'|trans }}</span></span>
                 </span>
-                <span data-heatmap-target="count">{{ activeCount }}</span>&nbsp;{{ 'heatmap.active_now'|trans }}
-            </span>
+                <span data-heatmap-target="freshness" class="text-xs text-secondary-text"></span>
+            </div>
         </div>
 
         {# Map card #}
@@ -66,13 +71,16 @@
 
         {# Mobile toolbar: activity indicator + ping button live below the map, outside it #}
         <div class="lg:hidden flex items-center justify-between gap-3 mt-3">
-            <span class="inline-flex items-center gap-2 rounded-button bg-neutral px-3 py-2 text-sm font-medium">
-                <span class="relative flex h-2.5 w-2.5">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-b opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent-b"></span>
+            <div class="flex flex-col items-start gap-0.5">
+                <span class="inline-flex items-center gap-2 rounded-button bg-neutral px-3 py-2 text-sm font-medium">
+                    <span class="relative flex h-2.5 w-2.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-b opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent-b"></span>
+                    </span>
+                    <span><span data-heatmap-target="count">…</span>&nbsp;<span data-heatmap-target="label">{{ 'heatmap.active_in_area'|trans }}</span></span>
                 </span>
-                <span data-heatmap-target="count">{{ activeCount }}</span>&nbsp;{{ 'heatmap.active_now'|trans }}
-            </span>
+                <span data-heatmap-target="freshness" class="text-xs text-secondary-text"></span>
+            </div>
             {% if app.user %}
                 <button type="button"
                         data-heatmap-target="button"

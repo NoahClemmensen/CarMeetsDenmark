@@ -130,7 +130,11 @@ discover:
 heatmap:
     title: Hotspots
     subtitle: See where the activity is right now
-    active_now: active now
+    active_in_area: active in this area
+    zoom_in_hint: Zoom in to see local activity
+    refreshed_just_now: refreshed just now
+    refreshed_seconds: "refreshed %count%s ago"
+    refreshed_minutes: "refreshed %count%m ago"
     drop_pin: Drop a pin
     pinned: Pinged
     remove: Remove

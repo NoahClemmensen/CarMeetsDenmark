@@ -70,16 +70,32 @@ class ActivityPingRepository extends ServiceEntityRepository
     }
 
     /**
-     * Number of currently active pings.
+     * Anonymous coordinates of active pings within a lat/lng bounding box.
+     * Boundaries are inclusive. Same plain [lat, lng] shape as
+     * {@see self::findActiveCoordinates()}, for the viewport-scoped heatmap.
+     *
+     * @return array<int, array{0: float, 1: float}>
      */
-    public function countActive(): int
-    {
-        return (int) $this->createQueryBuilder('p')
-            ->select('COUNT(p.id)')
+    public function findActiveCoordinatesInBounds(
+        float $minLat,
+        float $maxLat,
+        float $minLng,
+        float $maxLng,
+    ): array {
+        $rows = $this->createQueryBuilder('p')
+            ->select('p.lat AS lat, p.lng AS lng')
             ->andWhere('p.expiresAt > :now')
+            ->andWhere('p.lat BETWEEN :minLat AND :maxLat')
+            ->andWhere('p.lng BETWEEN :minLng AND :maxLng')
             ->setParameter('now', time())
+            ->setParameter('minLat', $minLat)
+            ->setParameter('maxLat', $maxLat)
+            ->setParameter('minLng', $minLng)
+            ->setParameter('maxLng', $maxLng)
             ->getQuery()
-            ->getSingleScalarResult();
+            ->getArrayResult();
+
+        return array_map(static fn (array $row) => [(float) $row['lat'], (float) $row['lng']], $rows);
     }
 
     /**
