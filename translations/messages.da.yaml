@@ -144,6 +144,15 @@ heatmap:
     login_prompt: Log ind eller lav en konto for at lægge dit pin på kortet.
     anonymous_note: Din pin er anonym og forsvinder automatisk efter 3 timer. Kun den samlede aktivitet vises.
 
+donation:
+    support: Støt Spoked
+    button: Donér
+    card_title: Hjælp med at holde Spoked kørende
+    card_subtitle: Vi er bygget af fællesskabet og uden reklamer. En lille donation dækker servere og holder træffene i gang.
+    discover_title: Kan du lide Spoked?
+    discover_subtitle: Vi holder det gratis og reklamefrit. Smid lidt i hatten for at dække serverne og fortsætte udviklingen.
+    aria: Støt Spoked med en donation (åbner i en ny fane)
+
 errors:
     content_load: Indholdet kunne ikke indlæses.
     network: Der opstod en netværksfejl. Prøv venligst igen.

@@ -41,6 +41,8 @@
         <h1 class=" {{ backUrl ? 'text-center' : 'text-left' }}">
             {{ pageTitle }}
         </h1>
+        {# Donation entry point: topbar button (mobile) #}
+        {% include '_donation/_topbar_button.html.twig' %}
         {% if app.user %}
             {% set unreadCount = unread_notification_count() %}
             <button type="button"
@@ -144,6 +146,8 @@
                         {{ icons.flame({size: 20}) }}
                         <span>{{ 'heatmap.title'|trans }}</span>
                     </a>
+                    {# Donation entry point: sidebar link #}
+                    {% include '_donation/_sidebar_link.html.twig' %}
                 </div>
 
                 {% if is_support_mode() %}
@@ -190,6 +194,11 @@
                         </div>
                     </div>
                 {% endif %}
+
+                {# Donation entry point: sidebar CTA card #}
+                <div class="sidebar-section">
+                    {% include '_donation/_sidebar_card.html.twig' %}
+                </div>
             </nav>
         </aside>
 
@@ -209,6 +218,8 @@
                         {% endif %}
                     </div>
                     <div class="topbar-right">
+                        {# Donation entry point: topbar button (desktop) #}
+                        {% include '_donation/_topbar_button.html.twig' %}
                         {% if app.user %}
                             {% set unreadCount = unread_notification_count() %}
                             <button type="button"

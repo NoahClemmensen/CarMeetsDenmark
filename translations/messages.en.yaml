@@ -144,6 +144,15 @@ heatmap:
     login_prompt: Log in or sign up to drop your pin on the map.
     anonymous_note: Your pin is anonymous and disappears automatically after 3 hours. Only the combined activity is shown.
 
+donation:
+    support: Support Spoked
+    button: Donate
+    card_title: Help keep Spoked running
+    card_subtitle: We're community-built and ad-free. A small donation covers servers and keeps the meets rolling.
+    discover_title: Enjoying Spoked?
+    discover_subtitle: We keep it free and ad-free. Chip in to help cover the servers and keep building.
+    aria: Support Spoked with a donation (opens in a new tab)
+
 errors:
     content_load: The requested content could not be loaded.
     network: A network error occurred. Please try again.

@@ -17,6 +17,14 @@ Usage:
     </svg>
 {% endmacro %}
 
+{% macro heart(options) %}
+    {% set defaults = {class: '', size: 16} %}
+    {% set opts = defaults|merge(options|default({})) %}
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="{{ opts.size }}" height="{{ opts.size }}" class="{{ opts.class }}">
+        <path d="M8 14.25l-.97-.883C3.6 10.236 1.333 8.18 1.333 5.667 1.333 3.61 2.95 2 5.0 2c1.155 0 2.263.537 2.984 1.382l.016.019.016-.019C8.752 2.537 9.86 2 11.015 2c2.05 0 3.667 1.61 3.667 3.667 0 2.513-2.267 4.569-5.697 7.703L8 14.25z" />
+    </svg>
+{% endmacro %}
+
 {% macro project(options) %}
     {% set defaults = {class: '', size: 16} %}
     {% set opts = defaults|merge(options|default({})) %}

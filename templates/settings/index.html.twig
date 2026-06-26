@@ -207,5 +207,12 @@
         </div>
         <span class="shrink-0">{{ icons.chevronRight({class: 'text-secondary-text', size: 16}) }}</span>
     </button>
+
+    {# ── Log out ── #}
+    <a href="{{ path('app_logout') }}" data-turbo="false"
+       class="card w-full flex items-center justify-center gap-2 px-6 py-4 mt-3 font-medium text-error transition-colors hover:bg-black/[0.02]">
+        {{ icons.logout({size: 18}) }}
+        <span>{{ 'nav.logout'|trans }}</span>
+    </a>
 </div>
 {% endblock %}

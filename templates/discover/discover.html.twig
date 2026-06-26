@@ -5,6 +5,9 @@
 
 {% block body %}
     <div class="w-full max-w-5xl">
+        {# Donation entry point: promo card (outside the filtered results so search/sort won't wipe it) #}
+        {% include '_donation/_discover_card.html.twig' %}
+
         <form id="discover-filter-form"
               action="{{ path('app_discover') }}"
               method="post"
