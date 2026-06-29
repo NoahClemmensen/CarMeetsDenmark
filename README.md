@@ -37,6 +37,11 @@ docker stack deploy -c docker/docker-stack.yml carmeets --with-registry-auth
 docker stack rm carmeets
 ```
 
+Optionally you can build and push an image to the registry with
+```bash
+docker buildx build --platform linux/amd64 -f docker/Dockerfile -t ghcr.io/noahclemmensen/carmeetsdenmark:0.4.3 --push .
+```
+
 You should now be able to register at `/register`, click the email-verify link from Mailpit, log in at `/login`, and complete profile setup at `/setup`.
 
 ---
