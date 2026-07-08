@@ -33,11 +33,15 @@ services:
         image: ghcr.io/noahclemmensen/carmeetsdenmark:latest
         ports:
             - "8000:8000"
+        secrets:
+            -   firebase_credentials
         environment:
             DATABASE_URL: "mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE}?serverVersion=9.3"
             APP_ENV: prod
             APP_SECRET: ${APP_SECRET}
             MAILER_DSN: "smtp://mailpit:1025"
+            FIREBASE_CREDENTIALS: /run/secrets/firebase_credentials
+            FIREBASE_PROJECT_ID: spoked-3ddd2
         volumes:
             - uploads_data:/var/www/public/uploads
             - sessions_data:/var/www/var/sessions
@@ -72,3 +76,6 @@ volumes:
     uploads_data:
     sessions_data:
 
+secrets:
+    firebase_credentials:
+        external: true   # "external" = created manually with `docker secret create`
