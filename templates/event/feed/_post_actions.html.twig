@@ -4,7 +4,7 @@
     <button type="button"
             class="text-secondary-text hover:text-primary-text p-1 rounded-element"
             data-action="click->dropdown#toggle"
-            aria-label="Post actions">
+            aria-label="{{ 'event.feed.post_actions'|trans }}">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
             <circle cx="3" cy="8" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="13" cy="8" r="1.5"/>
         </svg>
@@ -15,7 +15,7 @@
             <form method="POST" action="{{ path('app_post_pin', {uuid: post.uuid}) }}">
                 <input type="hidden" name="_token" value="{{ csrf_token('pin-post-' ~ post.uuid) }}">
                 <button type="submit" class="w-full text-left px-3 py-2 text-sm hover:bg-neutral">
-                    {{ post.isPinned ? 'Unpin post' : 'Pin post' }}
+                    {{ post.isPinned ? 'event.feed.unpin'|trans : 'event.feed.pin'|trans }}
                 </button>
             </form>
         {% endif %}
@@ -25,7 +25,7 @@
                     data-controller="modal-trigger"
                     data-action="click->modal-trigger#open"
                     data-modal-trigger-url-value="{{ path('app_post_edit_form', {uuid: post.uuid}) }}">
-                Edit text
+                {{ 'event.feed.edit_text'|trans }}
             </button>
         {% endif %}
         {% if canDelete %}
@@ -34,7 +34,7 @@
                     data-controller="modal-trigger"
                     data-action="click->modal-trigger#open"
                     data-modal-trigger-url-value="{{ path('app_post_delete_confirm', {uuid: post.uuid}) }}">
-                Delete
+                {{ 'common.delete'|trans }}
             </button>
         {% endif %}
     </div>

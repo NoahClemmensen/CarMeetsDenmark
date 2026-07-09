@@ -20,7 +20,8 @@
     {% if label is not same as(false) %}
         {% set label_attr = label_attr|merge({ class: (label_attr.class|default('') ~ ' form-label')|trim }) %}
         <label{% if id %} for="{{ id }}"{% endif %}{% for key, val in label_attr %} {{ key }}="{{ val }}"{% endfor %}>
-        {{ label|default(name|humanize) }}
+        {%- set label = label is not empty ? label : name|humanize -%}
+        {{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}
         </label>
     {% endif %}
 {% endblock %}
@@ -175,7 +176,8 @@
     <div class="{{ row_class }}"{% for key, val in row_attr|filter((v, k) => k != 'class') %} {{ key }}="{{ val }}"{% endfor %}>
         <label class="flex items-center gap-2 cursor-pointer"{% if id %} for="{{ id }}"{% endif %}>
             {{ form_widget(form) }}
-            <span class="text-sm text-primary-text">{{ label|default(name|humanize) }}</span>
+            {%- set label = label is not empty ? label : name|humanize -%}
+            <span class="text-sm text-primary-text">{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</span>
         </label>
         {{ form_errors(form) }}
     </div>
@@ -225,7 +227,8 @@
     {% set row_class = row_attr.class|default('segmented-group') %}
     <div class="{{ row_class }}"{% for key, val in row_attr|filter((v, k) => k != 'class') %} {{ key }}="{{ val }}"{% endfor %}>
     {% if label is not same as(false) %}
-        <div class="segmented-label">{{ label|default(name|humanize) }}</div>
+        {%- set label = label is not empty ? label : name|humanize -%}
+        <div class="segmented-label">{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</div>
     {% endif %}
     {{ form_widget(form) }}
     {{ form_errors(form) }}

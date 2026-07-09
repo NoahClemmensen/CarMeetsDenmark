@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
+import { t } from '../utilities/i18n.js';
 
 /**
  * Simple image lightbox. Click an image, opens a fullscreen modal.
@@ -16,10 +17,10 @@ export default class extends Controller {
         const overlay = document.createElement('div');
         overlay.className = 'fixed inset-0 bg-black/90 z-50 flex items-center justify-center';
         overlay.innerHTML = `
-            <button type="button" aria-label="Close" class="absolute top-4 right-4 text-white text-3xl">&times;</button>
-            <button type="button" aria-label="Previous" class="absolute left-4 text-white text-3xl">&lsaquo;</button>
+            <button type="button" aria-label="${t('common.close')}" class="absolute top-4 right-4 text-white text-3xl">&times;</button>
+            <button type="button" aria-label="${t('lightbox.previous')}" class="absolute left-4 text-white text-3xl">&lsaquo;</button>
             <img src="${images[currentIdx]}" class="max-h-[90vh] max-w-[90vw] object-contain"/>
-            <button type="button" aria-label="Next" class="absolute right-4 text-white text-3xl">&rsaquo;</button>
+            <button type="button" aria-label="${t('lightbox.next')}" class="absolute right-4 text-white text-3xl">&rsaquo;</button>
         `;
 
         const [closeBtn, prevBtn, imgEl, nextBtn] = [

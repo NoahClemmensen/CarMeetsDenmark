@@ -1,13 +1,13 @@
 ﻿{% extends 'base_public.html.twig' %}
 
-{% block title %}Login - Spoked{% endblock %}
+{% block title %}{{ 'auth.login.title'|trans }} - Spoked{% endblock %}
 
 {% block body %}
     <div class="h-full w-full flex justify-center items-center">
         <div class="card p-8 max-w-md">
             <div class="text-center mb-8">
-                <h1 class="text-2xl font-semibold text-on-surface mb-2">Welcome to Spoked</h1>
-                <p class="text-on-surface-var">Sign in or create an account to get started</p>
+                <h1 class="text-2xl font-semibold text-on-surface mb-2">{{ 'auth.welcome_heading'|trans }}</h1>
+                <p class="text-on-surface-var">{{ 'auth.login.subtitle'|trans }}</p>
             </div>
 
             {% for message in app.flashes('error') %}
@@ -21,7 +21,7 @@
                 <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
 
                 <div class="form-group">
-                    <label for="username" class="form-label">Email address</label>
+                    <label for="username" class="form-label">{{ 'auth.email_label'|trans }}</label>
                     <input
                         type="email"
                         id="username"
@@ -35,17 +35,17 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" id="password" name="_password" required class="form-input" placeholder="Your password" autocomplete="current-password" />
+                    <label for="password" class="form-label">{{ 'auth.password_label'|trans }}</label>
+                    <input type="password" id="password" name="_password" required class="form-input" placeholder="{{ 'auth.login.password_placeholder'|trans }}" autocomplete="current-password" />
                 </div>
 
                 <button type="submit" class="btn-cta w-full justify-center">
-                    Continue
+                    {{ 'auth.login.submit'|trans }}
                 </button>
             </form>
 
             <p class="text-sm text-on-surface-var text-center mt-6">
-                Don't have an account? Make one <a class="underline" href="{{ path('app_register') }}">here</a>.
+                {{ 'auth.login.no_account_prefix'|trans }} <a class="underline" href="{{ path('app_register') }}">{{ 'common.here'|trans }}</a>.
             </p>
         </div>
     </div>

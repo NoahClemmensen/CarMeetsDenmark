@@ -8,11 +8,11 @@
         <button type="button" class="pagination-btn"
                 data-page="{{ pagination.page - 1 }}"
                 data-action="pagination#navigate"
-                aria-label="Previous page">
+                aria-label="{{ 'pagination.previous'|trans }}">
             {{ icons.chevronLeft({class: 'w-4 h-4'}) }}
         </button>
     {% else %}
-        <span class="pagination-btn opacity-40 cursor-not-allowed" aria-label="Previous page">
+        <span class="pagination-btn opacity-40 cursor-not-allowed" aria-label="{{ 'pagination.previous'|trans }}">
             {{ icons.chevronLeft({class: 'w-4 h-4'}) }}
         </span>
     {% endif %}
@@ -54,11 +54,11 @@
         <button type="button" class="pagination-btn"
                 data-page="{{ pagination.page + 1 }}"
                 data-action="pagination#navigate"
-                aria-label="Next page">
+                aria-label="{{ 'pagination.next'|trans }}">
             {{ icons.chevronRight({class: 'w-4 h-4'}) }}
         </button>
     {% else %}
-        <span class="pagination-btn opacity-40 cursor-not-allowed" aria-label="Next page">
+        <span class="pagination-btn opacity-40 cursor-not-allowed" aria-label="{{ 'pagination.next'|trans }}">
             {{ icons.chevronRight({class: 'w-4 h-4'}) }}
         </span>
     {% endif %}

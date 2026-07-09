@@ -1,18 +1,18 @@
 {% extends 'base.html.twig' %}
 {% import 'event/_macros.html.twig' as eventMacros %}
 
-{% block title %}Events{% endblock %}
+{% block title %}{{ 'event.index.title'|trans }}{% endblock %}
 
 {% block body %}
     <div class="w-full max-w-5xl flex flex-col gap-8">
         {# === Attending === #}
         <section>
-            <h2 class="text-2xl font-semibold mb-4">Attending</h2>
+            <h2 class="text-2xl font-semibold mb-4">{{ 'event.index.attending'|trans }}</h2>
 
             {% if attendingEvents is empty %}
                 <div class="card p-8 text-center text-secondary-text border border-neutral-dark">
-                    You’re not attending any upcoming events.
-                    <a href="{{ path('app_discover') }}" class="text-primary font-medium hover:underline">Discover some →</a>
+                    {{ 'event.index.attending_empty'|trans }}
+                    <a href="{{ path('app_discover') }}" class="text-primary font-medium hover:underline">{{ 'event.index.discover_some'|trans }}</a>
                 </div>
             {% else %}
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -25,12 +25,12 @@
 
         {# === From your teams === #}
         <section>
-            <h2 class="text-xl font-semibold mb-1">From your teams</h2>
-            <p class="text-sm text-secondary-text mt-0 mb-4">Upcoming events from teams you’re in.</p>
+            <h2 class="text-xl font-semibold mb-1">{{ 'event.index.from_teams'|trans }}</h2>
+            <p class="text-sm text-secondary-text mt-0 mb-4">{{ 'event.index.from_teams_subtitle'|trans }}</p>
 
             {% if teamEvents is empty %}
                 <div class="card p-8 text-center text-secondary-text border border-neutral-dark">
-                    None of your teams have upcoming events.
+                    {{ 'event.index.teams_empty'|trans }}
                 </div>
             {% else %}
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">

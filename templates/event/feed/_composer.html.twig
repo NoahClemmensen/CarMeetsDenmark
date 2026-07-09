@@ -14,11 +14,11 @@
                     {{ app.user ? (app.user.name|default(app.user.email))|first|upper : '?' }}
                 {% endif %}
             </span>
-            <span class="text-sm text-secondary-text flex-1">Share something about this event…</span>
+            <span class="text-sm text-secondary-text flex-1">{{ 'event.feed.composer_placeholder'|trans }}</span>
         </button>
     {% elseif app.user is not null and (constant('App\\Enum\\UserRole::Photographer').value in app.user.roles or constant('App\\Enum\\UserRole::Influencer').value in app.user.roles) %}
         <div class="card p-4 mb-3 text-center text-sm text-secondary-text">
-            RSVP <strong>going</strong> or <strong>maybe</strong> to this event to post on the feed.
+            {{ 'event.feed.rsvp_to_post'|trans|raw }}
         </div>
     {% endif %}
 </div>

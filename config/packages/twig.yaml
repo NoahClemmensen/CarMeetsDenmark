@@ -2,6 +2,8 @@ twig:
     file_name_pattern: '*.twig'
     form_themes: ['forms/theme.html.twig']
     globals:
+        # Stripe Payment Link opened by the "Support Spoked" donation entry points.
+        donation_url: '%env(DONATION_URL)%'
 
 when@test:
     twig:

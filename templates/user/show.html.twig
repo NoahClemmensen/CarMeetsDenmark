@@ -2,7 +2,7 @@
 {% import '_icons.html.twig' as icons %}
 {% import 'user/_macros.html.twig' as userMacros %}
 
-{% block title %}{{ profileUser.name|default('User') }}{% endblock %}
+{% block title %}{{ profileUser.name|default('user.fallback_name'|trans) }}{% endblock %}
 
 {% block back_url %}{{ path('app_event_index') }}{% endblock %}
 
@@ -23,10 +23,10 @@
                 <div class="min-w-0">
                     <div class="flex items-center gap-2">
                         <h1 class="text-2xl font-bold text-primary-text leading-tight break-words">
-                            {{ profileUser.name|default('User') }}
+                            {{ profileUser.name|default('user.fallback_name'|trans) }}
                         </h1>
                         {% if app.user and app.user.uuid == profileUser.uuid %}
-                            <a href="{{ path('app_settings') }}" class="btn-secondary-sm shrink-0" aria-label="Edit profile">Edit</a>
+                            <a href="{{ path('app_settings') }}" class="btn-secondary-sm shrink-0" aria-label="{{ 'user.edit_profile'|trans }}">{{ 'common.edit'|trans }}</a>
                         {% endif %}
                         {% if app.user is null or app.user.uuid != profileUser.uuid %}
                             {{ include('follow/_button.html.twig', {
@@ -55,7 +55,7 @@
                         <a href="{{ profileUser.facebookUrl }}" target="_blank" rel="noopener noreferrer" class="btn-secondary-sm" aria-label="Facebook">{{ icons.facebook({size: 16}) }}</a>
                     {% endif %}
                     {% if profileUser.websiteUrl %}
-                        <a href="{{ profileUser.websiteUrl }}" target="_blank" rel="noopener noreferrer" class="btn-secondary-sm" aria-label="Website">{{ icons.link({size: 16}) }}</a>
+                        <a href="{{ profileUser.websiteUrl }}" target="_blank" rel="noopener noreferrer" class="btn-secondary-sm" aria-label="{{ 'common.website'|trans }}">{{ icons.link({size: 16}) }}</a>
                     {% endif %}
                 </div>
             {% endif %}
@@ -63,11 +63,11 @@
 
         {# Posts across all events #}
         <section>
-            <h2 class="text-lg font-semibold text-primary-text mb-3">Posts</h2>
+            <h2 class="text-lg font-semibold text-primary-text mb-3">{{ 'user.posts_heading'|trans }}</h2>
 
             <div id="user-posts-{{ profileUser.uuid }}">
                 {% if posts is empty %}
-                    <p class="text-secondary-text text-sm text-center py-6">No posts yet.</p>
+                    <p class="text-secondary-text text-sm text-center py-6">{{ 'event.feed.empty'|trans }}</p>
                 {% else %}
                     {% include 'user/_posts_list.html.twig' with {
                         profileUser: profileUser,

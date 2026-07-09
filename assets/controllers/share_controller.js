@@ -1,5 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 import { writeToClipboard } from '../utilities/clipboard.js';
+import { t } from '../utilities/i18n.js';
 
 /**
  * Copy a URL to the clipboard and briefly swap the button label to confirm.
@@ -12,7 +13,7 @@ import { writeToClipboard } from '../utilities/clipboard.js';
  */
 export default class extends Controller {
     static targets = ['input', 'button'];
-    static values = { confirmText: { type: String, default: 'Copied!' }, resetMs: { type: Number, default: 1500 } };
+    static values = { confirmText: String, resetMs: { type: Number, default: 1500 } };
 
     async copy() {
         if (!this.hasInputTarget) return;
@@ -28,7 +29,7 @@ export default class extends Controller {
         this.inputTarget.select();
 
         const original = this.buttonTarget.textContent;
-        this.buttonTarget.textContent = this.confirmTextValue;
+        this.buttonTarget.textContent = this.confirmTextValue || t('common.copied');
         clearTimeout(this._timeout);
         this._timeout = setTimeout(() => {
             this.buttonTarget.textContent = original;

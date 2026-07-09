@@ -1,7 +1,7 @@
 {% extends 'components/Modal/ContentShell.html.twig' %}
 
 {% block header %}
-    <twig:Modal:Header title="New post" />
+    <twig:Modal:Header title="{{ 'event.post.new_title'|trans }}" />
 {% endblock %}
 
 {% block body %}
@@ -22,9 +22,9 @@
 
 {% block footer %}
     <div class="modal-footer">
-        <button type="button" class="btn-grey" data-action="click->modal#hide">Cancel</button>
+        <button type="button" class="btn-grey" data-action="click->modal#hide">{{ 'common.cancel'|trans }}</button>
         <button type="submit"
                 form="event-feed-compose-form-{{ event.uuid }}"
-                class="btn-primary">Post</button>
+                class="btn-primary">{{ 'event.post.submit'|trans }}</button>
     </div>
 {% endblock %}

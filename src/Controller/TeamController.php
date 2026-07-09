@@ -24,6 +24,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/teams')]
 class TeamController extends AbstractController
@@ -51,6 +52,7 @@ class TeamController extends AbstractController
         Request $request,
         TurboStreamHelper $turbo,
         TeamService $teamService,
+        TranslatorInterface $translator,
         ?string $uuid = null,
     ): Response {
         $team = null;
@@ -83,7 +85,7 @@ class TeamController extends AbstractController
             return $turbo
                 ->addRedirect(
                     $this->generateUrl('app_team_show', ['uuid' => $team->getUuid()]),
-                    'Team saved.',
+                    $translator->trans('team.saved'),
                     ToastTypes::success->name,
                 )
                 ->makeResponse();
@@ -143,6 +145,7 @@ class TeamController extends AbstractController
         Request $request,
         TeamService $teamService,
         TurboStreamHelper $turbo,
+        TranslatorInterface $translator,
     ): Response {
         $team = $this->teamRepository->findOneActiveByUuid($uuid);
         if ($team === null) {
@@ -156,21 +159,21 @@ class TeamController extends AbstractController
 
         $email = trim((string) $request->request->get('email', ''));
         if ($email === '') {
-            return $turbo->addToast('Email is required.', ToastTypes::error->name)
+            return $turbo->addToast($translator->trans('team.invite.email_required'), ToastTypes::error->name)
                 ->setCode(Response::HTTP_UNPROCESSABLE_ENTITY)
                 ->makeResponse();
         }
 
         $result = $teamService->inviteMemberByEmail($team, $email);
         if ($result === null) {
-            return $turbo->addToast('No user found with that email.', ToastTypes::error->name)
+            return $turbo->addToast($translator->trans('team.invite.no_user'), ToastTypes::error->name)
                 ->setCode(Response::HTTP_UNPROCESSABLE_ENTITY)
                 ->makeResponse();
         }
 
         return $turbo->addRedirect(
             $this->generateUrl('app_team_show', ['uuid' => $team->getUuid()]),
-            'Member added.',
+            $translator->trans('team.invite.member_added'),
             ToastTypes::success->name,
         )->makeResponse();
     }
@@ -182,6 +185,7 @@ class TeamController extends AbstractController
         Request $request,
         TeamService $teamService,
         TurboStreamHelper $turbo,
+        TranslatorInterface $translator,
         \App\Repository\UserRepository $userRepository,
     ): Response {
         $team = $this->teamRepository->findOneActiveByUuid($uuid);
@@ -202,14 +206,14 @@ class TeamController extends AbstractController
         try {
             $teamService->removeMember($team, $user);
         } catch (\DomainException $e) {
-            return $turbo->addToast($e->getMessage(), ToastTypes::error->name)
+            return $turbo->addToast($translator->trans($e->getMessage()), ToastTypes::error->name)
                 ->setCode(Response::HTTP_UNPROCESSABLE_ENTITY)
                 ->makeResponse();
         }
 
         return $turbo->addRedirect(
             $this->generateUrl('app_team_show', ['uuid' => $team->getUuid()]),
-            'Member removed.',
+            $translator->trans('team.member_removed'),
             ToastTypes::success->name,
         )->makeResponse();
     }
@@ -221,6 +225,7 @@ class TeamController extends AbstractController
         Request $request,
         TeamService $teamService,
         TurboStreamHelper $turbo,
+        TranslatorInterface $translator,
     ): Response {
         $team = $this->teamRepository->findOneActiveByUuid($uuid);
         if ($team === null) {
@@ -235,14 +240,14 @@ class TeamController extends AbstractController
         try {
             $teamService->leaveTeam($team, $user);
         } catch (\DomainException $e) {
-            return $turbo->addToast($e->getMessage(), ToastTypes::error->name)
+            return $turbo->addToast($translator->trans($e->getMessage()), ToastTypes::error->name)
                 ->setCode(Response::HTTP_UNPROCESSABLE_ENTITY)
                 ->makeResponse();
         }
 
         return $turbo->addRedirect(
             $this->generateUrl('app_team_index'),
-            'You left the team.',
+            $translator->trans('team.left'),
             ToastTypes::success->name,
         )->makeResponse();
     }
@@ -265,6 +270,7 @@ class TeamController extends AbstractController
         Request $request,
         TeamService $teamService,
         TurboStreamHelper $turbo,
+        TranslatorInterface $translator,
     ): Response {
         $team = $this->teamRepository->findOneActiveByUuid($uuid);
         if ($team === null) {
@@ -280,7 +286,7 @@ class TeamController extends AbstractController
 
         return $turbo->addRedirect(
             $this->generateUrl('app_team_index'),
-            'Team deleted.',
+            $translator->trans('team.deleted'),
             ToastTypes::success->name,
         )->makeResponse();
     }

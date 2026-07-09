@@ -9,13 +9,14 @@ enum EventRepeatFrequency: string
     case Monthly = 'monthly';
     case Yearly = 'yearly';
 
+    /** Returns a translation key (messages domain); translate before display. */
     public function label(): string
     {
         return match ($this) {
-            self::Daily => 'Daily',
-            self::Weekly => 'Weekly',
-            self::Monthly => 'Monthly',
-            self::Yearly => 'Yearly',
+            self::Daily => 'form.frequency.daily',
+            self::Weekly => 'form.frequency.weekly',
+            self::Monthly => 'form.frequency.monthly',
+            self::Yearly => 'form.frequency.yearly',
         };
     }
 }

@@ -5,17 +5,17 @@
                 {{ member.user.name ?? member.user.email }}
             </a>
             {% if member.isOwner() %}
-                <span class="text-xs uppercase tracking-wider text-secondary-text">Owner</span>
+                <span class="text-xs uppercase tracking-wider text-secondary-text">{{ 'team.owner'|trans }}</span>
             {% endif %}
             {% if is_granted('TEAM_REMOVE_MEMBER', team) and not member.isOwner() %}
                 <form method="post" action="{{ path('app_team_remove_member', {uuid: team.uuid, userUuid: member.user.uuid}) }}"
-                      onsubmit="return confirm('Remove this member?');">
+                      onsubmit="return confirm('{{ 'team.remove_member_confirm'|trans }}');">
                     <input type="hidden" name="_token" value="{{ csrf_token('team-remove-' ~ team.uuid) }}">
-                    <button type="submit" class="text-error text-sm" aria-label="Remove member">×</button>
+                    <button type="submit" class="text-error text-sm" aria-label="{{ 'team.remove_member'|trans }}">×</button>
                 </form>
             {% endif %}
         </li>
     {% else %}
-        <li class="text-secondary-text">No members yet.</li>
+        <li class="text-secondary-text">{{ 'team.no_members'|trans }}</li>
     {% endfor %}
 </ul>

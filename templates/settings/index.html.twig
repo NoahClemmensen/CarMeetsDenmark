@@ -2,14 +2,14 @@
 {% import '_icons.html.twig' as icons %}
 {% import 'user/_macros.html.twig' as userMacros %}
 
-{% block title %}Settings{% endblock %}
+{% block title %}{{ 'settings.title'|trans }}{% endblock %}
 
 {% block body %}
 <div class="max-w-lg w-full">
     {# ── Header ── #}
     <div class="mb-6">
-        <h1 class="text-2xl font-bold text-primary-text leading-tight mb-1">Settings</h1>
-        <p class="text-sm text-secondary-text">Update your profile</p>
+        <h1 class="text-2xl font-bold text-primary-text leading-tight mb-1">{{ 'settings.heading'|trans }}</h1>
+        <p class="text-sm text-secondary-text">{{ 'settings.subtitle'|trans }}</p>
     </div>
 
     {{ form_start(form) }}
@@ -25,7 +25,7 @@
                 {% if avatarUrl %}
                     <img data-user-avatar-editor-target="image"
                          src="{{ avatarUrl }}"
-                         alt="Profile picture"
+                         alt="{{ 'profile.avatar_alt'|trans }}"
                          class="user-avatar-editor__image">
                 {% else %}
                     <img data-user-avatar-editor-target="image"
@@ -41,13 +41,13 @@
 
             <div class="user-avatar-editor__actions">
                 <label for="{{ form.avatarFile.vars.id }}" class="btn-secondary-sm cursor-pointer">
-                    {{ hasSavedAvatar ? 'Change picture' : 'Upload picture' }}
+                    {{ hasSavedAvatar ? 'profile.avatar.change'|trans : 'profile.avatar.upload'|trans }}
                 </label>
                 <button type="button"
                         data-action="click->user-avatar-editor#remove"
                         data-user-avatar-editor-target="removeBtn"
                         class="btn-text text-error{% if not hasSavedAvatar %} hidden{% endif %}">
-                    Remove
+                    {{ 'common.remove'|trans }}
                 </button>
             </div>
 
@@ -71,34 +71,34 @@
                  data-user-avatar-editor-target="cropper"
                  role="dialog"
                  aria-modal="true"
-                 aria-label="Adjust profile picture"
+                 aria-label="{{ 'settings.avatar.adjust_title'|trans }}"
                  aria-hidden="true">
                 <div class="modal__backdrop"
                      data-action="click->user-avatar-editor#cancelCrop"></div>
                 <div class="modal__dialog">
                     <div class="modal-header">
-                        <h2 class="modal-title">Adjust profile picture</h2>
+                        <h2 class="modal-title">{{ 'settings.avatar.adjust_title'|trans }}</h2>
                         <button type="button"
                                 class="modal-close rounded-full"
                                 data-action="click->user-avatar-editor#cancelCrop"
-                                aria-label="Cancel">
+                                aria-label="{{ 'common.cancel'|trans }}">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                                 <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22z"/>
                             </svg>
                         </button>
                     </div>
                     <div class="user-avatar-cropper px-6 py-5">
-                        <p class="text-xs text-secondary-text mb-3">Drag to reposition, slide to resize.</p>
+                        <p class="text-xs text-secondary-text mb-3">{{ 'settings.avatar.adjust_hint'|trans }}</p>
                         <div class="user-avatar-cropper__frame mx-auto"
                              data-user-avatar-editor-target="cropFrame"
                              data-action="pointerdown->user-avatar-editor#startPan">
                             <img data-user-avatar-editor-target="cropImage"
                                  class="user-avatar-cropper__image"
-                                 alt="Crop preview">
+                                 alt="{{ 'settings.avatar.crop_preview_alt'|trans }}">
                             <div class="user-avatar-cropper__mask"></div>
                         </div>
                         <div class="user-avatar-cropper__controls">
-                            <span class="text-xs text-secondary-text">Zoom</span>
+                            <span class="text-xs text-secondary-text">{{ 'settings.avatar.zoom'|trans }}</span>
                             <input type="range"
                                    min="1" max="3" step="0.01" value="1"
                                    data-user-avatar-editor-target="zoom"
@@ -110,12 +110,12 @@
                         <button type="button"
                                 class="btn-text"
                                 data-action="click->user-avatar-editor#cancelCrop">
-                            Cancel
+                            {{ 'common.cancel'|trans }}
                         </button>
                         <button type="button"
                                 class="btn-cta"
                                 data-action="click->user-avatar-editor#applyCrop">
-                            Apply
+                            {{ 'common.apply'|trans }}
                         </button>
                     </div>
                 </div>
@@ -125,8 +125,14 @@
         {{ form_row(form.name) }}
 
         <div class="mt-4">
-            <label for="{{ form.description.vars.id }}" class="form-label flex items-center gap-2 mb-1">About you</label>
+            <label for="{{ form.description.vars.id }}" class="form-label flex items-center gap-2 mb-1">{{ 'profile.about_you'|trans }}</label>
             {{ form_widget(form.description) }}
+        </div>
+
+        <div class="mt-4">
+            <label for="{{ form.language.vars.id }}" class="form-label mb-1">{{ 'settings.language.label'|trans }}</label>
+            {{ form_widget(form.language) }}
+            {{ form_errors(form.language) }}
         </div>
     </div>
 
@@ -140,8 +146,8 @@
                     aria-expanded="false"
                     class="w-full flex items-center justify-between px-6 py-4 text-left transition-colors hover:bg-black/[0.02]">
                 <div>
-                    <p class="text-xs font-semibold uppercase tracking-wider text-secondary-text">Your socials</p>
-                    <p class="text-xs text-secondary-text font-normal normal-case tracking-normal mt-0.5">Instagram, YouTube, Facebook, website</p>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-secondary-text">{{ 'profile.socials.label'|trans }}</p>
+                    <p class="text-xs text-secondary-text font-normal normal-case tracking-normal mt-0.5">{{ 'profile.socials.description'|trans }}</p>
                 </div>
                 <span data-accordion-target="icon" class="shrink-0">{{ icons.chevronDown({class: 'text-secondary-text', size: 16}) }}</span>
             </button>
@@ -164,14 +170,14 @@
                     aria-expanded="false"
                     class="w-full flex items-center justify-between px-6 py-4 text-left transition-colors hover:bg-black/[0.02]">
                 <div>
-                    <p class="text-xs font-semibold uppercase tracking-wider text-secondary-text">Are you a creator?</p>
-                    <p class="text-xs text-secondary-text font-normal normal-case tracking-normal mt-0.5">Photographer or influencer</p>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-secondary-text">{{ 'profile.creator.label'|trans }}</p>
+                    <p class="text-xs text-secondary-text font-normal normal-case tracking-normal mt-0.5">{{ 'settings.creator.description'|trans }}</p>
                 </div>
                 <span data-accordion-target="icon" class="shrink-0">{{ icons.chevronDown({class: 'text-secondary-text', size: 16}) }}</span>
             </button>
             <div data-accordion-target="panel">
                 <div class="px-6 pb-5">
-                    <p class="text-xs text-secondary-text mb-3">Select only if you're actively working as a photographer or influencer.</p>
+                    <p class="text-xs text-secondary-text mb-3">{{ 'profile.creator.hint'|trans }}</p>
                     {{ form_widget(form.role) }}
                     {{ form_errors(form.role) }}
                 </div>
@@ -184,7 +190,7 @@
 
     {# ── Submit ── #}
     <div>
-        <button type="submit" class="btn-cta w-full justify-center">Save changes</button>
+        <button type="submit" class="btn-cta w-full justify-center">{{ 'settings.save'|trans }}</button>
     </div>
 
     {{ form_end(form) }}
@@ -196,10 +202,17 @@
             data-action="click->modal-trigger#open"
             data-modal-trigger-url-value="{{ path('app_settings_password_form') }}">
         <div>
-            <p class="text-xs font-semibold uppercase tracking-wider text-secondary-text">Change password</p>
-            <p class="text-xs text-secondary-text font-normal normal-case tracking-normal mt-0.5">Update your account password</p>
+            <p class="text-xs font-semibold uppercase tracking-wider text-secondary-text">{{ 'settings.change_password.label'|trans }}</p>
+            <p class="text-xs text-secondary-text font-normal normal-case tracking-normal mt-0.5">{{ 'settings.change_password.description'|trans }}</p>
         </div>
         <span class="shrink-0">{{ icons.chevronRight({class: 'text-secondary-text', size: 16}) }}</span>
     </button>
+
+    {# ── Log out ── #}
+    <a href="{{ path('app_logout') }}" data-turbo="false"
+       class="card w-full flex items-center justify-center gap-2 px-6 py-4 mt-3 font-medium text-error transition-colors hover:bg-black/[0.02]">
+        {{ icons.logout({size: 18}) }}
+        <span>{{ 'nav.logout'|trans }}</span>
+    </a>
 </div>
 {% endblock %}

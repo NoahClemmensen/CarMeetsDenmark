@@ -32,18 +32,18 @@
             <p class="text-[0.8125rem] text-primary-text leading-snug">
                 {% if notification.type.value == 'team_new_event' %}
                     <strong class="font-semibold">{{ notification.actorTeam.name }}</strong>
-                    <span class="text-secondary-text">added</span>
+                    <span class="text-secondary-text">{{ 'notification.added'|trans }}</span>
                     <span class="font-medium">{{ notification.targetEvent.name }}</span>
                 {% elseif notification.type.value == 'user_rsvp_going' %}
                     <strong class="font-semibold">{{ notification.actorUser.name|default(notification.actorUser.email) }}</strong>
-                    <span class="text-secondary-text">is going to</span>
+                    <span class="text-secondary-text">{{ 'notification.is_going_to'|trans }}</span>
                     <span class="font-medium">{{ notification.targetEvent.name }}</span>
                 {% elseif notification.type.value == 'event_started' %}
                     <span class="font-medium">{{ notification.targetEvent.name }}</span>
-                    <span class="text-secondary-text">is happening now</span>
+                    <span class="text-secondary-text">{{ 'notification.is_happening_now'|trans }}</span>
                 {% else %}
                     <strong class="font-semibold">{{ notification.actorUser.name|default(notification.actorUser.email) }}</strong>
-                    <span class="text-secondary-text">posted in</span>
+                    <span class="text-secondary-text">{{ 'notification.posted_in'|trans }}</span>
                     <span class="font-medium">{{ notification.targetEvent.name }}</span>
                 {% endif %}
             </p>
@@ -59,7 +59,7 @@
         <input type="hidden" name="_token" value="{{ csrf_token('notification-delete-' ~ notification.uuid) }}">
         <button type="submit"
                 class="w-6 h-6 rounded-full bg-white border border-neutral text-secondary-text hover:text-error hover:border-error/40 flex items-center justify-center transition-colors"
-                aria-label="Delete notification">
+                aria-label="{{ 'notification.delete'|trans }}">
             <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                 <path d="M2 2L10 10M10 2L2 10"/>
             </svg>

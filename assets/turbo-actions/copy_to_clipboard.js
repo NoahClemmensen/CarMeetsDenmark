@@ -13,6 +13,7 @@
 import * as Turbo from '@hotwired/turbo';
 import { writeToClipboard } from '../utilities/clipboard.js';
 import { showToast } from '../utilities/toast.js';
+import { t } from '../utilities/i18n.js';
 
 Turbo.StreamActions['copy-to-clipboard'] = async function () {
     const value = this.getAttribute('value');
@@ -20,6 +21,6 @@ Turbo.StreamActions['copy-to-clipboard'] = async function () {
     try {
         await writeToClipboard(value);
     } catch (_) {
-        showToast('Could not copy link to clipboard. Use the Copy button.', 'warning');
+        showToast(t('clipboard.copy_failed'), 'warning');
     }
 };

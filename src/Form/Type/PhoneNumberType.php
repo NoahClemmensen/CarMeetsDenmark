@@ -36,7 +36,7 @@ class PhoneNumberType extends AbstractType
     {
         $resolver->setDefaults([
             'inherit_data' => true,
-            'label' => 'Phone',
+            'label' => 'form.phone',
             'required' => true,
         ]);
     }

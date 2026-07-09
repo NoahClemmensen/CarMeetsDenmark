@@ -12,7 +12,7 @@
 {% if nextCursor is defined and nextCursor %}
     <turbo-frame id="user-posts-page-{{ nextCursor }}" src="{{ path('app_user_posts', {uuid: profileUser.uuid, before: nextCursor}) }}" loading="lazy">
         <p class="text-center text-secondary-text text-sm py-4">
-            <a href="{{ path('app_user_posts', {uuid: profileUser.uuid, before: nextCursor}) }}" class="link">Load more</a>
+            <a href="{{ path('app_user_posts', {uuid: profileUser.uuid, before: nextCursor}) }}" class="link">{{ 'common.load_more'|trans }}</a>
         </p>
     </turbo-frame>
 {% endif %}

@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
+import { t } from '../utilities/i18n.js';
 
 export default class extends Controller {
     static targets = ['badge', 'panel'];
@@ -55,7 +56,7 @@ export default class extends Controller {
             const response = await fetch(this.urlValue, { headers: { Accept: 'text/html' } });
             panel.innerHTML = await response.text();
         } catch (e) {
-            panel.innerHTML = '<div class="p-6 text-center text-sm text-error">Could not load notifications.</div>';
+            panel.innerHTML = `<div class="p-6 text-center text-sm text-error">${t('notification.load_error')}</div>`;
         }
 
         requestAnimationFrame(() => this.openPanel());

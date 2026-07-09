@@ -19,7 +19,7 @@ class TeamType extends AbstractType
     {
         $builder
             ->add('bannerFile', FileType::class, [
-                'label' => 'Banner image',
+                'label' => 'form.team.banner_image',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [new File(
@@ -29,12 +29,12 @@ class TeamType extends AbstractType
                 )],
             ])
             ->add('removeBanner', CheckboxType::class, [
-                'label' => 'Remove current banner',
+                'label' => 'form.team.remove_banner',
                 'mapped' => false,
                 'required' => false,
             ])
             ->add('profilePictureFile', FileType::class, [
-                'label' => 'Profile picture',
+                'label' => 'form.team.profile_picture',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [new File(
@@ -44,13 +44,13 @@ class TeamType extends AbstractType
                 )],
             ])
             ->add('removeProfilePicture', CheckboxType::class, [
-                'label' => 'Remove current profile picture',
+                'label' => 'form.team.remove_profile_picture',
                 'mapped' => false,
                 'required' => false,
             ])
             ->add('name')
             ->add('description', TextareaType::class, [
-                'label' => 'Description',
+                'label' => 'form.team.description',
                 'attr' => ['rows' => 4],
             ]);
     }

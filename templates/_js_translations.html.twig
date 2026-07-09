@@ -1,0 +1,32 @@
+{# Exposes the handful of UI strings rendered from JavaScript (Stimulus
+   controllers, Turbo Stream actions) as a global keyed by their message id.
+   Read via the `t()` helper in assets/utilities/i18n.js. Runs synchronously
+   before the importmap modules, so window.appI18n is set before any controller
+   connects. Add a line here whenever JS needs a new translated string. #}
+{% set jsMessages = {
+    'common.close': 'common.close'|trans,
+    'common.dismiss': 'common.dismiss'|trans,
+    'common.copied': 'common.copied'|trans,
+    'auth.log_in': 'auth.log_in'|trans,
+    'auth.sign_up': 'auth.sign_up'|trans,
+    'heatmap.drop_pin': 'heatmap.drop_pin'|trans,
+    'heatmap.pinned': 'heatmap.pinned'|trans,
+    'heatmap.remove': 'heatmap.remove'|trans,
+    'heatmap.active_in_area': 'heatmap.active_in_area'|trans,
+    'heatmap.zoom_in_hint': 'heatmap.zoom_in_hint'|trans,
+    'heatmap.refreshed_just_now': 'heatmap.refreshed_just_now'|trans,
+    'heatmap.refreshed_seconds': 'heatmap.refreshed_seconds'|trans,
+    'heatmap.refreshed_minutes': 'heatmap.refreshed_minutes'|trans,
+    'heatmap.location_denied': 'heatmap.location_denied'|trans,
+    'heatmap.rate_limit': 'heatmap.rate_limit'|trans,
+    'heatmap.error': 'heatmap.error'|trans,
+    'errors.content_load': 'errors.content_load'|trans,
+    'errors.network': 'errors.network'|trans,
+    'lightbox.previous': 'lightbox.previous'|trans,
+    'lightbox.next': 'lightbox.next'|trans,
+    'notification.load_error': 'notification.load_error'|trans,
+    'login_prompt.title': 'login_prompt.title'|trans,
+    'login_prompt.default_message': 'login_prompt.default_message'|trans,
+    'clipboard.copy_failed': 'clipboard.copy_failed'|trans,
+} %}
+<script>window.appI18n = {{ jsMessages|json_encode(constant('JSON_UNESCAPED_UNICODE'))|raw }};</script>

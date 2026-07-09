@@ -1,0 +1,21 @@
+{# Donation entry point #4: a promo card on the Discover page. Placed outside the
+   filtered results region so search/sort never wipes or duplicates it.
+   Clearly a "support us" card, not a fake event. Delete its {% include %} to remove. #}
+{% import '_icons.html.twig' as icons %}
+<div class="card p-5 mb-4 border border-neutral-dark flex flex-col gap-4 sm:flex-row sm:items-center">
+    <div class="flex items-center gap-3 flex-1">
+        <span class="shrink-0 inline-flex items-center justify-center w-11 h-11 rounded-full bg-neutral text-error">
+            {{ icons.heart({size: 24}) }}
+        </span>
+        <div>
+            <p class="text-base font-semibold text-primary-text m-0">{{ 'donation.discover_title'|trans }}</p>
+            <p class="text-sm text-secondary-text mt-0.5 mb-0">{{ 'donation.discover_subtitle'|trans }}</p>
+        </div>
+    </div>
+    <a href="{{ donation_url }}" target="_blank" rel="noopener"
+       class="btn-cta shrink-0 justify-center gap-2" data-turbo="false"
+       aria-label="{{ 'donation.aria'|trans }}">
+        {{ icons.heart({size: 16}) }}
+        <span>{{ 'donation.button'|trans }}</span>
+    </a>
+</div>

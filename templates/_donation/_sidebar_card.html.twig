@@ -1,0 +1,13 @@
+{# Donation entry point #2: a CTA card at the bottom of the sidebar (desktop),
+   styled like the guest signup card. Delete its {% include %} to remove it. #}
+{% import '_icons.html.twig' as icons %}
+<div class="card p-4 text-center">
+    <div class="flex justify-center mb-2 text-error">{{ icons.heart({size: 24}) }}</div>
+    <p class="text-sm font-semibold text-primary-text m-0">{{ 'donation.card_title'|trans }}</p>
+    <p class="text-xs text-secondary-text mt-1 mb-3">{{ 'donation.card_subtitle'|trans }}</p>
+    <a href="{{ donation_url }}" target="_blank" rel="noopener"
+       class="btn-cta w-full justify-center" data-turbo="false"
+       aria-label="{{ 'donation.aria'|trans }}">
+        {{ 'donation.button'|trans }}
+    </a>
+</div>

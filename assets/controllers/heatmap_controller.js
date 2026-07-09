@@ -1,5 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 import { showToast } from '../utilities/toast.js';
+import { t } from '../utilities/i18n.js';
 
 /**
  * Drives the Hotspots page: a Leaflet map with a Leaflet.heat overlay plus the
@@ -21,9 +22,17 @@ const HEAT_OPTIONS = {
 const DENMARK_CENTER = [55.3, 10.3];
 const DENMARK_ZOOM = 10;
 const REFRESH_MS = 30000;
+// Below this Leaflet zoom the viewport spans too much of Europe to be useful (and
+// would pull a country-or-continent's worth of pings), so we show a hint instead.
+// All of Denmark stays visible at this level; a big slice of Europe does not.
+const MIN_PINS_ZOOM = 6;
+// Wait for the pan/zoom to settle before refetching, so a drag fires one request.
+const MOVE_DEBOUNCE_MS = 300;
+// Cadence of the "refreshed Xs ago" ticker (independent of the data refresh).
+const FRESHNESS_TICK_MS = 1000;
 
 export default class extends Controller {
-    static targets = ['map', 'button', 'count'];
+    static targets = ['map', 'button', 'count', 'label', 'freshness'];
     static values = {
         pointsUrl: String,
         toggleUrl: String,
@@ -48,16 +57,30 @@ export default class extends Controller {
         // Leaflet mis-measures a container that was hidden/animating on first paint.
         setTimeout(() => this.map.invalidateSize(), 0);
 
+        // Tracks the latest in-flight /points request so a slow earlier response
+        // can't overwrite a newer one (interval + moveend can overlap).
+        this.requestSeq = 0;
+        // Timestamp of the last successful fetch, driving the freshness ticker.
+        this.lastFetchAt = null;
+
+        // Refetch once a pan/zoom settles, since the data is scoped to the viewport.
+        this.onMoveEnd = this.debounce(() => this.refresh(), MOVE_DEBOUNCE_MS);
+        this.map.on('moveend', this.onMoveEnd);
+
         // Start on the visitor's location (Denmark center stays as the fallback above).
         this.locateUser();
 
         this.refresh();
         this.timer = window.setInterval(() => this.refresh(), REFRESH_MS);
+        this.freshnessTimer = window.setInterval(() => this.renderFreshness(), FRESHNESS_TICK_MS);
     }
 
     disconnect() {
         if (this.timer) {
             window.clearInterval(this.timer);
+        }
+        if (this.freshnessTimer) {
+            window.clearInterval(this.freshnessTimer);
         }
         if (this.map) {
             this.map.remove();
@@ -83,18 +106,92 @@ export default class extends Controller {
     }
 
     async refresh() {
+        if (!this.map) return;
+
+        // Zoomed out too far: don't fetch a continent of pings, just prompt to zoom in.
+        if (this.map.getZoom() < MIN_PINS_ZOOM) {
+            this.showZoomHint();
+            return;
+        }
+
+        const bounds = this.map.getBounds();
+        const params = new URLSearchParams({
+            minLat: bounds.getSouth(),
+            maxLat: bounds.getNorth(),
+            minLng: bounds.getWest(),
+            maxLng: bounds.getEast(),
+        });
+
+        const requestId = ++this.requestSeq;
         try {
-            const response = await fetch(this.pointsUrlValue, { headers: { Accept: 'application/json' } });
+            const response = await fetch(`${this.pointsUrlValue}?${params}`, { headers: { Accept: 'application/json' } });
             if (!response.ok) return;
             const data = await response.json();
+            // A newer request started while this one was in flight: drop the stale result.
+            if (requestId !== this.requestSeq) return;
+
             const points = (data.points || []).map(([lat, lng]) => [lat, lng, PING_INTENSITY]);
             if (this.heat) {
                 this.heat.setLatLngs(points);
             }
-            this.countTargets.forEach((el) => { el.textContent = String(points.length); });
+            this.renderCount(data.count ?? points.length);
+            this.lastFetchAt = Date.now();
+            this.renderFreshness();
         } catch (e) {
             // Network hiccups are non-fatal. The next interval retries.
         }
+    }
+
+    // Shows the count of pings in view with the "active in this area" label.
+    renderCount(count) {
+        this.countTargets.forEach((el) => {
+            el.textContent = String(count);
+            el.classList.remove('hidden');
+        });
+        this.labelTargets.forEach((el) => { el.textContent = t('heatmap.active_in_area'); });
+    }
+
+    // Zoomed-out state: clear the heat layer, hide the number, prompt to zoom in,
+    // and drop the freshness line (nothing was fetched).
+    showZoomHint() {
+        if (this.heat) {
+            this.heat.setLatLngs([]);
+        }
+        this.countTargets.forEach((el) => {
+            el.textContent = '';
+            el.classList.add('hidden');
+        });
+        this.labelTargets.forEach((el) => { el.textContent = t('heatmap.zoom_in_hint'); });
+        this.lastFetchAt = null;
+        this.renderFreshness();
+    }
+
+    // Live-ticking "refreshed Xs ago", reset on each successful fetch. Hidden until
+    // the first fetch and whenever we're in the zoomed-out hint state.
+    renderFreshness() {
+        if (!this.lastFetchAt) {
+            this.freshnessTargets.forEach((el) => { el.textContent = ''; });
+            return;
+        }
+        const seconds = Math.floor((Date.now() - this.lastFetchAt) / 1000);
+        let text;
+        if (seconds < 5) {
+            text = t('heatmap.refreshed_just_now');
+        } else if (seconds < 60) {
+            text = t('heatmap.refreshed_seconds').replace('%count%', String(seconds));
+        } else {
+            text = t('heatmap.refreshed_minutes').replace('%count%', String(Math.floor(seconds / 60)));
+        }
+        this.freshnessTargets.forEach((el) => { el.textContent = text; });
+    }
+
+    // Coalesces rapid calls (e.g. a continuous pan) into one trailing invocation.
+    debounce(fn, ms) {
+        let handle;
+        return (...args) => {
+            window.clearTimeout(handle);
+            handle = window.setTimeout(() => fn(...args), ms);
+        };
     }
 
     async toggle() {
@@ -114,7 +211,7 @@ export default class extends Controller {
                 this.map.setView([position.coords.latitude, position.coords.longitude], 12);
             }
         } catch (e) {
-            showToast('Allow location access to drop a pin.', 'warning');
+            showToast(t('heatmap.location_denied'), 'warning');
         } finally {
             this.setBusy(false);
         }
@@ -137,11 +234,11 @@ export default class extends Controller {
             });
 
             if (response.status === 429) {
-                showToast('You\'ve dropped too many pins. Try again later.', 'warning');
+                showToast(t('heatmap.rate_limit'), 'warning');
                 return;
             }
             if (!response.ok) {
-                showToast('Something went wrong. Try again.', 'error');
+                showToast(t('heatmap.error'), 'error');
                 return;
             }
 
@@ -149,7 +246,7 @@ export default class extends Controller {
             this.activeValue = Boolean(data.active);
             this.refresh();
         } catch (e) {
-            showToast('Something went wrong. Try again.', 'error');
+            showToast(t('heatmap.error'), 'error');
         } finally {
             this.setBusy(false);
         }
@@ -180,11 +277,11 @@ export default class extends Controller {
             if (this.activeValue) {
                 btn.classList.remove('bg-primary-text', 'hover:bg-black');
                 btn.classList.add('bg-gradient-to-r', 'from-accent-d', 'to-error');
-                btn.innerHTML = `${this.dotIcon()}<span>Pinged</span><span class="opacity-80 font-normal">· Remove</span>`;
+                btn.innerHTML = `${this.dotIcon()}<span>${t('heatmap.pinned')}</span><span class="opacity-80 font-normal">· ${t('heatmap.remove')}</span>`;
             } else {
                 btn.classList.remove('bg-gradient-to-r', 'from-accent-d', 'to-error');
                 btn.classList.add('bg-primary-text', 'hover:bg-black');
-                btn.innerHTML = `${this.pinIcon()}<span>Drop a pin</span>`;
+                btn.innerHTML = `${this.pinIcon()}<span>${t('heatmap.drop_pin')}</span>`;
             }
         });
     }

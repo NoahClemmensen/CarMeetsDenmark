@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="{{ app.request.locale }}" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,6 +22,8 @@
 
 {#<script src="https://cdn.maptiler.com/maptiler-sdk-js/v1.2.0/maptiler-sdk.umd.min.js"></script>#}
 {#<script>window.mapTilerKey = "{{ maptiler_api_key }}";</script>#}
+
+{% include '_js_translations.html.twig' %}
 
 {% block javascripts %}
     {{ importmap('web') }}

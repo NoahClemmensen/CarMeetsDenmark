@@ -26,6 +26,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/event')]
 class EventController extends AbstractController
@@ -219,6 +220,7 @@ class EventController extends AbstractController
         Request $request,
         EventService $eventService,
         TurboStreamHelper $turbo,
+        TranslatorInterface $translator,
     ): Response {
         $event = $this->eventRepository->findOneBy(['uuid' => $uuid, 'isDeleted' => false]);
         if ($event === null) {
@@ -235,7 +237,7 @@ class EventController extends AbstractController
         return $turbo
             ->addRedirect(
                 $this->generateUrl('app_event_index'),
-                'Event deleted.',
+                $translator->trans('event.deleted'),
                 ToastTypes::success->name,
             )
             ->makeResponse();
@@ -247,6 +249,7 @@ class EventController extends AbstractController
         Request $request,
         TurboStreamHelper $turbo,
         EventService $eventService,
+        TranslatorInterface $translator,
         ?string $uuid = null,
     ): Response {
         $event = null;
@@ -288,7 +291,7 @@ class EventController extends AbstractController
             return $turbo
                 ->addRedirect(
                     $this->generateUrl('app_event_show', ['uuid' => $event->getUuid()]),
-                    'Event saved.',
+                    $translator->trans('event.saved'),
                     ToastTypes::success->name,
                 )
                 ->makeResponse();

@@ -4,7 +4,6 @@ export default class extends Controller {
     static targets = ['timezoneInput', 'languageInput']
 
     connect() {
-        const language = navigator.language;
         const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
         if (this.timezoneInputTarget.value === '') {
@@ -12,7 +11,7 @@ export default class extends Controller {
         }
 
         if (this.languageInputTarget.value === '') {
-            this.languageInputTarget.value = language;
+            this.languageInputTarget.value = timezone === 'Europe/Copenhagen' ? 'da' : 'en';
         }
     }
 }

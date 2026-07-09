@@ -4,13 +4,13 @@
 {% set restClasses  = 'bg-white text-secondary-text border border-neutral-dark hover:text-orange-600 hover:border-orange-300 hover:bg-orange-50' %}
 {% set baseClasses  = 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-button text-xs font-semibold transition-all duration-200 select-none' %}
 
-<span id="{{ targetId }}" class="inline-flex" title="{{ count }} hyped">
+<span id="{{ targetId }}" class="inline-flex" title="{{ 'hype.count_title'|trans({'%count%': count}) }}">
     {% if app.user %}
         <form method="POST" action="{{ formAction }}" class="contents">
             <input type="hidden" name="_token" value="{{ csrf_token(csrfTokenName) }}">
             <button type="submit"
                     aria-pressed="{{ isHyped ? 'true' : 'false' }}"
-                    aria-label="{{ isHyped ? 'Remove hype' : 'Hype this' }}"
+                    aria-label="{{ isHyped ? 'hype.remove'|trans : 'hype.add'|trans }}"
                     class="{{ baseClasses }} active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400/60 {{ isHyped ? hypedClasses : restClasses }}">
                 {{ icons.flame({size: 12, class: isHyped ? 'drop-shadow-[0_0_4px_rgba(255,255,255,0.55)]' : ''}) }}
                 <span class="tabular-nums {{ isHyped ? 'font-bold' : '' }}">{{ count }}</span>
@@ -19,8 +19,8 @@
     {% else %}
         <button type="button"
                 data-action="login-prompt#open"
-                data-login-prompt-message="Log in or sign up to hype this."
-                aria-label="Log in to hype"
+                data-login-prompt-message="{{ 'hype.login_prompt'|trans }}"
+                aria-label="{{ 'hype.login_aria'|trans }}"
                 class="{{ baseClasses }} active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400/60 {{ isHyped ? hypedClasses : restClasses }}">
             {{ icons.flame({size: 12, class: isHyped ? 'drop-shadow-[0_0_4px_rgba(255,255,255,0.55)]' : ''}) }}
             <span class="tabular-nums {{ isHyped ? 'font-bold' : '' }}">{{ count }}</span>

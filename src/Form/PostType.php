@@ -11,9 +11,14 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PostType extends AbstractType
 {
+    public function __construct(private readonly TranslatorInterface $translator)
+    {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -21,17 +26,17 @@ class PostType extends AbstractType
                 'label' => false,
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Share something about this event...',
+                    'placeholder' => $this->translator->trans('event.post.body_placeholder'),
                     'rows' => 3,
                 ],
             ])
             ->add('link', TextType::class, [
-                'label' => 'Link (optional)',
+                'label' => 'form.post.link',
                 'required' => false,
                 'attr' => ['placeholder' => 'https://...'],
             ])
             ->add('embedUrl', TextType::class, [
-                'label' => 'YouTube or Instagram URL (optional)',
+                'label' => 'form.post.embed',
                 'required' => false,
                 'attr' => [
                     'placeholder' => 'https://youtube.com/... or https://instagram.com/p/...',
@@ -39,7 +44,7 @@ class PostType extends AbstractType
                 ],
             ])
             ->add('imageFiles', FileType::class, [
-                'label' => 'Images (up to 4)',
+                'label' => 'form.post.images',
                 'multiple' => true,
                 'required' => false,
                 'attr' => [

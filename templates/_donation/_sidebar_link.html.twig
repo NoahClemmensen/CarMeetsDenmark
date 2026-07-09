@@ -1,0 +1,9 @@
+{# Donation entry point #1: a plain sidebar link (desktop).
+   Self-contained — delete its {% include %} in base.html.twig to remove it. #}
+{% import '_icons.html.twig' as icons %}
+<a href="{{ donation_url }}" target="_blank" rel="noopener"
+   class="sidebar-link group" data-turbo="false"
+   aria-label="{{ 'donation.aria'|trans }}">
+    <span class="transition-colors group-hover:text-error">{{ icons.heart({size: 20}) }}</span>
+    <span>{{ 'donation.support'|trans }}</span>
+</a>

@@ -22,6 +22,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[IsGranted('IS_AUTHENTICATED_FULLY')]
 class SettingsController extends AbstractController
@@ -33,10 +34,13 @@ class SettingsController extends AbstractController
         UserService $userService,
         TurboStreamHelper $turboStreamHelper,
         Security $security,
+        TranslatorInterface $translator,
     ): Response {
         $dto = $this->hydrateDtoFromUser($user);
 
-        $form = $this->createForm(UserSetupType::class, $dto);
+        $form = $this->createForm(UserSetupType::class, $dto, [
+            'select_language' => true,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -52,7 +56,7 @@ class SettingsController extends AbstractController
             return $turboStreamHelper
                 ->addRedirect(
                     $this->generateUrl('app_settings'),
-                    'Settings saved.',
+                    $translator->trans('settings.saved'),
                     ToastTypes::success->name,
                 )
                 ->makeResponse();
@@ -100,6 +104,7 @@ class SettingsController extends AbstractController
         EntityManagerInterface $em,
         Security $security,
         TurboStreamHelper $turboStreamHelper,
+        TranslatorInterface $translator,
     ): Response {
         $passwordDto = new ChangePasswordDTO();
         $form = $this->createForm(ChangePasswordType::class, $passwordDto);
@@ -124,7 +129,7 @@ class SettingsController extends AbstractController
 
         return $turboStreamHelper
             ->hideModal()
-            ->addToast('Password updated.', ToastTypes::success->name)
+            ->addToast($translator->trans('settings.password_updated'), ToastTypes::success->name)
             ->makeResponse();
     }
 

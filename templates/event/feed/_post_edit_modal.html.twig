@@ -1,7 +1,7 @@
 {% extends 'components/Modal/ContentShell.html.twig' %}
 
 {% block header %}
-    <twig:Modal:Header title="Edit post" />
+    <twig:Modal:Header title="{{ 'event.post.edit_title'|trans }}" />
 {% endblock %}
 
 {% block body %}
@@ -11,20 +11,20 @@
               id="post-edit-form-{{ post.uuid }}"
               data-turbo="true">
             <input type="hidden" name="_token" value="{{ csrf_token('edit-post-' ~ post.uuid) }}">
-            <label for="post-edit-body-{{ post.uuid }}" class="form-label">Body</label>
+            <label for="post-edit-body-{{ post.uuid }}" class="form-label">{{ 'event.post.body_label'|trans }}</label>
             <textarea id="post-edit-body-{{ post.uuid }}"
                       name="body"
                       rows="4"
                       maxlength="2000"
                       class="form-input w-full"
-                      placeholder="Share something about this event...">{{ post.body }}</textarea>
+                      placeholder="{{ 'event.post.body_placeholder'|trans }}">{{ post.body }}</textarea>
         </form>
     </div>
 {% endblock %}
 
 {% block footer %}
     <div class="modal-footer">
-        <button type="button" class="btn-grey" data-action="click->modal#hide">Cancel</button>
-        <button type="submit" form="post-edit-form-{{ post.uuid }}" class="btn-primary">Save</button>
+        <button type="button" class="btn-grey" data-action="click->modal#hide">{{ 'common.cancel'|trans }}</button>
+        <button type="submit" form="post-edit-form-{{ post.uuid }}" class="btn-primary">{{ 'common.save'|trans }}</button>
     </div>
 {% endblock %}

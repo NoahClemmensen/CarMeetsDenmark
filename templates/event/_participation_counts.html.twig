@@ -1,17 +1,17 @@
 <div id="event-counts-{{ event.uuid }}" class="text-sm">
     {% set total = participationCounts.going + participationCounts.maybe + participationCounts.declined %}
     {% if total == 0 %}
-        <p class="text-secondary-text">No one's RSVP'd yet. Be the first.</p>
+        <p class="text-secondary-text">{{ 'event.participation.empty'|trans }}</p>
     {% else %}
         <p class="text-primary-text">
             <span class="font-semibold">{{ participationCounts.going }}</span>
-            <span class="text-secondary-text">going</span>
+            <span class="text-secondary-text">{{ 'event.participation.going_count'|trans }}</span>
             <span class="text-neutral-dark mx-1">·</span>
             <span class="font-semibold">{{ participationCounts.maybe }}</span>
-            <span class="text-secondary-text">maybe</span>
+            <span class="text-secondary-text">{{ 'event.participation.maybe_count'|trans }}</span>
             <span class="text-neutral-dark mx-1">·</span>
             <span class="font-semibold">{{ participationCounts.declined }}</span>
-            <span class="text-secondary-text">can't go</span>
+            <span class="text-secondary-text">{{ 'event.participation.cant_go_count'|trans }}</span>
         </p>
     {% endif %}
 </div>

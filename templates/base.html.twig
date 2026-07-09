@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="{{ app.request.locale }}" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,19 +28,21 @@
 {% set backUrl = backUrl|trim %}
 
 {% set backLabel %}{% block back_label %}{% endblock %}{% endset %}
-{% set backLabel = backLabel|trim ?: 'Back' %}
+{% set backLabel = backLabel|trim ?: 'nav.back'|trans %}
 
 {% import 'user/_macros.html.twig' as userMacros %}
 {# === Mobile topbar (visible <lg) === #}
     <header class="mobile-topbar">
         {% if backUrl %}
-            <a href="{{ backUrl }}" class="inline-flex items-center justify-center w-9 h-9 -ml-2 text-primary-text" aria-label="Back">
+            <a href="{{ backUrl }}" class="inline-flex items-center justify-center w-9 h-9 -ml-2 text-primary-text" aria-label="{{ 'nav.back'|trans }}">
                 {{ icons.chevronLeft({size: 22}) }}
             </a>
         {% endif %}
         <h1 class=" {{ backUrl ? 'text-center' : 'text-left' }}">
             {{ pageTitle }}
         </h1>
+        {# Donation entry point: topbar button (mobile) #}
+        {% include '_donation/_topbar_button.html.twig' %}
         {% if app.user %}
             {% set unreadCount = unread_notification_count() %}
             <button type="button"
@@ -48,7 +50,7 @@
                     data-controller="notification-bell"
                     data-action="click->notification-bell#toggle"
                     data-notification-bell-url-value="{{ path('app_notification_dropdown') }}"
-                    aria-label="Notifications">
+                    aria-label="{{ 'nav.notifications'|trans }}">
                 {{ icons.bell({size: 22}) }}
                 {% if unreadCount > 0 %}
                     <span class="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] rounded-full bg-error text-white text-xs font-semibold flex items-center justify-center px-1"
@@ -57,7 +59,7 @@
                     </span>
                 {% endif %}
             </button>
-            <a href="{{ path('app_user_show', {uuid: app.user.uuid}) }}" class="user-avatar !w-9 !h-9 overflow-hidden" aria-label="Your profile">
+            <a href="{{ path('app_user_show', {uuid: app.user.uuid}) }}" class="user-avatar !w-9 !h-9 overflow-hidden" aria-label="{{ 'nav.your_profile'|trans }}">
                 {% if app.user.avatarFilename %}
                     <img src="{{ userMacros.avatar_url(app.user) }}" alt="{{ app.user.name|default('') }}" class="w-full h-full object-cover">
                 {% else %}
@@ -65,17 +67,17 @@
                 {% endif %}
             </a>
         {% else %}
-            <a href="{{ path('app_login') }}" class="btn-cta-sm shrink-0" data-turbo="false">Log in</a>
+            <a href="{{ path('app_login') }}" class="btn-cta-sm shrink-0" data-turbo="false">{{ 'auth.log_in'|trans }}</a>
         {% endif %}
     </header>
 
     {# === Mobile bottom nav (visible <lg) === #}
-    <nav class="mobile-bottombar lg:hidden fixed bottom-0 inset-x-0 z-30 bg-black text-white" aria-label="Primary">
+    <nav class="mobile-bottombar lg:hidden fixed bottom-0 inset-x-0 z-30 bg-black text-white" aria-label="{{ 'nav.primary_aria'|trans }}">
         <div class="grid {{ app.user ? 'grid-cols-4' : 'grid-cols-3' }} h-16">
             {% set isActive = app.request.attributes.get('_route') == 'app_discover' %}
             <a href="{{ path('app_discover') }}" class="mobile-bottombar-link relative flex flex-col items-center justify-center gap-1 {{ isActive ? 'is-active' : '' }}">
                 {{ icons.dashboard({size: 22}) }}
-                <span class="text-xs">Discover</span>
+                <span class="text-xs">{{ 'nav.discover'|trans }}</span>
                 <span class="mobile-bottombar-indicator absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-8 bg-primary {{ isActive ? '' : 'opacity-0' }}" aria-hidden="true"></span>
             </a>
 
@@ -83,7 +85,7 @@
                 {% set isActive = app.request.attributes.get('_route') == 'app_event_index' %}
                 <a href="{{ path('app_event_index') }}" class="mobile-bottombar-link relative flex flex-col items-center justify-center gap-1 {{ isActive ? 'is-active' : '' }}">
                     {{ icons.location({size: 22}) }}
-                    <span class="text-xs">Your events</span>
+                    <span class="text-xs">{{ 'nav.your_events'|trans }}</span>
                     <span class="mobile-bottombar-indicator absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-8 bg-primary {{ isActive ? '' : 'opacity-0' }}" aria-hidden="true"></span>
                 </a>
             {% endif %}
@@ -91,14 +93,14 @@
             {% set isActive = app.request.attributes.get('_route') starts with 'app_team_' %}
             <a href="{{ path('app_team_index') }}" class="mobile-bottombar-link relative flex flex-col items-center justify-center gap-1 {{ isActive ? 'is-active' : '' }}">
                 {{ icons.teams({size: 22}) }}
-                <span class="text-xs">Teams</span>
+                <span class="text-xs">{{ 'nav.teams'|trans }}</span>
                 <span class="mobile-bottombar-indicator absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-8 bg-primary {{ isActive ? '' : 'opacity-0' }}" aria-hidden="true"></span>
             </a>
 
             {% set isActive = app.request.attributes.get('_route') starts with 'app_heatmap' %}
             <a href="{{ path('app_heatmap_index') }}" data-turbo="false" class="mobile-bottombar-link relative flex flex-col items-center justify-center gap-1 {{ isActive ? 'is-active' : '' }}">
                 {{ icons.flame({size: 22}) }}
-                <span class="text-xs">Hotspots</span>
+                <span class="text-xs">{{ 'heatmap.title'|trans }}</span>
                 <span class="mobile-bottombar-indicator absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-8 bg-primary {{ isActive ? '' : 'opacity-0' }}" aria-hidden="true"></span>
             </a>
         </div>
@@ -122,38 +124,40 @@
                     <a href="{{ path('app_discover') }}"
                        class="sidebar-link {{ isActive ? 'active' : '' }}">
                         {{ icons.dashboard() }}
-                        <span>Discover</span>
+                        <span>{{ 'nav.discover'|trans }}</span>
                     </a>
                     {% if app.user %}
                         {% set isActive = app.request.attributes.get('_route') == 'app_event_index' %}
                         <a href="{{ path('app_event_index') }}"
                            class="sidebar-link {{ isActive ? 'active' : '' }}">
                             {{ icons.location() }}
-                            <span>Events</span>
+                            <span>{{ 'nav.events'|trans }}</span>
                         </a>
                     {% endif %}
                     {% set isActive = app.request.attributes.get('_route') starts with 'app_team_' %}
                     <a href="{{ path('app_team_index') }}"
                        class="sidebar-link {{ isActive ? 'active' : '' }}">
                         {{ icons.teams() }}
-                        <span>Teams</span>
+                        <span>{{ 'nav.teams'|trans }}</span>
                     </a>
                     {% set isActive = app.request.attributes.get('_route') starts with 'app_heatmap' %}
                     <a href="{{ path('app_heatmap_index') }}"
                        class="sidebar-link {{ isActive ? 'active' : '' }}" data-turbo="false">
                         {{ icons.flame({size: 20}) }}
-                        <span>Hotspots</span>
+                        <span>{{ 'heatmap.title'|trans }}</span>
                     </a>
+                    {# Donation entry point: sidebar link #}
+                    {% include '_donation/_sidebar_link.html.twig' %}
                 </div>
 
                 {% if is_support_mode() %}
                     <div class="sidebar-section">
-                        <div class="sidebar-section-label">Support</div>
+                        <div class="sidebar-section-label">{{ 'nav.support'|trans }}</div>
                         {% set isActive = app.request.attributes.get('_route') == 'app_discover' %}
                         <a href="{{ path('app_discover') }}"
                            class="sidebar-link {{ isActive ? 'active' : '' }}">
                             {{ icons.dashboard() }}
-                            <span>Pours</span>
+                            <span>{{ 'nav.pours'|trans }}</span>
                         </a>
                     </div>
                 {% endif %}
@@ -168,28 +172,33 @@
                         <a href="{{ path('app_user_show', {uuid: app.user.uuid}) }}"
                            class="sidebar-link {{ isActive ? 'active' : '' }}">
                             {{ icons.person() }}
-                            <span>Profile</span>
+                            <span>{{ 'nav.profile'|trans }}</span>
                         </a>
                         <a href="{{ path('app_settings') }}" class="sidebar-link {{ app.request.attributes.get('_route') == 'app_settings' ? 'active' : '' }}" data-turbo="false">
                             {{ icons.settings() }}
-                            <span>Settings</span>
+                            <span>{{ 'nav.settings'|trans }}</span>
                         </a>
                         <a href="{{ path('app_logout') }}" class="sidebar-link" data-turbo="false">
                             {{ icons.logout() }}
-                            <span>Logout</span>
+                            <span>{{ 'nav.logout'|trans }}</span>
                         </a>
                     </div>
                 {% else %}
                     {# Guest CTA: turns the freed space into a signup driver #}
                     <div class="sidebar-section">
                         <div class="card p-4 text-center">
-                            <p class="text-sm font-semibold text-primary-text m-0">Join the community</p>
-                            <p class="text-xs text-secondary-text mt-1 mb-3">See and share meets, follow teams and people for free.</p>
-                            <a href="{{ path('app_register') }}" class="btn-cta w-full justify-center" data-turbo="false">Sign up</a>
-                            <a href="{{ path('app_login') }}" class="btn-secondary-sm w-full justify-center mt-2" data-turbo="false">Log in</a>
+                            <p class="text-sm font-semibold text-primary-text m-0">{{ 'nav.guest_cta.title'|trans }}</p>
+                            <p class="text-xs text-secondary-text mt-1 mb-3">{{ 'nav.guest_cta.subtitle'|trans }}</p>
+                            <a href="{{ path('app_register') }}" class="btn-cta w-full justify-center" data-turbo="false">{{ 'auth.sign_up'|trans }}</a>
+                            <a href="{{ path('app_login') }}" class="btn-secondary-sm w-full justify-center mt-2" data-turbo="false">{{ 'auth.log_in'|trans }}</a>
                         </div>
                     </div>
                 {% endif %}
+
+                {# Donation entry point: sidebar CTA card #}
+                <div class="sidebar-section">
+                    {% include '_donation/_sidebar_card.html.twig' %}
+                </div>
             </nav>
         </aside>
 
@@ -202,13 +211,15 @@
                         {# Support mode indicator #}
                         {% if is_support_mode() %}
                             <div class="support-mode-badge" role="status"
-                                 aria-label="Support mode active - viewing all pours">
+                                 aria-label="{{ 'nav.support_mode_aria'|trans }}">
                                 {{ icons.shield({size: 14}) }}
-                                <span>Support</span>
+                                <span>{{ 'nav.support'|trans }}</span>
                             </div>
                         {% endif %}
                     </div>
                     <div class="topbar-right">
+                        {# Donation entry point: topbar button (desktop) #}
+                        {% include '_donation/_topbar_button.html.twig' %}
                         {% if app.user %}
                             {% set unreadCount = unread_notification_count() %}
                             <button type="button"
@@ -216,7 +227,7 @@
                                     data-controller="notification-bell"
                                     data-action="click->notification-bell#toggle"
                                     data-notification-bell-url-value="{{ path('app_notification_dropdown') }}"
-                                    aria-label="Notifications">
+                                    aria-label="{{ 'nav.notifications'|trans }}">
                                 {{ icons.bell({size: 22}) }}
                                 {% if unreadCount > 0 %}
                                     <span class="absolute top-1 right-1 min-w-[18px] h-[18px] rounded-full bg-error text-white text-xs font-semibold flex items-center justify-center px-1"
@@ -226,7 +237,7 @@
                                 {% endif %}
                             </button>
                             <div class="user-info">
-                                <a href="{{ path('app_user_show', {uuid: app.user.uuid}) }}" class="user-avatar overflow-hidden" aria-label="Your profile">
+                                <a href="{{ path('app_user_show', {uuid: app.user.uuid}) }}" class="user-avatar overflow-hidden" aria-label="{{ 'nav.your_profile'|trans }}">
                                     {% if app.user.avatarFilename %}
                                         <img src="{{ userMacros.avatar_url(app.user) }}" alt="{{ app.user.name|default('') }}" class="w-full h-full object-cover">
                                     {% else %}
@@ -240,8 +251,8 @@
                             </div>
                         {% else %}
                             <div class="flex items-center gap-2">
-                                <a href="{{ path('app_login') }}" class="btn-secondary-sm" data-turbo="false">Log in</a>
-                                <a href="{{ path('app_register') }}" class="btn-cta-sm" data-turbo="false">Sign up</a>
+                                <a href="{{ path('app_login') }}" class="btn-secondary-sm" data-turbo="false">{{ 'auth.log_in'|trans }}</a>
+                                <a href="{{ path('app_register') }}" class="btn-cta-sm" data-turbo="false">{{ 'auth.sign_up'|trans }}</a>
                             </div>
                         {% endif %}
                     </div>
@@ -273,6 +284,8 @@
     <div id="toast-container" data-turbo-permanent></div>
 
     <twig:Modal:Shell/>
+
+{% include '_js_translations.html.twig' %}
 
 {% block javascripts %}
     {{ importmap('web') }}

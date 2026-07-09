@@ -1,0 +1,11 @@
+{# Donation entry point #3: a heart icon button in the header.
+   Included in both the mobile and desktop top bars; sizes via lg: overrides.
+   Delete its {% include %} in either header to remove it there. #}
+{% import '_icons.html.twig' as icons %}
+<a href="{{ donation_url }}" target="_blank" rel="noopener"
+   class="relative inline-flex items-center justify-center w-9 h-9 -mr-1 text-primary-text transition-colors hover:text-error lg:w-10 lg:h-10 lg:-mr-1"
+   data-turbo="false"
+   aria-label="{{ 'donation.aria'|trans }}"
+   title="{{ 'donation.support'|trans }}">
+    {{ icons.heart({size: 22}) }}
+</a>

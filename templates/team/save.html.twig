@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ team ? 'Edit ' ~ team.name : 'New team' }}{% endblock %}
+{% block title %}{{ team ? 'team.save.edit_title'|trans({'%name%': team.name}) : 'team.save.new_title'|trans }}{% endblock %}
 {% block back_url %}{{ team ? path('app_team_show', {uuid: team.uuid}) : path('app_team_index') }}{% endblock %}
-{% block back_label %}{{ team ? 'Back to team' : 'Back to teams' }}{% endblock %}
+{% block back_label %}{{ team ? 'team.save.back_to_team'|trans : 'team.back_to_teams'|trans }}{% endblock %}
 
 {% block body %}
     <div class="w-full max-w-lg">
@@ -16,7 +16,7 @@
         </div>
 
         <div class="card p-6 mb-3">
-            <h3 class="font-medium mb-2">Banner</h3>
+            <h3 class="font-medium mb-2">{{ 'team.save.banner'|trans }}</h3>
             {{ form_row(form.bannerFile) }}
             {% if team and team.bannerFilename %}
                 {{ form_row(form.removeBanner) }}
@@ -24,7 +24,7 @@
         </div>
 
         <div class="card p-6 mb-5">
-            <h3 class="font-medium mb-2">Profile picture</h3>
+            <h3 class="font-medium mb-2">{{ 'team.save.profile_picture'|trans }}</h3>
             {{ form_row(form.profilePictureFile) }}
             {% if team and team.profilePictureFilename %}
                 {{ form_row(form.removeProfilePicture) }}
@@ -34,7 +34,7 @@
         {{ form_errors(form) }}
 
         <button type="submit" class="btn-cta w-full justify-center">
-            {{ team ? 'Save changes' : 'Create team' }}
+            {{ team ? 'common.save_changes'|trans : 'team.create'|trans }}
         </button>
 
         {{ form_widget(form._token) }}

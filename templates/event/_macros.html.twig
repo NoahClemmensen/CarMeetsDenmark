@@ -17,7 +17,7 @@
         <div class="event-card__media">
             <img src="{{ _self.banner_url(event) }}" alt="" class="event-card__img" loading="lazy">
             {% if event.private %}
-                <span class="event-card__badge">Members only</span>
+                <span class="event-card__badge">{{ 'event.members_only'|trans }}</span>
             {% endif %}
         </div>
         <div class="event-card__body">
@@ -34,10 +34,10 @@
                 {% endif %}
             </div>
             <div class="event-card__stats">
-                <span class="event-card__stat event-card__stat--hype" title="Hype">
+                <span class="event-card__stat event-card__stat--hype" title="{{ 'event.hype'|trans }}">
                     {{ icons.flame({size: 14}) }}{{ event.hypeCount }}
                 </span>
-                <span class="event-card__stat" title="Going">
+                <span class="event-card__stat" title="{{ 'event.going'|trans }}">
                     {{ icons.person({size: 14}) }}{{ goingCount }}
                 </span>
             </div>
